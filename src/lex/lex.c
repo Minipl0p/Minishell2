@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex2.c                                             :+:      :+:    :+:   */
+/*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:10:54 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 13:42:33 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/19 17:38:33 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_token	*lex(char *input)
 		return (NULL);
 	while (*input)
 	{
-		while(input && ft_isspace(*input))
+		while (input && ft_isspace(*input))
 			input++;
 		if (create_redir(&token_lst, &input) == -1)
 			return (NULL);
