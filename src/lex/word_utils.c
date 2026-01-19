@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 13:44:19 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/19 16:10:58 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static int	get_quoted_len(char *input, char c)
 
 static int	check_word_sep(char c)
 {
-	if (!ft_isspace(c) && c != '\'' && c !='\"' && c != ')')
+	if (!ft_isspace(c) && c != '\'' && c !='\"' && c != ')' &&
+		c != '<' && c != '>' && c != '|')
 		return (1);
 	return (0);
 }
@@ -52,7 +53,7 @@ static int	set_word_len(char *input)
 		}
 		while (input[len] && check_word_sep(input[len]))
 			len++;
-		if (ft_isspace(input[len]) || !input[len] || input[len] == ')')
+		if (ft_isspace(input[len]) || !input[len] || is_token(&input[len]))
 			end = 1;
 	}
 	return (len);
