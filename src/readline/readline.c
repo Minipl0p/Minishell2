@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frontup.c                                          :+:      :+:    :+:   */
+/*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 13:15:10 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:02:46 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/ast.h"
-#include "../../libft/Includes/libft.h"
-
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
+#include "../../Includes/readline.h"
 
 static char	*get_prompt(void)
 {

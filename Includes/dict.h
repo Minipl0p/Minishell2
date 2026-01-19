@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   dict.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonlogin <tonlogin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 10:21:37 by tonlogin          #+#    #+#             */
-/*   Updated: 2025/10/23 12:45:37 by pchazalm         ###   ########.fr       */
+/*   Created: 2026/01/19 16:59:13 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/19 17:01:25 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isprint(int c)
-{
-	return (c >= ' ' && c <= '~');
-}
+#ifndef DICT_H
+# define DICT_H
+
+# include "../../libft/Includes/libft.h"
+
+t_dict	*init_d_env(char **env);
+char	**dict_to_env(t_dict *dict);
+
+#endif

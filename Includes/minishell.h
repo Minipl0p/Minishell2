@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dbclear.c                                       :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 21:27:53 by pchazalm          #+#    #+#             */
-/*   Updated: 2025/12/30 19:30:20 by pchazalm         ###   ########.fr       */
+/*   Created: 2026/01/19 17:07:48 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/19 17:08:53 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/ft_listdb.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	ft_lstclear(t_db **lst, void (*del)(void*))
-{
-	t_db	*tmp;
+# include "ast.h"
+# include "dict.h"
+# include "lex.h"
+# include "readline.h"
 
-	if (!lst || !del)
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
-		*lst = tmp;
-	}
-}
+#endif

@@ -6,16 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 16:22:23 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:10:14 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-#include "Includes/ast.h"
-#include "libft/Includes/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "Includes/minishell.h"
 
 t_dict	*init_d_env(char **env);
 char	*read_minish(void);

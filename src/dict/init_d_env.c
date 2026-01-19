@@ -6,11 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/13 17:30:54 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:01:12 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
+#include "../../Includes/dict.h"
 
 static int	len_key(char *str)
 {

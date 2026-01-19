@@ -6,12 +6,15 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 14:08:34 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 13:41:39 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/19 17:07:37 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/Includes/libft.h"
-#include <stdio.h>
+#ifndef LEX_H
+# define LEX_H
+
+# include "../../libft/Includes/libft.h"
+# include <stdio.h>
 
 typedef enum e_token_type
 {
@@ -45,3 +48,5 @@ int		create_token(t_token **token_lst, t_token_type type, char *content);
 int		is_token(char *c);
 
 void	display_tokens(t_token *token_lst);
+
+#endif

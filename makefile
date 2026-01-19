@@ -26,7 +26,7 @@ SUBDIRS := ast dict expand exec lex readline
 # --- Sources (sans nom de dossier !) ----------------------------------------
 SRC_MAIN := main.c
 
-SRC_AST  := ast_tools.c destroy.c pars_and.c pars_or.c \
+SRC_AST  := ast_tools.c destroy.c pars_and.c pars_or.c pars_cmd.c \
             pars_pipe.c pars_redir.c pars_subtree.c print_ast.c
 
 SRC_DICT := convert_dict.c init_d_env.c
@@ -37,7 +37,7 @@ SRC_EXEC :=
 
 SRC_LEX  := lex.c token.c word_utils.c
 
-SRC_RL   := frontup.c
+SRC_RL   := readline.c
 
 SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_DICT) $(SRC_EXP) $(SRC_EXEC) $(SRC_LEX) $(SRC_RL)
 

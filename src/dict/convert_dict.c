@@ -6,11 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 16:56:09 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:01:06 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
+#include "../../Includes/dict.h"
 
 static size_t	count_entries(t_dict *dict)
 {
