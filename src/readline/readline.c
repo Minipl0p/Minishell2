@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:02:46 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:52:48 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*get_prompt(void)
 		base = cwd;
 	else
 		base++;
-	prompt = ft_strjoin(base, ":🐌>");
+	prompt = ft_strjoin(base, ": 🐌 > ");
 	free(cwd);
 	return (prompt);
 }
