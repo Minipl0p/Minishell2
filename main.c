@@ -6,16 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:10:14 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:42:10 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 #include "Includes/minishell.h"
-
-t_dict	*init_d_env(char **env);
-char	*read_minish(void);
 
 t_btree	*pars(char *line)
 {
@@ -55,13 +50,6 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = read_minish();
-		if (line && !ft_strncmp(line, "exit", 4))
-		{
-			free(line);
-			dict_destroy(d_env, free);
-			rl_clear_history();
-			return (0);
-		}
 		ast = pars(line);
 		if (!line || !ast)
 		{

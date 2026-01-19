@@ -6,10 +6,9 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:01:32 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:03:35 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:42:37 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef READLINE_H
 # define READLINE_H
@@ -22,7 +21,6 @@
 # include <readline/history.h>
 # include <unistd.h>
 
-t_dict	*init_d_env(char **env);
-char	**dict_to_env(t_dict *dict);
+char	*read_minish(void);
 
 #endif
