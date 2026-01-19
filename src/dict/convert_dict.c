@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/14 15:55:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:56:09 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static char	*build_line(char *key, char *value)
 
 static int	fill_env(t_dict *dict, char **env)
 {
-	int				i;
-	int				j;
+	size_t			i;
+	size_t			j;
 	t_dict_entry	*entry;
 	char			*line;
 

@@ -1,71 +1,88 @@
 # ============================================================================#
-# 									Makefile								  #
+#                                   Makefile                                  #
 # ============================================================================#
 
-# --- Couleurs ANSI -----------------------------------------------------------
-RED				:= \033[0;31m
-GREEN			:= \033[0;32m
-YELLOW			:= \033[0;33m
-BLUE			:= \033[0;34m
-NC				:= \033[0m # No Color
+# --- Couleurs ---------------------------------------------------------------
+RED     := \033[0;31m
+GREEN   := \033[0;32m
+YELLOW  := \033[0;33m
+BLUE    := \033[0;34m
+NC      := \033[0m
 
-# --- Configuration -----------------------------------------------------------
-NAME   			:= minishell
-CC				:= cc
-CFLAGS			:= -Wall -Wextra -Werror $(INCDIR)
+# --- Configuration ----------------------------------------------------------
+NAME    := minishell
+CC      := cc
+CFLAGS  := -Wall -Wextra -Werror -g -IIncludes
+LFLAGS  := -Llibft -lft -lreadline
 
-# --- Chemins -----------------------------------------------------------------
-SRCDIR			:= src
-INCDIR			:= Includes
-OBJDIR			:= obj
+# --- Dossiers ---------------------------------------------------------------
+SRCDIR  := src
+OBJDIR  := obj
+LIBFT   := libft
 
-# --- Sources et objets -------------------------------------------------------
-SRCS :=	src/main.c \
-		src/pars.c \
-		src/minilib.c \
-		src/init.c \
-		src/routine.c \
-		src/monitoring.c \
-		src/fork.c \
+# --- Sous-dossiers sources --------------------------------------------------
+SUBDIRS := ast dict expand exec lex readline
 
-OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+# --- Sources (sans nom de dossier !) ----------------------------------------
+SRC_MAIN := main.c
 
-# --- Commandes utiles --------------------------------------------------------
-RM			:= rm -rf
-MKDIR		:= mkdir -p
+SRC_AST  := ast_tools.c destroy.c pars_and.c pars_or.c \
+            pars_pipe.c pars_redir.c pars_subtree.c print_ast.c
 
-# --- Phony targets -----------------------------------------------------------
-.PHONY: all clean fclean re run help bonus
+SRC_DICT := convert_dict.c init_d_env.c
 
-# --- Règles ------------------------------------------------------------------
-all: $(NAME)
-bonus: $(NAME_BONUS)
+SRC_EXP  :=
+
+SRC_EXEC :=
+
+SRC_LEX  := lex.c token.c word_utils.c
+
+SRC_RL   := frontup.c
+
+SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_DICT) $(SRC_EXP) $(SRC_EXEC) $(SRC_LEX) $(SRC_RL)
+
+# --- PATH -------------------------------------
+VPATH := $(SRCDIR) $(addprefix $(SRCDIR)/, $(SUBDIRS))
+
+# --- OBJECTS -----------------------------------------------------------------
+OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
+
+# --- COMMANDS --------------------------------------------------------------
+RM      := rm -rf
+MKDIR   := mkdir -p
+
+# --- PHONY ------------------------------------------------------------------
+.PHONY: all clean fclean re lib
+
+# --- RULES -----------------------------------------------------------------
+all: lib $(NAME)
 
 $(NAME): $(OBJS)
 	@printf "$(BLUE)🔗 Linking $@...$(NC)\n"
-	@$(CC) $(CFLAGS) $(OBJS) -o $@
+	@$(CC) $(OBJS) $(LFLAGS) -o $@
 	@printf "$(GREEN)✅ Built $@$(NC)\n"
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@$(MKDIR) $(dir $@)
+$(OBJDIR)/%.o: %.c
+	@$(MKDIR) $(OBJDIR)
 	@printf "$(YELLOW)🔨 Compiling $< -> $@$(NC)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+lib:
+	@printf "$(BLUE)📦 Building libft...$(NC)\n"
+	@test -d $(LIBFT) || git clone git@github.com:Minipl0p/libft_perso.git $(LIBFT) --depth=1
+	@$(MAKE) --no-print-directory -C $(LIBFT)
+	@printf "$(GREEN)📦 libft ready$(NC)\n"
+
 clean:
 	@printf "$(RED)🧹 Cleaning objects...$(NC)\n"
-	@$(RM) $(OBJDIR) $(OBJDIR_BONUS)
+	@$(RM) $(OBJDIR)
+	@if [ -d "$(LIBFT)" ]; then \
+		printf "$(RED)🧹 Cleaning libft...$(NC)\n"; \
+		$(MAKE) --no-print-directory -C $(LIBFT) clean; \
+	fi
 
 fclean: clean
-	@$(RM) $(NAME) $(NAME_BONUS)
+	@printf "$(RED)🧹 Removing binary and libft...$(NC)\n"
+	@$(RM) $(NAME) $(LIBFT)
 
 re: fclean all
-
-run: re
-	$(shell ./minishell)
-
-help:
-	@echo "$(BLUE)=== Makefile Help ===$(NC)"
-	@echo "$(BLUE)NAME:$(NC) $(NAME)"
-	@echo "$(BLUE)SRCS:$(NC) $(SRCS)"
-	@echo "$(BLUE)OBJS:$(NC) $(OBJS)"
-	@echo "$(BLUE)LIB:$(NC) $(LIB)"

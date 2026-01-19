@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 13:35:14 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:22:23 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_btree	*ast;
 	t_dict	*d_env;
-	int		ret;
 	char	*line;
 
 	(void)ac;
+	(void)av;
 	d_env = init_d_env(env);
 	if (!d_env)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:56:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/17 16:54:07 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:53:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static t_btree	*pars_pipe_step(t_btree *left, t_token **token)
 t_btree	*parse_pipe(t_token **token)
 {
 	t_btree	*left;
-	t_btree	*node;
 
 	left = parse_cmd(token);
 	while (*token && (*token)->type == PIPE)
