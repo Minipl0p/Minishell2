@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 13:28:24 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:39:39 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	print_banner(void)
 		if (g_stop == 1)
 		{
 			ft_putstr_fd("\n\033[1;33m >> You thought you ", 1);
-			ft_putstr_fd("tricked the Shell, but it’s Jack Black who ", 1);
+			ft_putstr_fd("tricked Mine-Shell, but it’s Jack Black who ", 1);
 			ft_putendl_fd("just tricked YOU!\033[0m\n\n", 1);
 		}
 		else
