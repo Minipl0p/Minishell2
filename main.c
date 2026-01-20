@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 13:38:12 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:33:42 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_btree	*pars(char *line)
 	token_lst = lex(line);
 	if (!token_lst)
 		return (NULL);
-	display_tokens(token_lst);
+	// display_tokens(token_lst);
 	head = token_lst;
 	ast = parse_or(&head);
 	if (!ast)
@@ -56,7 +56,7 @@ static t_btree	*pars(char *line)
 		destroy_token(token_lst);
 		return (NULL);
 	}
-	print_ast(ast, 0);
+	// print_ast(ast, 0);
 	destroy_token(token_lst);
 	return (ast);
 }

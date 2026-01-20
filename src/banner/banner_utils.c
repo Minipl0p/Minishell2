@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:47 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 13:30:46 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 15:04:30 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_put_pixel(unsigned char id)
 		write(1, "\033[48;5;40m  ", 12);
 	else if (id == 5)
 		write(1, "\033[48;5;117m  ", 13);
-	if (id == 6)
+	else if (id == 6)
 		write(1, "\033[48;5;220m  ", 13);
 	else if (id == 7)
 		write(1, "\033[48;5;130m  ", 13);

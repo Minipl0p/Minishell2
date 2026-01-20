@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 23:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/17 17:13:41 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 16:41:15 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
+#include <stdio.h>
 
 // Check if a token can appear inside a simple command.
 static int	is_cmd_token(t_token *token)
@@ -92,8 +93,10 @@ t_btree	*parse_cmd(t_token **token)
 		new = parse_subtree(token);
 		return (new);
 	}
+	if (*token && (*token)->type == EOF_TOK)
+		return (NULL);
 	if (!*token || !is_cmd_token(*token))
-		return (parse_error("syntax error"));
+		return (parse_error("syntaxeeeeeee error"));
 	new = ast_new(AST_COMMAND);
 	if (!new)
 		return (NULL);
