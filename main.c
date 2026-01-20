@@ -6,13 +6,38 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:42:10 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 12:25:14 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
+#include "libft/Includes/ft_dict.h"
+#include <fcntl.h>
+#include <unistd.h>
 
-t_btree	*pars(char *line)
+static void	handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+static void	setup_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+static t_btree	*pars(char *line)
 {
 	t_token	*token_lst;
 	t_token	*head;
@@ -36,15 +61,25 @@ t_btree	*pars(char *line)
 	return (ast);
 }
 
+static t_dict	*init(int ac, char **av, char **env)
+{
+	t_dict	*d_env;
+
+	(void)ac;
+	(void)av;
+	setup_signals();
+	print_banner();
+	d_env = init_d_env(env);
+	return (d_env);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_btree	*ast;
 	t_dict	*d_env;
 	char	*line;
 
-	(void)ac;
-	(void)av;
-	d_env = init_d_env(env);
+	d_env = init(ac, av, env);
 	if (!d_env)
 		return (1);
 	while (1)

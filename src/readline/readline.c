@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:52:48 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:22:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,9 @@ static char	*get_prompt(void)
 		base = cwd;
 	else
 		base++;
-	prompt = ft_strjoin(base, ": 🐌 > ");
+	prompt = ft_strjoin(base, ": ⛏️ ");
 	free(cwd);
 	return (prompt);
-}
-
-static void	handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-static void	setup_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 }
 
 char	*read_minish(void)
@@ -65,7 +43,6 @@ char	*read_minish(void)
 	char	*line;
 	char	*prompt;
 
-	setup_signals();
 	prompt = get_prompt();
 	if (!prompt)
 		return (NULL);
