@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 12:25:14 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/20 13:38:12 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,14 @@ int	main(int ac, char **av, char **env)
 	{
 		line = read_minish();
 		ast = pars(line);
-		if (!line || !ast)
+		if (!line)
 		{
-			if (line)
-				free(line);
 			dict_destroy(d_env, free);
 			rl_clear_history();
 			return (0);
 		}
-		ast_destroy(ast);
+		if (ast)
+			ast_destroy(ast);
 		free(line);
 	}
 	dict_destroy(d_env, free);
