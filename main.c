@@ -6,15 +6,15 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 12:43:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:34:20 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/heredocs.h"
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_dict.h"
 #include "libft/Includes/ft_io.h"
 #include <fcntl.h>
+#include <signal.h>
 #include <unistd.h>
 
 static t_btree	*pars(char *line)

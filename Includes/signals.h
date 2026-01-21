@@ -6,13 +6,17 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:05:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 12:41:25 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:39:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
+# include <stdio.h>
+# include <readline/readline.h>
+# include <unistd.h>
+# include <sys/ioctl.h>
 # include <signal.h>
 
 typedef enum e_signals

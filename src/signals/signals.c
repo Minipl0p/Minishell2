@@ -6,17 +6,16 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:04:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 14:05:17 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:54:37 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/signals.h"
 #include <signal.h>
-#include <stdio.h>
-#include <readline/readline.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 
-volatile int g_stop = 0;
+volatile int	g_stop = 0;
 
 static void	handler_banner(int sig)
 {
@@ -37,14 +36,15 @@ static void	handler_main(int sig)
 
 static void	handler_heredocs(int sig)
 {
+	char	c;
+
+	(void)sig;
 	g_stop = 1;
-	if (sig == SIGINT)
-	{
-		write(0, "\n", 1);
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
-	}
+	c = '\n';
+	ioctl(STDIN_FILENO, TIOCSTI, &c);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from)
@@ -59,7 +59,7 @@ void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from)
 	if (from == HEREDOCS)
 	{
 		sa->sa_handler = handler_heredocs;
-		sa->sa_flags = SA_RESTART;
+		sa->sa_flags = 0;
 	}
 	if (from == MAIN)
 	{
