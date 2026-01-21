@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:25:29 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 01:08:16 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:10:30 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-int		ft_sleep_exec(char *time_str);
+int		ft_sleep_exec(char *time_str, int fd);
 void	print_jack_black(void);
 void	ft_put_pixel(unsigned char id);
 void	print_banner(void);

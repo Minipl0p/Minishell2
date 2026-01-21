@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 12:44:04 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:10:47 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,17 @@ int	ft_play_loading(int fd)
 		if (read(fd, buffer, SIZE * SIZE) != SIZE * SIZE)
 			return (-1);
 		ft_render_frame(buffer);
-		if (ft_sleep_exec("0.02") < 0)
+		if (ft_sleep_exec("0.02", fd) < 0)
 			return (-1);
 		i++;
 	}
 	write(1, "\033[?25h", 6);
-	close(fd);
 	sigaction(SIGINT, &old_sa, NULL);
+	close(fd);
 	if (g_stop == 1)
+	{
 		return (-1);
+	}
 	return (0);
 }
 

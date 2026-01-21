@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:47 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 15:04:30 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 17:09:59 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_jack_black(void)
 	printf("⠈⢆⠱⣀⠒⠤⢊⡒⢡⣗⠺⣌⠷⡞⡽⢎⡷⣱⢣⡛⡴⡱⢚⡔⠢⠜⡤⠓⡌⢂⠇⣍⠚⡰⢈⡱⢌⠒⡱⡘⡌⢎⡱⢌⢣⠚⡔⢣⡑⢆⠳⠰⣈⠱⡈⢆⠓⣹⡄⠁⢂⠀⠁\n");
 }
 
-int	ft_sleep_exec(char *time_str)
+int	ft_sleep_exec(char *time_str, int fd)
 {
 	pid_t	pid;
 	char	*args[3];
@@ -82,6 +82,7 @@ int	ft_sleep_exec(char *time_str)
 		return (-1);
 	if (pid == 0)
 	{
+		close(fd);
 		execve("/bin/sleep", args, NULL);
 		exit(1);
 	}
