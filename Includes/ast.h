@@ -6,16 +6,15 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/17 17:33:06 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 10:54:13 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-
-#include "../libft/Includes/libft.h"
-#include "lex.h"
+# include "../libft/Includes/libft.h"
+# include "lex.h"
 
 //=================================ENUMS========================================
 typedef enum e_ast_type
@@ -41,6 +40,7 @@ typedef struct s_redir
 {
 	t_redir_type		type;
 	char				*target;
+	int					expand;
 	struct s_redir		*next;
 }	t_redir;
 

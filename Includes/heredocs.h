@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   banner.h                                           :+:      :+:    :+:   */
+/*   heredocs.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 12:25:29 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 01:08:16 by miniplop         ###   ########.fr       */
+/*   Created: 2026/01/21 12:01:39 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/21 12:08:35 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BANNER_H
-# define BANNER_H
+#ifndef HEREDOCS_H
+# define HEREDOCS_H
 
-# define SIZE 40
-# define NB_FRAMES 97
-
+# include "signals.h"
+# include "ast.h"
 # include "../libft/Includes/libft.h"
 
-# include <unistd.h>
 # include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <errno.h>
+# include <readline/readline.h>
+# include <signal.h>
 
-int		ft_sleep_exec(char *time_str);
-void	print_jack_black(void);
-void	ft_put_pixel(unsigned char id);
-void	print_banner(void);
+int	write_heredoc(int fd, t_redir *redir);
+int	create_heredocs(t_btree *ast);
 
 #endif

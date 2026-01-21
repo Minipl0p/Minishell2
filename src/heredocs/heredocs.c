@@ -6,80 +6,127 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 19:01:40 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:43:44 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
-#include "../../Includes/minishell.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "../../Includes/heredocs.h"
 
-#define SIZE_RAND 8
+extern int	g_stop;
 
-char	*build_name(char name[SIZE_RAND + 6])
+static int	random_name(char *buf)
 {
-	int			fd_rand;
-	int			i;
+	int		fd;
+	int		i;
+	char	c;
 
-	ft_strcat(name, "/tmp/");
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+		return (errno);
+	i = 0;
+	while (i < 16)
+	{
+		if (read(fd, &c, 1) != 1)
+		{
+			close(fd);
+			return (errno);
+		}
+		buf[i] = "abcdefghijklmnopqrstuvwxyz0123456789"[(c + 256) % 36];
+		i++;
+	}
+	buf[i] = '\0';
+	close(fd);
+	return (0);
+}
+
+static int	open_tmp_file(char **path)
+{
+	char	name[17];
+	int		fd;
+
 	while (1)
 	{
-		fd_rand = open("/dev/urandom", O_RDONLY);
-		if (fd_rand < 0)
-			return (NULL);
-		if (read(fd_rand, name + 5, SIZE_RAND) != SIZE_RAND)
-		{
-			close(fd_rand);
-			return (NULL);
-		}
-		close(fd_rand);
-		i = -1;
-		while (++i < SIZE_RAND)
-			name[i] = ((((int)name[i] + 256) % 26) + 'a');
-		return (name);
-		if (access(name, F_OK) != 0)
-			return (name);
+		if (random_name(name))
+			return (-1);
+		*path = ft_strjoin("/tmp/.heredoc_", name);
+		if (!*path)
+			return (-1);
+		if (access(*path, F_OK) != 0)
+			break ;
+		free(*path);
 	}
-}
-
-int	create_heredoc(t_redir **heredocs)
-{
-	int			fd;
-	static char	name[SIZE_RAND + 6] = {0};
-
-	if ((*heredocs)->type != R_HEREDOC || (*heredocs)->target == NULL)
-		return (-1);
-	build_name(name);
-	fd = open(name, O_CREAT, 0777);
+	fd = open(*path, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd < 0)
-		return (-1);
-}
-
-int	find_heredocs(t_btree *ast)
-{
-	t_redir *head;
-
-	head = ((t_ast_node *)ast->content)->redirs;
-	find_heredocs(ast->left);
-	while (head != NULL)
 	{
-		if (head->type == R_HEREDOC)
-			create_heredoc(&head);
-		head = head->next;
+		free(*path);
+		return (-1);
 	}
-	find_heredocs(ast->right);
+	return (fd);
 }
 
-int	main(void)
+static int	restore_heredoc(struct sigaction *old, char *path, int fd)
 {
-	char	*name;
+	if (fd >= 0)
+		close(fd);
+	if (path)
+	{
+		unlink(path);
+		free(path);
+	}
+	sigaction(SIGINT, old, NULL);
+	return (1);
+}
 
-	name = build_name();
-	if (!name)
+static int	handle_heredoc(t_redir *redir)
+{
+	struct sigaction	sa;
+	struct sigaction	old;
+	char				*path;
+	int					fd;
+
+	g_stop = 0;
+	init_signal(&sa, &old, HEREDOCS);
+	fd = open_tmp_file(&path);
+	ft_putendl_fd(path, 1);
+	if (fd < 0)
+	{
+		restore_heredoc(&old, NULL, fd);
 		return (1);
-	printf("%s\n", name);
-	free(name);
+	}
+	if (write_heredoc(fd, redir))
+	{
+		restore_heredoc(&old, path, fd);
+		return (1);
+	}
+	close(fd);
+	sigaction(SIGINT, &old, NULL);
+	free(redir->target);
+	redir->target = path;
 	return (0);
+}
+
+int	create_heredocs(t_btree *ast)
+{
+	t_ast_node	*cmd;
+	t_redir		*redir;
+
+	if (!ast)
+		return (0);
+	if (create_heredocs(ast->left))
+		return (1);
+	cmd = ast->content;
+	if (cmd->type == AST_COMMAND)
+	{
+		redir = cmd->redirs;
+		while (redir)
+		{
+			if (redir->type == R_HEREDOC)
+			{
+				if (handle_heredoc(redir))
+					return (1);
+			}
+			redir = redir->next;
+		}
+	}
+	return (create_heredocs(ast->right));
 }

@@ -6,36 +6,16 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 16:33:42 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:43:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Includes/heredocs.h"
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_dict.h"
+#include "libft/Includes/ft_io.h"
 #include <fcntl.h>
 #include <unistd.h>
-
-static void	handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-static void	setup_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-}
 
 static t_btree	*pars(char *line)
 {
@@ -56,7 +36,10 @@ static t_btree	*pars(char *line)
 		destroy_token(token_lst);
 		return (NULL);
 	}
-	// print_ast(ast, 0);
+	print_ast(ast, 0);
+	ft_putendl_fd("\n-----------create heredocs-------------\n", 1);
+	create_heredocs(ast);
+	print_ast(ast, 0);
 	destroy_token(token_lst);
 	return (ast);
 }
@@ -64,10 +47,11 @@ static t_btree	*pars(char *line)
 static t_dict	*init(int ac, char **av, char **env)
 {
 	t_dict	*d_env;
+	struct sigaction sa;
 
 	(void)ac;
 	(void)av;
-	setup_signals();
+	init_signal(&sa, NULL, MAIN);
 	print_banner();
 	d_env = init_d_env(env);
 	return (d_env);

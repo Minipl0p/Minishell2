@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   banner.h                                           :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/20 12:25:29 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 01:08:16 by miniplop         ###   ########.fr       */
+/*   Created: 2026/01/21 01:05:34 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/21 12:41:25 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BANNER_H
-# define BANNER_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-# define SIZE 40
-# define NB_FRAMES 97
+# include <signal.h>
 
-# include "../libft/Includes/libft.h"
+typedef enum e_signals
+{
+	MAIN,
+	HEREDOCS,
+	BANNER
+}			t_signals;
 
-# include <unistd.h>
-# include <fcntl.h>
-
-int		ft_sleep_exec(char *time_str);
-void	print_jack_black(void);
-void	ft_put_pixel(unsigned char id);
-void	print_banner(void);
+void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from);
 
 #endif

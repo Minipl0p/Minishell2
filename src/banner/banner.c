@@ -6,28 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/20 13:39:39 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 12:44:04 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/banner.h"
+#include "../../Includes/signals.h"
 
-volatile sig_atomic_t	g_stop = 0;
-
-static void	handle_banner(int sig)
-{
-	(void)sig;
-	g_stop = 1;
-}
-
-static void	init_signal(struct sigaction *sa, struct sigaction *old_sa)
-{
-	g_stop = 0;
-	sa->sa_handler = handle_banner;
-	sigemptyset(&(sa->sa_mask));
-	sa->sa_flags = 0;
-	sigaction(SIGINT, sa, old_sa);
-}
+extern volatile int g_stop;
 
 void	ft_render_frame(unsigned char *buffer)
 {
@@ -52,7 +38,7 @@ int	ft_play_loading(int fd)
 	struct sigaction	sa;
 	struct sigaction	old_sa;
 
-	init_signal(&sa, &old_sa);
+	init_signal(&sa, &old_sa, BANNER);
 	write(1, "\033[2J\033[?25l", 10);
 	i = 0;
 	while (i < NB_FRAMES && !g_stop)
@@ -91,6 +77,7 @@ void	print_banner(void)
 		print_jack_black();
 		if (g_stop == 1)
 		{
+			g_stop = 0;
 			ft_putstr_fd("\n\033[1;33m >> You thought you ", 1);
 			ft_putstr_fd("tricked Mine-Shell, but it’s Jack Black who ", 1);
 			ft_putendl_fd("just tricked YOU!\033[0m\n\n", 1);

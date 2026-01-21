@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*   pars_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:03:45 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/15 23:21:42 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 10:56:42 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	parse_redir(t_token **token, t_redir **redirs)
 	new = ft_calloc(1, sizeof(t_redir));
 	if (!new)
 		return (-1);
+	new->expand = 0;
 	new->type = token_to_redir((*token)->type);
 	*token = (*token)->next;
 	if (!*token || (*token)->type != WORD)
