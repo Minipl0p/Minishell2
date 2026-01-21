@@ -6,14 +6,14 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 14:08:34 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 17:07:37 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/21 15:24:36 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEX_H
 # define LEX_H
 
-# include "../../libft/Includes/libft.h"
+# include "../libft/Includes/libft.h"
 # include <stdio.h>
 
 typedef enum e_token_type
