@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:18:28 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:56:42 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/heredocs.h"
+#include <sys/wait.h>
 
 extern int	g_stop;
 
@@ -132,4 +133,18 @@ int	create_heredocs(t_btree *ast)
 		}
 	}
 	return (create_heredocs(ast->right));
+}
+
+void	here(t_btree *ast)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		rl_clear_history();
+		create_heredocs(ast);
+		ast_destroy(ast);
+	}
+	waitpid(pid, NULL, 0);
 }

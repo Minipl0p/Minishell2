@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:55:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 22:29:09 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/heredocs.h"
+#include <readline/readline.h>
 #include <unistd.h>
 
 extern int	g_stop;
@@ -118,8 +119,7 @@ int	write_heredoc(int fd, t_redir *redir)
 		return (1);
 	while (1)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 		if (!line || g_stop)
 			break ;
 		if (!ft_strcmp(line, delim))
