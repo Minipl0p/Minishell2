@@ -21,7 +21,7 @@ OBJDIR  := obj
 LIBFT   := libft
 
 # --- Sous-dossiers sources --------------------------------------------------
-SUBDIRS := heredocs signals ast dict expand exec lex readline banner
+SUBDIRS := heredocs signals ast dict expand exec/pipeline lex readline banner
 
 # --- Sources (sans nom de dossier !) ----------------------------------------
 SRC_MAIN := main.c
@@ -39,13 +39,16 @@ SRC_SIGN := signals.c
 
 SRC_EXP  :=
 
-SRC_EXEC :=
+SRC_EXEC_P := pipeline_builder.c
 
 SRC_LEX  := lex.c token.c word_utils.c
 
 SRC_RL   := readline.c
 
-SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_SIGN) $(SRC_HERE) $(SRC_DICT) $(SRC_EXP) $(SRC_BANNER) $(SRC_EXEC) $(SRC_LEX) $(SRC_RL)
+# --- REMOVE this -------------------------------------------------------------
+SRC_PRINT := print.c
+
+SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_SIGN) $(SRC_HERE) $(SRC_DICT) $(SRC_EXP) $(SRC_BANNER) $(SRC_EXEC_P) $(SRC_LEX) $(SRC_RL) $(SRC_PRINT)
 
 # --- PATH -------------------------------------
 VPATH := $(SRCDIR) $(addprefix $(SRCDIR)/, $(SUBDIRS))

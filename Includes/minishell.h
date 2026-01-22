@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 12:06:15 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 16:20:01 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,9 @@
 # include "lex.h"
 # include "readline.h"
 # include "signals.h"
+# include "pipeline.h"
+
+//--- REMOVE this -------------------------------------------------------------
+# include "print.h"
 
 #endif
