@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:15:38 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 20:06:07 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 22:16:53 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,9 @@ int	init_pipeline(t_pipeline *data, char **ev, t_dict *dict, t_list *cmds)
 		tmp = tmp->next;
 	}
 	data->cmd_count = count;
+	data->pids = ft_calloc(data->cmd_count, sizeof(pid_t));
+	if (!data->pids)
+		return (-1);
+	data->prev_fd = -1;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 20:46:05 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 22:59:38 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 static void	close_fds(t_pipeline *data)
 {
-	close(data->in_fd);
 	close(data->p_fd[0]);
 	close(data->p_fd[1]);
+	close(data->in_fd);
 	close(data->out_fd);
 	if (data->prev_fd != -1)
 		close(data->prev_fd);
@@ -102,13 +102,12 @@ int	run_pipeline(t_list *cmds, char **ev, t_dict *dict)
 			return (-1);
 //		if (i == 0 && is_built_in(((t_ast_node *)cmd_lst->content)) == 0)
 //			exec_built_in();
-		else
-		{
-			if (pipeline(&data, cmds, i++) == -1)
+		if (pipeline(&data, cmds, i++) == -1)
 				return (-1);
-		}
 		cmds = cmds->next;
 	}
 	wait_all(&data);
+	free_cmd_list(data.cmds);
+	free(data.pids);
 	return (1);
 }

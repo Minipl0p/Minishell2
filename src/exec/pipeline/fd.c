@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:04:26 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 20:05:54 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 22:42:51 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	set_in_fd(t_ast_node *cmd)
 			return (-1);
 	}
 	else
-	fd = 0;
+		fd = 0;
 	return (fd);
 }
 
@@ -61,6 +61,8 @@ int	set_fds(t_pipeline *data)
 	cmd = ((t_ast_node *)data->cmds->content);
 	if (cmd->redirs)
 	{
+		if (data->in_fd >= 0)
+			close(data->in_fd);
 		data->in_fd = set_in_fd(cmd);
 		if (data->in_fd == -1)
 			return (-1);

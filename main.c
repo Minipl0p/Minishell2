@@ -6,13 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:44:25 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 22:02:35 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 #include "Includes/pipeline.h"
 #include "Includes/print.h"
+#include "libft/Includes/ft_btree.h"
 #include "libft/Includes/ft_dict.h"
 #include "libft/Includes/ft_io.h"
 #include <fcntl.h>
