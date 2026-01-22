@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 17:13:53 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 20:44:25 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **env)
 			rl_clear_history();
 			return (0);
 		}
-		if (pipe_flatten(ast, &cmds) == 0)
+		if (exec_ast(ast, env, d_env) == 0)
 			log_cmd_lst(cmds);
 		if (ast)
 			ast_destroy(ast);

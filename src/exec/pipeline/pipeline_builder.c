@@ -6,11 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:15:38 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 17:08:10 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/22 20:06:07 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
+#include <fcntl.h>
 
 void	free_cmd_list(t_list *lst)
 {
@@ -54,5 +55,28 @@ int	pipe_flatten(t_btree *ast, t_list **cmds)
 			return (-1);
 	}
 	pipe_flatten(ast->right, cmds);
+	return (0);
+}
+
+int	init_pipeline(t_pipeline *data, char **ev, t_dict *dict, t_list *cmds)
+{
+	int			count;
+	t_list		*tmp;
+
+	if (!dict || !cmds)
+		return (-1);
+	data->ev = ev;
+	data->cmds = cmds;
+	data->dict = dict;
+	data->in_fd = -1;
+	data->out_fd = -1;
+	count = 0;
+	tmp = cmds;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	data->cmd_count = count;
 	return (0);
 }
