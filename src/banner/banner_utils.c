@@ -6,14 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:47 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 17:09:59 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:50:04 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "../../Includes/banner.h"
 
 void	ft_put_pixel(unsigned char id)
 {
@@ -67,6 +64,21 @@ void	print_jack_black(void)
 	printf("⠸⣜⡹⢊⠵⡩⢞⡼⣙⡎⢰⢫⡞⢧⢏⡧⢏⡳⡜⡲⡜⡬⢒⡍⢆⠱⡀⢑⠨⡐⢀⠂⠌⡐⠠⢈⠀⠂⢄⡈⠆⡑⢢⡙⢦⡙⢦⡙⡎⡝⣎⢲⠩⡖⣜⠻⣦⢈⠂⠀⠀⠐⠀\n");
 	printf("⠐⢦⠱⣉⠦⣑⢋⠴⡡⢰⣋⢧⢻⡜⣮⢵⢫⡵⣩⠕⣎⡱⡍⢦⢉⡆⣑⠂⡑⢌⠢⡑⠌⠤⡑⠠⠌⡌⠰⡐⢌⠰⢃⡜⢢⠝⣢⠣⡕⣩⠲⣡⢓⠸⢄⠣⠜⣆⠀⠈⠀⠀⠂\n");
 	printf("⠈⢆⠱⣀⠒⠤⢊⡒⢡⣗⠺⣌⠷⡞⡽⢎⡷⣱⢣⡛⡴⡱⢚⡔⠢⠜⡤⠓⡌⢂⠇⣍⠚⡰⢈⡱⢌⠒⡱⡘⡌⢎⡱⢌⢣⠚⡔⢣⡑⢆⠳⠰⣈⠱⡈⢆⠓⣹⡄⠁⢂⠀⠁\n");
+}
+
+void	print_tricked(int which)
+{
+	if (which == 0)
+	{
+		ft_putstr_fd("\n\033[1;33m >> You thought you ", 1);
+		ft_putstr_fd("tricked Mine-Shell, but it’s Jack Black who ", 1);
+		ft_putendl_fd("just tricked YOU!\033[0m\n\n", 1);
+	}
+	else
+	{
+		ft_putstr_fd("\n\033[1;33m >> Jack Black is ", 1);
+		ft_putendl_fd("keeping the assets for himself !\033[0m\n\n", 1);
+	}
 }
 
 int	ft_sleep_exec(char *time_str, int fd)

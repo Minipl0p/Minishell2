@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 12:43:44 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:25:52 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ int	create_heredocs(t_btree *ast)
 			if (redir->type == R_HEREDOC)
 			{
 				if (handle_heredoc(redir))
+				{
+					unlink_all(ast);
 					return (1);
+				}
 			}
 			redir = redir->next;
 		}

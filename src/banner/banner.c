@@ -6,14 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 17:10:47 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:52:22 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/banner.h"
 #include "../../Includes/signals.h"
 
-extern volatile int g_stop;
+extern volatile int	g_stop;
 
 void	ft_render_frame(unsigned char *buffer)
 {
@@ -46,7 +46,7 @@ int	ft_play_loading(int fd)
 		if (read(fd, buffer, SIZE * SIZE) != SIZE * SIZE)
 			return (-1);
 		ft_render_frame(buffer);
-		if (ft_sleep_exec("0.02", fd) < 0)
+		if (ft_sleep_exec("0.01", fd) < 0)
 			return (-1);
 		i++;
 	}
@@ -80,15 +80,10 @@ void	print_banner(void)
 		if (g_stop == 1)
 		{
 			g_stop = 0;
-			ft_putstr_fd("\n\033[1;33m >> You thought you ", 1);
-			ft_putstr_fd("tricked Mine-Shell, but it’s Jack Black who ", 1);
-			ft_putendl_fd("just tricked YOU!\033[0m\n\n", 1);
+			print_tricked(0);
 		}
 		else
-		{
-			ft_putstr_fd("\n\033[1;33m >> Jack Black is ", 1);
-			ft_putendl_fd("keeping the assets for himself !\033[0m\n\n", 1);
-		}
+			print_tricked(1);
 	}
 	else
 		write(1, "\n", 1);

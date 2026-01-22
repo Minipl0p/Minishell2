@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:04:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 16:54:37 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:53:41 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from)
 		sigaction(SIGQUIT, sa, NULL);
 	}
 	sigaction(SIGINT, sa, old_sa);
-
 }

@@ -6,13 +6,36 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 16:50:54 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:38:40 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/heredocs.h"
+#include <unistd.h>
 
 extern int	g_stop;
+
+void	unlink_all(t_btree *ast)
+{
+	t_ast_node	*cmd;
+	t_redir		*head;
+
+	if (!ast)
+		return ;
+	unlink_all(ast->left);
+	cmd = ast->content;
+	if (cmd->type == AST_COMMAND)
+	{
+		head = cmd->redirs;
+		while (head)
+		{
+			if (head->type == R_HEREDOC)
+				unlink(head->target);
+			head = head->next;
+		}
+	}
+	unlink_all(ast->right);
+}
 
 static int	is_quoted(char *s)
 {
@@ -24,7 +47,7 @@ static int	is_quoted(char *s)
 	if (s[0] == '\'' && s[len - 1] == '\'')
 		return (1);
 	if (s[0] == '"' && s[len - 1] == '"')
-		return (2);
+		return (1);
 	return (0);
 }
 
@@ -34,13 +57,8 @@ static char	*clean_delim(char *target, int *expand)
 	char	*delim;
 
 	ret = is_quoted(target);
+	*expand = 0;
 	if (ret == 1)
-	{
-		delim = ft_substr(target, 1, ft_strlen(target) - 2);
-		return (delim);
-	}
-	*expand = 1;
-	if (ret == 2)
 	{
 		delim = ft_substr(target, 1, ft_strlen(target) - 2);
 		return (delim);
