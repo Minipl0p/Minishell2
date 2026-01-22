@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:55:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:13:16 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,35 @@ void	unlink_all(t_btree *ast)
 	unlink_all(ast->right);
 }
 
-char	*remove_quote(char *s, int i)
+static int	is_quoted(char *s)
 {
-	char	*new_string;
-	int		len;
+	int	len;
 
 	len = ft_strlen(s);
-	new_string = ft_calloc(sizeof(char), len);
-	if (!new_string)
-		return (NULL);
-	ft_strlcat(new_string, s, i + 1);
-	ft_strcat(new_string, &s[i] + 1);
-	free(s);
-	return (new_string);
+	if (len < 2)
+		return (0);
+
+	if (s[0] == '\'' && s[len - 1] == '\'')
+		return (1);
+	if (s[0] == '"' && s[len - 1] == '"')
+		return (1);
+	return (0);
 }
 
-char	*step_delim(char *delim, int *f_quote)
+static char	*clean_delim(char *target, int *expand)
 {
-	int		i;
-	char	*s;
+	int		ret;
+	char	*delim;
 
-	s = ft_strdup(delim);
-	*f_quote = -1;
-	i = 0;
-	while (s && s[i])
-	{
-		if (s && *f_quote <= 0 && (s[i] == '\'' || s[i] == '\"'))
-		{
-			*f_quote = 2;
-			if (s[i] == '\'')
-				*f_quote = 1;
-			s = remove_quote(s, i);
-		}
-		else if (s && ((*f_quote == 1 && s[i] == '\'')
-				|| (*f_quote == 2 && s[i] == '\"')))
-		{
-			*f_quote = 0;
-			s = remove_quote(s, i);
-		}
-		else
-			i++;
-	}
-	return (s);
-}
-
-static char	*clean_delim(char *delim, int *expand)
-{
-	int		f_quote;
-	int		len;
-	char	*s;
-	char	*final_delim;
-
+	ret = is_quoted(target);
 	*expand = 0;
-	s = step_delim(delim, &f_quote);
-	if (f_quote == -1)
-		*expand = 1;
-	else if (f_quote != 0)
+	if (ret == 1)
 	{
-		free(s);
-		s = NULL;
-		return (s);
+		delim = ft_substr(target, 1, ft_strlen(target) - 2);
+		return (delim);
 	}
-	len = ft_strlen(s);
-	final_delim = ft_calloc(sizeof(char), len + 1 + 1);
-	if (!final_delim)
-		return (NULL);
-	ft_strcat(final_delim, s);
-	free(s);
-	final_delim[len] = '\n';
-	return (final_delim);
+	delim = ft_strdup(target);
+	return (delim);
 }
 
 int	write_heredoc(int fd, t_redir *redir)
@@ -118,8 +78,7 @@ int	write_heredoc(int fd, t_redir *redir)
 		return (1);
 	while (1)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 		if (!line || g_stop)
 			break ;
 		if (!ft_strcmp(line, delim))
@@ -128,9 +87,10 @@ int	write_heredoc(int fd, t_redir *redir)
 		free(line);
 	}
 	free(delim);
-	free(line);
 	if (g_stop)
 	{
+		if (line)
+			free(line);
 		errno = EINTR;
 		return (1);
 	}
