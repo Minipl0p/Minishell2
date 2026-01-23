@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 12:01:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 22:55:01 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:24:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	unlink_all(t_btree *ast);
 
 //-------get one line-----------
 char	*get_one_line(int fd);
+void	here(t_btree *ast, t_dict *d_env);
 
 #endif

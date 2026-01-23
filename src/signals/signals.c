@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:04:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:55:55 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:25:59 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ static void	handler_main(int sig)
 
 static void	handler_heredocs(int sig)
 {
+	char	c;
+
 	(void)sig;
 	g_stop = 1;
-	write(1, "\n", 1);
+	c = '\n';
+	ioctl(STDIN_FILENO, TIOCSTI, &c);
 }
 
 void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from)

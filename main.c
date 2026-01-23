@@ -6,18 +6,17 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 18:44:47 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:28:43 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_dict.h"
-#include "libft/Includes/ft_io.h"
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
 
-static t_btree	*pars(char *line)
+static t_btree	*pars(char *line, t_dict *d_env)
 {
 	t_token	*token_lst;
 	t_token	*head;
@@ -28,7 +27,6 @@ static t_btree	*pars(char *line)
 	token_lst = lex(line);
 	if (!token_lst)
 		return (NULL);
-	// display_tokens(token_lst);
 	head = token_lst;
 	ast = parse_or(&head);
 	if (!ast)
@@ -36,18 +34,15 @@ static t_btree	*pars(char *line)
 		destroy_token(token_lst);
 		return (NULL);
 	}
-	print_ast(ast, 0);
-	ft_putendl_fd("\n-----------create heredocs-------------\n", 1);
-	create_heredocs(ast);
-	print_ast(ast, 0);
 	destroy_token(token_lst);
+	here(ast, d_env);
 	return (ast);
 }
 
 static t_dict	*init(int ac, char **av, char **env)
 {
-	t_dict	*d_env;
-	struct sigaction sa;
+	t_dict				*d_env;
+	struct sigaction	sa;
 
 	(void)ac;
 	(void)av;
@@ -69,7 +64,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = read_minish();
-		ast = pars(line);
+		ast = pars(line, d_env);
 		if (!line)
 		{
 			dict_destroy(d_env, free);

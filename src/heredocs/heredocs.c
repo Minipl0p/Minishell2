@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 22:56:42 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:26:20 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static int	handle_heredoc(t_redir *redir)
 	g_stop = 0;
 	init_signal(&sa, &old, HEREDOCS);
 	fd = open_tmp_file(&path);
-	ft_putendl_fd(path, 1);
 	if (fd < 0)
 	{
 		restore_heredoc(&old, NULL, fd);
@@ -135,7 +134,7 @@ int	create_heredocs(t_btree *ast)
 	return (create_heredocs(ast->right));
 }
 
-void	here(t_btree *ast)
+void	here(t_btree *ast, t_dict *d_env)
 {
 	int	pid;
 
@@ -143,8 +142,10 @@ void	here(t_btree *ast)
 	if (pid == 0)
 	{
 		rl_clear_history();
+		dict_destroy(d_env, free);
 		create_heredocs(ast);
 		ast_destroy(ast);
+		exit (0);
 	}
 	waitpid(pid, NULL, 0);
 }

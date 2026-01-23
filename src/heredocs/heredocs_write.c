@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 22:29:09 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/23 23:20:43 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ char	*step_delim(char *delim, int *f_quote)
 static char	*clean_delim(char *delim, int *expand)
 {
 	int		f_quote;
-	int		len;
 	char	*s;
-	char	*final_delim;
 
 	*expand = 0;
 	s = step_delim(delim, &f_quote);
@@ -99,14 +97,7 @@ static char	*clean_delim(char *delim, int *expand)
 		s = NULL;
 		return (s);
 	}
-	len = ft_strlen(s);
-	final_delim = ft_calloc(sizeof(char), len + 1 + 1);
-	if (!final_delim)
-		return (NULL);
-	ft_strcat(final_delim, s);
-	free(s);
-	final_delim[len] = '\n';
-	return (final_delim);
+	return (s);
 }
 
 int	write_heredoc(int fd, t_redir *redir)
