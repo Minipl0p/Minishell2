@@ -6,13 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/24 23:47:57 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/25 10:04:49 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/Includes/libft.h"
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 static void	free_cd_res(char *old, char *dest, int flags)
