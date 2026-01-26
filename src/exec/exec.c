@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:20:03 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:52:38 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	exec_ast(t_btree *ast, char **ev, t_dict *dict)
 	if (!ast)
 		return (0);
 	ret = 0;
-	if (((t_ast_node *)ast->content)->type == AST_PIPE || AST_COMMAND)
+	if (((t_ast_node *)ast->content)->type == AST_PIPE ||
+		((t_ast_node *)ast->content)->type == AST_COMMAND)
  	{
 		ret = exec_pipeline(ast, ev, dict);
 		return (ret);

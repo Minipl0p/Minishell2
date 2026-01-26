@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 20:26:09 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/26 23:01:16 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*parse_path(t_dict *dict, char **cmd)
 	char	**path_ar;
 	char	*path;
 
-	path_ar = dict_to_env(dict);
+	path_ar = dict_get(dict, "PATH");
 	if (!path_ar)
 		return (NULL);
 	path = check_cmd_path(path_ar, cmd);

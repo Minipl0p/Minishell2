@@ -33,7 +33,7 @@ SRC_DICT := convert_dict.c init_d_env.c
 
 SRC_BANNER := banner.c banner_utils.c
 
-SRC_HERE := heredocs.c heredocs_write.c get_one_line.c
+SRC_HERE := heredocs.c heredocs_write.c
 
 SRC_SIGN := signals.c
 

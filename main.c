@@ -6,10 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:19:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:56:36 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Includes/ast.h"
 #include "Includes/minishell.h"
 #include "Includes/pipeline.h"
 #include "Includes/print.h"
@@ -68,7 +69,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = read_minish();
-		ast = pars(line);
+		ast = pars(line, d_env);
 		cmds = NULL;
 		if (!line)
 		{
@@ -76,6 +77,7 @@ int	main(int ac, char **av, char **env)
 			rl_clear_history();
 			return (0);
 		}
+		print_ast(ast, 3);
 		if (exec_ast(ast, env, d_env) == 0)
 			log_cmd_lst(cmds);
 		if (ast)

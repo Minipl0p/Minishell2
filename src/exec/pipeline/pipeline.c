@@ -6,57 +6,74 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/22 22:59:38 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/26 23:13:04 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 #include "../../../libft/Includes/libft.h"
+#include <unistd.h>
 
-
-static void	close_fds(t_pipeline *data)
-{
-	close(data->p_fd[0]);
-	close(data->p_fd[1]);
-	close(data->in_fd);
-	close(data->out_fd);
-	if (data->prev_fd != -1)
-		close(data->prev_fd);
-}
-
-static void	wait_all(t_pipeline *data)
+static int	wait_all(t_pipeline *data)
 {
 	int	i;
 	int	status;
+	int	final_status;
 
-	close_fds(data);
 	status = 0;
+	final_status = 0;
 	i = 0;
 	while (i < data->cmd_count)
 	{
-		waitpid(data->pids[0], &status, 0);
+		waitpid(data->pids[i], &status, 0);
+		if (i == data->cmd_count - 1)
+			final_status = (status >> 8) & 0xFF;
 		i++;
 	}
+	return (final_status);
 }
 
-static int	child_process(t_pipeline *data, t_list *cmds, int i)
+static void	redir_fds(t_pipeline *data, int i)
 {
-	char	*path;
-
 	if (i == 0)
 		dup2(data->in_fd, STDIN_FILENO);
 	else
+	{
 		dup2(data->prev_fd, STDIN_FILENO);
+		close(data->prev_fd);
+	}
 	if (i == data->cmd_count - 1)
 		dup2(data->out_fd, STDOUT_FILENO);
 	else
+	{
 		dup2(data->p_fd[1], STDOUT_FILENO);
-	close_fds(data);
-	path = parse_path(data->dict, ((char **)cmds->content));
+		close(data->p_fd[1]);
+		close(data->p_fd[0]);
+	}
+}
+static void	child_process(t_pipeline *data, t_list *cmds, int i)
+{
+	char	*path;
+
+	redir_fds(data, i);
+	close(data->in_fd);
+	close(data->out_fd);
+	path = parse_path(data->dict, ((t_ast_node *)cmds->content)->argv);
 	if (!path)
-		return (-1);
+	{
+		printf("cmd : %s\n", ((t_ast_node *)cmds->content)->argv[0]);
+		ft_putstr_fd("Error: command not found\n", 2);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		free_cmd_list(data->cmds);
+		free(data->pids);
+		exit(127);
+	}
 	execve(path, ((char **)cmds->content), data->ev);
-	return (-1);
+	perror("execve");
+	free_cmd_list(data->cmds);
+	free(data->pids);
+	exit(126);
 }
 
 static int	pipeline(t_pipeline *data, t_list *cmds, int i)
@@ -64,17 +81,22 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 	if (i < data->cmd_count - 1)
 	{
 		if (pipe(data->p_fd) == -1)
+		{
+			perror("Pipe");
 			return (-1);
+		}
 	}
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
+	{
+		perror("Fork");
 		return (-1);
+	}
 	if (data->pids[i] == 0)
 	{
 //		if (is_built_in((t_ast_node *)cmds->content) == 1)
 //			exec_built_in();
-		if (child_process(data, cmds, i) == -1)
-			return (-1);
+		child_process(data, cmds, i);
 	}
 	if (i > 0)
 		close(data->prev_fd);
@@ -91,6 +113,7 @@ int	run_pipeline(t_list *cmds, char **ev, t_dict *dict)
 	t_pipeline	data;
 	t_list		*cmd_lst;
 	int			i;
+	int			status;
 
 	if (init_pipeline(&data, ev, dict, cmds) == -1)
 		return (-1);
@@ -99,15 +122,18 @@ int	run_pipeline(t_list *cmds, char **ev, t_dict *dict)
 	while (i < data.cmd_count)
 	{
 		if (set_fds(&data) == -1)
-			return (-1);
+			break ;
 //		if (i == 0 && is_built_in(((t_ast_node *)cmd_lst->content)) == 0)
 //			exec_built_in();
-		if (pipeline(&data, cmds, i++) == -1)
-				return (-1);
-		cmds = cmds->next;
+		if (pipeline(&data, cmd_lst, i) == -1)
+				break ;
+		cmd_lst = cmd_lst->next;
+		i++;
 	}
-	wait_all(&data);
 	free_cmd_list(data.cmds);
 	free(data.pids);
-	return (1);
+	close(data.in_fd);
+	close(data.out_fd);
+	status = wait_all(&data);
+	return (status);
 }
