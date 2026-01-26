@@ -6,11 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/23 23:28:43 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:19:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
+#include "Includes/pipeline.h"
+#include "Includes/print.h"
+#include "libft/Includes/ft_btree.h"
 #include "libft/Includes/ft_dict.h"
 #include <fcntl.h>
 #include <signal.h>
@@ -56,6 +59,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_btree	*ast;
 	t_dict	*d_env;
+	t_list	*cmds;
 	char	*line;
 
 	d_env = init(ac, av, env);
@@ -64,15 +68,20 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = read_minish();
-		ast = pars(line, d_env);
+		ast = pars(line);
+		cmds = NULL;
 		if (!line)
 		{
 			dict_destroy(d_env, free);
 			rl_clear_history();
 			return (0);
 		}
+		if (exec_ast(ast, env, d_env) == 0)
+			log_cmd_lst(cmds);
 		if (ast)
 			ast_destroy(ast);
+		if (cmds)
+			free_cmd_list(cmds);
 		free(line);
 	}
 	dict_destroy(d_env, free);
