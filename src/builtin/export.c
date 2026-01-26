@@ -6,14 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/25 15:08:56 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:01:21 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
-#include "../../Includes/dict.h"
-#include <unistd.h>
-int	export_no_args(t_dict *d_env);
+#include "../../Includes/builtin.h"
 
 static char	**parse_no_eq(char *arg)
 {
@@ -77,15 +74,17 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 	return (p);
 }
 
-int	export(char **args, t_dict *d_env)
+int	ft_export(t_btree *ast, t_dict *d_env)
 {
 	int		ret;
 	int		i;
 	char	**parsed;
 	char	*eq;
+	char	**args;
 
+	args = ((t_ast_node *)ast->content)->argv;
 	if (!args[1])
-		return (export_no_args(d_env));
+		return (ft_export_no_args(d_env));
 	else
 	{
 		i = 0;

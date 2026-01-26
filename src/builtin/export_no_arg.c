@@ -6,13 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:52:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/25 15:09:40 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 09:52:40 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
-#include "../../Includes/dict.h"
-#include <unistd.h>
+#include "../../Includes/builtin.h"
 
 static void	print_arr(char **arr)
 {
@@ -28,7 +26,7 @@ static void	print_arr(char **arr)
 	return ;
 }
 
-int	export_no_args(t_dict *d_env)
+int	ft_export_no_args(t_dict *d_env)
 {
 	char	**exp;
 	char	*tmp;

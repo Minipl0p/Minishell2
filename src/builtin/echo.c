@@ -6,12 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:39:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/24 00:07:19 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:03:53 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
-#include <unistd.h>
+#include "../../Includes/builtin.h"
 
 void	print_args(char **args, int no_nl)
 {
@@ -31,14 +30,17 @@ void	print_args(char **args, int no_nl)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-void	echo(char **cmd, ...)
+int	echo(t_btree *ast, t_dict *d_env)
 {
-	int	i;
-	int	j;
-	int	no_nl;
+	int		i;
+	int		j;
+	int		no_nl;
+	char	**cmd;
 
+	cmd = ((t_ast_node *)ast->content)->argv;
+	(void)d_env;
 	if (ft_strcmp(cmd[0], "echo"))
-		return ;
+		return (-1);
 	j = 1;
 	no_nl = 0;
 	while (!ft_strncmp(cmd[j], "-n", 2))
@@ -52,5 +54,5 @@ void	echo(char **cmd, ...)
 		j++;
 	}
 	print_args(cmd + j, no_nl);
-	return ;
+	return (0);
 }

@@ -6,19 +6,19 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/25 10:26:32 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:04:14 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/dict.h"
-#include "../../libft/includes/libft.h"
-#include <unistd.h>
+#include "../../Includes/builtin.h"
 
-int	env(char **args, t_dict *d_env)
+int	ft_env(t_btree *ast, t_dict *d_env)
 {
 	char	**env;
 	int		i;
+	char	**args;
 
+	args = ((t_ast_node *)ast->content)->argv;
 	if (!d_env || !args || !*args)
 		return (1);
 	if (ft_strcmp(*args, "env"))

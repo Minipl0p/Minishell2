@@ -6,13 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/25 10:04:49 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/26 10:02:57 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/Includes/libft.h"
-#include <unistd.h>
-#include <stdlib.h>
+#include "../../Includes/builtin.h"
 
 static void	free_cd_res(char *old, char *dest, int flags)
 {
@@ -74,12 +72,14 @@ static void	update_pwd(t_dict *env, char *oldpwd)
 	}
 }
 
-int	cd(char **args, t_dict *d_env)
+int	ft_cd(t_btree *ast, t_dict *d_env)
 {
 	char			*dest;
 	char			*old;
 	unsigned char	flags;
+	char	**args;
 
+	args = ((t_ast_node *)ast->content)->argv;
 	if (args[1] && args[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
