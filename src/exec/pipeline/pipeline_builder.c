@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:15:38 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/27 12:02:26 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/27 16:41:29 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ int	init_pipeline(t_pipeline *data, t_dict *dict, t_list *cmds)
 		return (-1);
 	data->cmds = cmds;
 	data->dict = dict;
-	data->in_fd = -1;
-	data->out_fd = -1;
+	data->prev_fd = -1;
 	count = 0;
 	tmp = cmds;
 	while (tmp)
@@ -83,6 +82,5 @@ int	init_pipeline(t_pipeline *data, t_dict *dict, t_list *cmds)
 	data->pids = ft_calloc(data->cmd_count, sizeof(pid_t));
 	if (!data->pids)
 		return (-1);
-	data->prev_fd = -1;
 	return (0);
 }

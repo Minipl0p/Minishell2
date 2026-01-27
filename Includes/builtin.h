@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:32:52 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:05:24 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/27 12:23:15 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@
 #include "dict.h"
 #include "ast.h"
 
+typedef enum	e_builtin
+{
+	CD,
+	ECHO,
+	B_ENV,
+	EXPORT,
+	UNSET,
+	PWD
+}	t_builtin;
+
 int	ft_export_no_args(t_dict *d_env);
 int	ft_cd(t_btree *ast, t_dict *d_env);
 int	ft_echo(t_btree *ast, t_dict *d_env);
@@ -27,4 +37,4 @@ int	ft_export(t_btree *ast, t_dict *d_env);
 int	ft_unset(t_btree *ast, t_dict *d_env);
 int	ft_pwd(t_btree *ast, t_dict *d_env);
 
-#endif /* ifndef BUILTIN_H
+#endif

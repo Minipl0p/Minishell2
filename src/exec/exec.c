@@ -6,11 +6,22 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/27 11:17:12 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/27 16:15:53 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+//static int	exec_cmd(t_btree *ast, t_dict *dict)
+//{
+//	t_list	*cmds;
+//	int		ret;
+//
+//	cmds = NULL;
+//	pipe_flatten(ast, &cmds);
+//	ret = run_cmd(cmds, dict);
+//	return (ret);
+//}
 
 static int	exec_pipeline(t_btree *ast, t_dict *dict)
 {
@@ -57,9 +68,13 @@ int	exec_ast(t_btree *ast, t_dict *dict)
 	if (!ast)
 		return (0);
 	ret = 0;
-	if (((t_ast_node *)ast->content)->type == AST_PIPE ||
-		((t_ast_node *)ast->content)->type == AST_COMMAND)
+	if (((t_ast_node *)ast->content)->type == AST_PIPE)	
  	{
+		ret = exec_pipeline(ast, dict);
+		return (ret);
+	}
+	if (((t_ast_node *)ast->content)->type == AST_COMMAND)
+	{
 		ret = exec_pipeline(ast, dict);
 		return (ret);
 	}
