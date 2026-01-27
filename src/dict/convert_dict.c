@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 17:41:46 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/27 12:07:29 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static char	*build_line(char *key, char *value, int	flag)
 		line = build_exp_line(key, value);
 		return (line);
 	}
+	if (!key)
+		return (NULL);
 	tmp = ft_strdup(key);
 	if (!tmp)
 		return (NULL);
@@ -95,7 +97,7 @@ char	**dict_to_env(t_dict *dict, int flag)
 		return (NULL);
 	count = dict->count + 1;
 	env = ft_calloc(sizeof(char *), (count + 1));
-	if (!env)
+	if (!flag)
 		return (NULL);
 	if (fill_env(dict, env, flag) < 0)
 		return (NULL);
