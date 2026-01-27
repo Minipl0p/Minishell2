@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:15:38 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/26 18:20:21 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/27 12:02:26 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,16 @@ int	pipe_flatten(t_btree *ast, t_list **cmds)
 	return (0);
 }
 
-int	init_pipeline(t_pipeline *data, char **ev, t_dict *dict, t_list *cmds)
+int	init_pipeline(t_pipeline *data, t_dict *dict, t_list *cmds)
 {
 	int			count;
 	t_list		*tmp;
 
 	if (!dict || !cmds)
 		return (-1);
-	data->ev = ev;
+	data->ev = dict_to_env(dict, ENV);
+	if (!data->ev)
+		return (-1);
 	data->cmds = cmds;
 	data->dict = dict;
 	data->in_fd = -1;

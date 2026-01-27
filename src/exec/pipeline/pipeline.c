@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/26 23:13:04 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/27 11:14:36 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	redir_fds(t_pipeline *data, int i)
 		dup2(data->prev_fd, STDIN_FILENO);
 		close(data->prev_fd);
 	}
-	if (i == data->cmd_count - 1)
+	if (i == data->cmd_count - 1 && data->out_fd != -1)
 		dup2(data->out_fd, STDOUT_FILENO);
 	else
 	{
@@ -67,11 +67,13 @@ static void	child_process(t_pipeline *data, t_list *cmds, int i)
 		close(STDOUT_FILENO);
 		free_cmd_list(data->cmds);
 		free(data->pids);
+		ft_free_arr((void **)data->ev);
 		exit(127);
 	}
-	execve(path, ((char **)cmds->content), data->ev);
+	execve(path, ((t_ast_node *)cmds->content)->argv, data->ev);
 	perror("execve");
 	free_cmd_list(data->cmds);
+	ft_free_arr((void **)data->ev);
 	free(data->pids);
 	exit(126);
 }
@@ -108,21 +110,20 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 	return (1);
 }
 
-int	run_pipeline(t_list *cmds, char **ev, t_dict *dict)
+int	run_pipeline(t_list *cmds, t_dict *dict)
 {
 	t_pipeline	data;
 	t_list		*cmd_lst;
 	int			i;
 	int			status;
 
-	if (init_pipeline(&data, ev, dict, cmds) == -1)
+	if (init_pipeline(&data, dict, cmds) == -1)
 		return (-1);
 	cmd_lst = cmds;
 	i = 0;
 	while (i < data.cmd_count)
 	{
-		if (set_fds(&data) == -1)
-			break ;
+		set_fds(&data, cmd_lst);
 //		if (i == 0 && is_built_in(((t_ast_node *)cmd_lst->content)) == 0)
 //			exec_built_in();
 		if (pipeline(&data, cmd_lst, i) == -1)
@@ -130,10 +131,13 @@ int	run_pipeline(t_list *cmds, char **ev, t_dict *dict)
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
+	status = wait_all(&data);
 	free_cmd_list(data.cmds);
 	free(data.pids);
-	close(data.in_fd);
-	close(data.out_fd);
-	status = wait_all(&data);
+	ft_free_arr((void **)data.ev);
+	if (data.in_fd != -1)
+		close(data.in_fd);
+	if (data.out_fd != -1)
+		close(data.out_fd);
 	return (status);
 }
