@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/27 11:58:25 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/29 12:34:11 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "Includes/minishell.h"
 #include "Includes/pipeline.h"
 #include "Includes/print.h"
+#include "Includes/readline.h"
 #include "libft/Includes/ft_btree.h"
 #include "libft/Includes/ft_dict.h"
 #include "libft/Includes/ft_io.h"
@@ -58,11 +59,34 @@ static t_dict	*init(int ac, char **av, char **env)
 	return (d_env);
 }
 
+//int		main(int ac, char **av, char **env)
+//{
+//	t_btree	*ast;
+//	t_dict	*d_env;
+//	char	*line;
+//
+//	d_env = init(ac, av, env);
+//	if (d_env != -1)
+//		return (1);
+//	while (1)
+//	{
+//		line = read_minish();
+//		if (!line)
+//			break ;
+//		ast = pars(line, d_env);
+//		if (ast)
+//		{
+//			exec_ast(ast, d_env);
+//			ast_destroy(ast);
+//		}
+//		fre
+//	}
+//}
+
 int	main(int ac, char **av, char **env)
 {
 	t_btree	*ast;
 	t_dict	*d_env;
-	t_list	*cmds;
 	char	*line;
 
 	d_env = init(ac, av, env);
@@ -72,20 +96,16 @@ int	main(int ac, char **av, char **env)
 	{
 		line = read_minish();
 		ast = pars(line, d_env);
-		cmds = NULL;
 		if (!line)
 		{
+			ast_destroy(ast);
 			dict_destroy(d_env, free);
 			rl_clear_history();
 			return (0);
 		}
-		print_ast(ast, 3);
-		if (exec_ast(ast, d_env) == 0)
-			log_cmd_lst(cmds);
+		exec_ast(ast, d_env);
 		if (ast)
 			ast_destroy(ast);
-		if (cmds)
-			free_cmd_list(cmds);
 		free(line);
 	}
 	dict_destroy(d_env, free);

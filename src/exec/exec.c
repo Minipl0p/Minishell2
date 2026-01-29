@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/27 16:15:53 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/28 10:11:53 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	exec_pipeline(t_btree *ast, t_dict *dict)
 	cmds = NULL;
 	pipe_flatten(ast, &cmds);
 	//expand_flatten(cmds);
-	ret = run_pipeline(cmds, dict);
+	ret = run_pipeline(cmds, dict, ast);
 	return (ret);
 }
 
