@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:01:21 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/29 17:11:07 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	**parse_no_eq(char *arg)
 static char	**parse_replace(char *arg, char *eq)
 {
 	char	**p;
-	char	*content;
+//	char	*content;
 
 	p = ft_calloc(sizeof(char *), 3);
 	if (!p)
@@ -99,6 +99,9 @@ int	ft_export(t_btree *ast, t_dict *d_env)
 				parsed = parse_no_eq(args[1]);
 			if (parsed)
 				ret = dict_set(d_env, parsed[0], parsed[1]);
+			// j'ai ajouter ca pour compiler
+			if (!ret)
+				ret = -1;
 			ft_free_arr((void **)parsed);
 		}
 	}

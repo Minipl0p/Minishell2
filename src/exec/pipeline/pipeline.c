@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/29 14:55:42 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/29 16:49:30 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,51 @@ static void	redir_fds(t_pipeline *data, int i)
 		close(data->prev_fd);
 }
 
+int	exec_child_built_in(int fctn, t_pipeline *data)
+{
+	static int (*const f_built_in[8])(t_btree *ast, t_dict *d_env) = {
+	[1] = ft_cd,
+	[2] = ft_echo,
+    [3] = ft_env,
+    [4] = ft_exit,
+	[5] = ft_export,
+	[6] = ft_pwd,
+    [7] = ft_unset
+	};
+	int	status;
+
+	status = f_built_in[fctn](data->ast, data->dict);
+	ast_destroy(data->ast);
+	dict_destroy(data->dict, free);
+	free_cmd_list(data->cmds);
+	ft_free_arr((void **)data->ev);
+	free(data->pids);
+	if (data->in_fd > 2)
+		close(data->in_fd);
+	if (data->out_fd > 2)
+		close(data->out_fd);
+	if (data->prev_fd != -1)
+		close(data->prev_fd);
+	return(status);
+}
+
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 {
 	char	*path;
+	int		status;
 
 	redir_fds(data, i);
+	status = is_built_in(cmd);
+	if (status)
+	{
+		status = exec_child_built_in(status, data);
+		if (i < data->cmd_count - 1)
+		{
+			close(data->p_fd[0]);
+			close(data->p_fd[1]);
+		}
+		exit(status);
+	}
 	path = parse_path(data->dict, cmd->argv);
 	if (!path)
 	{
@@ -157,8 +197,6 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 	{
 		if (set_fds(&data, cmd_lst) == -1)
 			status = -1;
-	//	if (data.cmd_count == 1 && is_built_in(((t_ast_node *)cmd_lst->content))
-	//		exec_built_in();
 		if (status != -1 && pipeline(&data, cmd_lst, i) == -1)
 			status = -1;
 		if (data.in_fd > 2)

@@ -21,7 +21,7 @@ OBJDIR  := obj
 LIBFT   := libft
 
 # --- Sous-dossiers sources --------------------------------------------------
-SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline banner built_in
+SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline banner builtin
 
 # --- Sources (sans nom de dossier !) ----------------------------------------
 SRC_MAIN := main.c
@@ -47,7 +47,7 @@ SRC_LEX  := lex.c token.c word_utils.c
 
 SRC_RL   := readline.c
 
-SRC_BUILT_IN := built_in_utils.c
+SRC_BUILT_IN := builtin.c cd.c echo.c export.c export_no_arg.c pwd.c unset.c
 
 # --- REMOVE this -------------------------------------------------------------
 SRC_PRINT := print.c
