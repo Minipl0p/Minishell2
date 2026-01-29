@@ -5,6 +5,12 @@
 	obj:*/libreadline.so.*
 }
 {
+    ignore_glibc_leaks
+    Memcheck:Leak
+    ...
+    obj:*/libc.so.*
+}
+{
     suppress-libc-localization-all
     Memcheck:Leak
     match-leak-kinds: reachable
