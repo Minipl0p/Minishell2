@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/29 12:30:01 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/29 14:55:42 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 		ft_putstr_fd("minishell : command not found.\n", 2);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
-		free(data->pids);
 		ast_destroy(data->ast);
 		dict_destroy(data->dict, free);
 		free_cmd_list(data->cmds);
 		ft_free_arr((void **)data->ev);
+		free(data->pids);
 		exit(127);
 	}
 	if (execve(path, cmd->argv, data->ev) == -1)
@@ -145,22 +145,22 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 	t_pipeline	data;
 	int			i;
 	int			status;
-
 	
 	if (init_pipeline(&data, dict, ast, cmds) == -1)
 		return (-1);
 	data.in_fd = -1;
 	data.out_fd = -1;
 	cmd_lst = cmds;
+	status = 0;
 	i = 0;
 	while (i < data.cmd_count)
 	{
 		if (set_fds(&data, cmd_lst) == -1)
-			break ;
+			status = -1;
 	//	if (data.cmd_count == 1 && is_built_in(((t_ast_node *)cmd_lst->content))
 	//		exec_built_in();
-		if (pipeline(&data, cmd_lst, i) == -1)
-				break ;
+		if (status != -1 && pipeline(&data, cmd_lst, i) == -1)
+			status = -1;
 		if (data.in_fd > 2)
 			close(data.in_fd);
 		if (data.out_fd > 2)

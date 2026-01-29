@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:04:26 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/28 10:53:33 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/29 14:55:35 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ int	set_fds(t_pipeline *data, t_list *cmds)
 	redirs = ((t_ast_node *)cmds->content)->redirs;
 	while (redirs)
 	{
+		if (data->in_fd > 2)
+			close(data->in_fd);
+		if (data->out_fd > 2)
+			close(data->out_fd);
 		if (set_redir_fd(data, redirs) == -1)
 		{
 			perror("open");
