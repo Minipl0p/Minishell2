@@ -6,18 +6,18 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:32:52 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 12:39:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 23:31:14 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-#include "../libft/Includes/libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include "dict.h"
-#include "ast.h"
+# include "../libft/Includes/libft.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include "dict.h"
+# include "ast.h"
 
 int	ft_export_no_args(t_dict *d_env);
 int	ft_cd(t_ast_node *cmd, t_dict *d_env);

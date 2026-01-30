@@ -6,11 +6,11 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:04:26 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/29 14:55:35 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 23:26:07 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Includes/minishell.h"
+#include "../../../Includes/pipeline.h"
 
 static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 {
@@ -32,7 +32,6 @@ static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 		if (data->out_fd == -1)
 			return (-1);
 	}
-
 	return (0);
 }
 

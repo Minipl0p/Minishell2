@@ -27,7 +27,7 @@ SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline bann
 SRC_MAIN := main.c
 
 SRC_AST  := ast_tools.c destroy.c pars_and.c pars_or.c pars_cmd.c \
-            pars_pipe.c pars_redir.c pars_subtree.c print_ast.c
+            pars_pipe.c pars_redir.c pars_subtree.c
 
 SRC_DICT := convert_dict.c init_d_env.c
 
@@ -39,9 +39,9 @@ SRC_SIGN := signals.c
 
 SRC_EXP  := expand.c expand_utils.c
 
-SRC_EXEC := exec.c
+SRC_EXEC := exec.c exec_cmd.c
 
-SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c
+SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c pipeline_utils.c
 
 SRC_LEX  := lex.c token.c word_utils.c token_utils.c
 
@@ -49,11 +49,9 @@ SRC_RL   := readline.c
 
 SRC_BUILT_IN := builtin.c cd.c echo.c export.c export_no_arg.c pwd.c unset.c env.c exit.c
 
-# --- REMOVE this -------------------------------------------------------------
-SRC_PRINT := print.c
 # -----------------------------------------------------------------------------
 
-SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_SIGN) $(SRC_HERE) $(SRC_DICT) $(SRC_EXP) $(SRC_BANNER) $(SRC_EXEC) $(SRC_EXEC_P) $(SRC_LEX) $(SRC_RL) $(SRC_PRINT) \
+SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_SIGN) $(SRC_HERE) $(SRC_DICT) $(SRC_EXP) $(SRC_BANNER) $(SRC_EXEC) $(SRC_EXEC_P) $(SRC_LEX) $(SRC_RL) \
 		$(SRC_BUILT_IN)
 
 # --- PATH -------------------------------------

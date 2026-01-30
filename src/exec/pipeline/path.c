@@ -6,12 +6,11 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/27 12:02:57 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 23:09:09 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Includes/minishell.h"
-#include "../../../libft/Includes/libft.h"
+#include "../../../Includes/pipeline.h"
 
 static char	*str_catsep(char *s1, char *s2, char sep)
 {
