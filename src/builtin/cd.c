@@ -6,35 +6,26 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 13:07:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:51:12 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
 
-// static void	free_cd_res(char *old, char *dest, int flags)
-// {
-// 	if (flags & 1)
-// 		free(old);
-// 	if (flags & 2)
-// 		free(dest);
-// }
-
-static char	*get_old(t_dict *d_env, unsigned char *flags)
+static char	*get_old(t_dict *d_env)
 {
-	char	*old;
+    char    *old;
+    char    *tmp;
 
-	old = dict_get(d_env, "PWD");
-	if (!old)
-	{
-		old = getcwd(NULL, 0);
-		if (old)
-			*flags = *flags | 1;
-	}
-	return (old);
+    tmp = dict_get(d_env, "PWD");
+    if (tmp)
+        old = ft_strdup(tmp);
+    else
+        old = getcwd(NULL, 0);
+    return (old);
 }
 
-static char	*get_dest(t_dict *env, char *arg, unsigned char *flags)
+static char	*get_dest(t_dict *env, char *arg)
 {
 	char	*home;
 	char	*path;
@@ -52,8 +43,6 @@ static char	*get_dest(t_dict *env, char *arg, unsigned char *flags)
 	if (ft_strncmp(arg, "~/", 2) == 0)
 	{
 		path = ft_strjoin(home, arg + 1);
-		if (path)
-			*flags = *flags | 2;
 		return (path);
 	}
 	return (arg);
@@ -73,7 +62,6 @@ int	ft_cd(t_ast_node *cmd, t_dict *d_env)
 {
 	char			*dest;
 	char			*old;
-	unsigned char	flags;
 	char	**args;
 
 	args = cmd->argv;
@@ -82,11 +70,10 @@ int	ft_cd(t_ast_node *cmd, t_dict *d_env)
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
-	flags = 0;
-	old = get_old(d_env, &flags);
+	old = get_old(d_env);
 	if (!old)
 		return (1);
-	dest = get_dest(d_env, args[1], &flags);
+	dest = get_dest(d_env, args[1]);
 	if (!dest || chdir(dest) == -1)
 	{
 		if (dest)

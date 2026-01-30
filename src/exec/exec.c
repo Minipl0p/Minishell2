@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:28:51 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:42:00 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static int	exec_or(t_btree *ast, t_dict *dict, t_btree *root)
 int	exec_cmd(t_btree *ast, t_dict *dict, t_btree *root)
 {
 	static int (*const f_built_in[8])(t_ast_node *cmd, t_dict *d_env) = {
-	[1] = ft_cd,
-	[2] = ft_echo,
-    [3] = ft_env,
-    [4] = ft_exit,
-	[5] = ft_export,
-	[6] = ft_pwd,
-    [7] = ft_unset
+		[1] = ft_cd,
+		[2] = ft_echo,
+		[3] = ft_env,
+		[4] = ft_exit,
+		[5] = ft_export,
+		[6] = ft_pwd,
+		[7] = ft_unset
 	};
 	t_list				*cmds;
 	int					ret;
@@ -82,12 +82,13 @@ int	exec_cmd(t_btree *ast, t_dict *dict, t_btree *root)
 int	exec_ast(t_btree *ast, t_dict *dict, t_btree *root)
 {
 	int	ret;
+	int	pid;
 
 	if (!ast)
 		return (0);
 	ret = 0;
 	if (((t_ast_node *)ast->content)->type == AST_PIPE)	
- 	{
+	{
 		ret = exec_pipeline(ast, dict, root);
 		return (ret);
 	}
@@ -108,7 +109,21 @@ int	exec_ast(t_btree *ast, t_dict *dict, t_btree *root)
 	}
 	if (((t_ast_node *)ast->content)->type == AST_SUBTREE)
 	{
-		ret = exec_ast(ast->left, dict, root);
+		pid = fork();
+		if (pid == -1)
+			return (perror("fork"), 1);
+		if (pid == 0)
+		{
+			ret = exec_ast(ast->left, dict, root);
+			ast_destroy(root);
+			dict_destroy(dict, free);
+			exit(ret);
+		}
+		waitpid(pid, &ret, 0);
+		if (WIFEXITED(ret))
+			ret = WEXITSTATUS(ret);
+		else if (WIFSIGNALED(ret))
+			ret = 128 + WTERMSIG(ret);
 		return (ret);
 	}
 	return (ret);
