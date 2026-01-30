@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:42:00 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:28:17 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	exec_pipeline(t_btree *ast, t_dict *dict, t_btree *root)
 
 	cmds = NULL;
 	pipe_flatten(ast, &cmds);
-	//expand_flatten(cmds);
+	expand_flatten(cmds, dict);
 	ret = run_pipeline(cmds, dict, root);
 	return (ret);
 }
@@ -67,6 +67,7 @@ int	exec_cmd(t_btree *ast, t_dict *dict, t_btree *root)
 
 	cmds = NULL;
 	pipe_flatten(ast, &cmds);
+	expand_flatten(cmds, dict);
 	ret = is_built_in((t_ast_node *)ast->content);
 	if (ret)
 	{
@@ -74,7 +75,6 @@ int	exec_cmd(t_btree *ast, t_dict *dict, t_btree *root)
 		free_cmd_list(cmds);
 		return (ret);
 	}
-	//expand_flatten(cmds);
 	ret = run_pipeline(cmds, dict, root);
 	return (ret);
 }

@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 17:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 15:22:01 by miniplop         ###   ########.fr       */
+/*   Created: 2026/01/30 15:20:01 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/30 15:21:26 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef EXPAND_H
+# define EXPAND_H
 
-# include "ast.h"
-# include "heredocs.h"
-# include "banner.h"
-# include "dict.h"
-# include "lex.h"
-# include "readline.h"
-# include "signals.h"
-# include "pipeline.h"
-# include "builtin.h"
-# include "expand.h"
+#include "ast.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-//--- REMOVE this -------------------------------------------------------------
-# include "print.h"
+int	expand_flatten(t_list *cmds, t_dict *d_env);
 
 #endif

@@ -6,40 +6,48 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 11:56:20 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 12:48:16 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 15:51:57 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/ast.h"
-#include <fcntl.h>
-#include <stdio.h>
+#include "../../Includes/expand.h"
 
 static char	*expand_key(char *str, int pos, t_dict *d_env)
 {
 	char	*new;
 	char	*value;
 	char	*key;
-	int		i;
-	int		len;
+	int		l_key;
 
-	i = 0;
-	while (str[pos + 1 + i] != '_' || ft_isalnum(str[pos + i + 1]))
-		i++;
-	key = ft_strndup(&str[pos + 1], i);
+	l_key = 0;
+	while (str[pos + 1 + l_key] && (str[pos + 1 + l_key] == '_' || ft_isalnum(str[pos + l_key + 1])))
+		l_key++;
+	key = ft_strndup(&str[pos + 1], l_key);
 	if (!key)
+	{
+		free(str);
 		return (NULL);
-	value = dict_get(d_env, str);
-	new = ft_calloc(sizeof(char), ft_strlen(str) - i + ft_strlen(value) + 1);
-	ft_strlcat(new, str, pos - 1);
+	}
+	value = dict_get(d_env, key);
+	if (!value)
+		value = "";
+	new = ft_calloc(sizeof(char), ft_strlen(str) - l_key + ft_strlen(value));
+	if (!new)
+	{
+		free(key);
+		free(str);
+		return (NULL);
+	}
+	ft_strlcat(new, str, pos + 1);
 	ft_strcat(new, value);
-	ft_strcat(new, str + pos + ft_strlen(value));
+	ft_strcat(new, str + pos + 1 + l_key);
 	free(str);
+	free(key);
 	return (new);
 }
 
 static char	*remove_quote(char *str, int pos)
 {
-	int		i;
 	char	*new;
 
 	if (!str)
@@ -47,7 +55,7 @@ static char	*remove_quote(char *str, int pos)
 	new = ft_calloc(sizeof(char), ft_strlen(str));
 	if (!new)
 		return (NULL);
-	ft_strlcat(new, str, pos);
+	ft_strlcat(new, str, pos + 1);
 	ft_strcat(new, str + pos + 1);
 	free(str);
 	return (new);
@@ -69,7 +77,7 @@ static int	expand_str(char **str, t_dict *d_env)
 			flag += ((*str)[i] == '\'') + 2 * ((*str)[i] == '\"');
 			*str = remove_quote(*str, i);
 		}
-		else if (flag != 0 && (*str)[i] == '$')
+		else if (flag != 1 && (*str)[i] == '$')
 			*str = expand_key(*str, i, d_env);
 		else if ((flag == 1 && (*str)[i] == '\'') || (flag == 2 && (*str)[i] == '\"'))
 		{
@@ -142,21 +150,18 @@ static int	explore(t_ast_node *n, t_dict *d_env, int (*f)(char **, t_dict *))
 	return (0);
 }
 
-int	expand_infix(t_btree *root, t_dict *d_env)
+int	expand_flatten(t_list *cmds, t_dict *d_env)
 {
-	int	i;
-	int	err;
+	int		err;
+	t_list	*head;
 
-	if (!root)
+	if (!cmds)
 		return (0);
-	err = expand_infix(root->left, d_env);
-	if (err < 0)
-		return (-1);
-	err = explore(root->content, d_env, expand_str);
-	if (err < 0)
-		return (-1);
-	err = expand_infix(root->right, d_env);
-	if (err < 0)
-		return (-1);
-	return (0);
+	head = cmds;
+	while (head)
+	{
+		err = explore((t_ast_node *)head->content, d_env, expand_str);
+		head = head->next;
+	}
+	return (err);
 }

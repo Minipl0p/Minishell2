@@ -37,7 +37,7 @@ SRC_HERE := heredocs.c heredocs_write.c
 
 SRC_SIGN := signals.c
 
-SRC_EXP  :=
+SRC_EXP  := expand.c
 
 SRC_EXEC := exec.c
 
