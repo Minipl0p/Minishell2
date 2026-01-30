@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:47 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/29 11:24:19 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 16:47:52 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	print_jack_black(void)
 
 void	print_tricked(int which)
 {
-	if (which == 0)
+	if (which == 1)
 	{
 		ft_putstr_fd("\n\033[1;33m >> You thought you ", 1);
 		ft_putstr_fd("tricked Mine-Shell, but it’s Jack Black who ", 1);

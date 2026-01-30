@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/29 11:41:30 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 16:47:29 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	ft_play_loading(int fd)
 	{
 		return (-1);
 	}
-//	close(fd);
 	return (0);
 }
 
@@ -76,13 +75,9 @@ void	print_banner(void)
 		close(fd);
 		write(1, "\033[H\033[2J\033[?25h", 10);
 		print_jack_black();
+		print_tricked(g_stop);
 		if (g_stop == 1)
-		{
 			g_stop = 0;
-			print_tricked(0);
-		}
-		else
-			print_tricked(1);
 	}
 	else
 	{

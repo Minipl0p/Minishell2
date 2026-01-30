@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:03:19 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:56:22 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,30 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 	return (p);
 }
 
+int	export_step(char **args, t_dict *d_env, int i)
+{
+	char	*eq;
+	char	**parsed;
+	int		ret;
+
+	eq = ft_strchr(args[i], '=');
+	if (eq && *(eq - 1) == '+')
+		parsed = parse_append(args[i], eq, d_env);
+	else if (eq)
+		parsed = parse_replace(args[i], eq);
+	else
+		parsed = parse_no_eq(args[i]);
+	if (parsed)
+		ret = dict_set(d_env, parsed[0], parsed[1], free);
+	free(parsed[0]);
+	free(parsed);
+	return (ret);
+}
+
 int	ft_export(t_ast_node *cmd, t_dict *d_env)
 {
 	int		ret;
 	int		i;
-	char	**parsed;
-	char	*eq;
 	char	**args;
 
 	args = cmd->argv;
@@ -91,19 +109,7 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 	{
 		i = 0;
 		while (args[++i])
-		{
-			eq = ft_strchr(args[i], '=');
-			if (eq && *(eq - 1) == '+')
-				parsed = parse_append(args[i], eq, d_env);
-			else if (eq)
-				parsed = parse_replace(args[i], eq);
-			else
-				parsed = parse_no_eq(args[i]);
-			if (parsed)
-				ret = dict_set(d_env, parsed[0], parsed[1], free);
-			free(parsed[0]);
-			free(parsed);
-		}
+			ret = export_step(args, d_env, i);
 	}
 	return (ret);
 }

@@ -6,22 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:25:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:43:13 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/ast.h"
-#include "Includes/dict.h"
 #include "Includes/minishell.h"
-#include "Includes/pipeline.h"
-#include "Includes/print.h"
-#include "Includes/readline.h"
-#include "libft/Includes/ft_btree.h"
-#include "libft/Includes/ft_dict.h"
-#include "libft/Includes/ft_io.h"
-#include <fcntl.h>
-#include <signal.h>
-#include <unistd.h>
 
 static t_btree	*pars(char *line, t_dict *d_env)
 {
@@ -59,30 +48,6 @@ static t_dict	*init(int ac, char **av, char **env)
 	return (d_env);
 }
 
-//int		main(int ac, char **av, char **env)
-//{
-//	t_btree	*ast;
-//	t_dict	*d_env;
-//	char	*line;
-//
-//	d_env = init(ac, av, env);
-//	if (d_env != -1)
-//		return (1);
-//	while (1)
-//	{
-//		line = read_minish();
-//		if (!line)
-//			break ;
-//		ast = pars(line, d_env);
-//		if (ast)
-//		{
-//			exec_ast(ast, d_env);
-//			ast_destroy(ast);
-//		}
-//		fre
-//	}
-//}
-
 int	main(int ac, char **av, char **env)
 {
 	t_btree	*ast;
@@ -97,14 +62,11 @@ int	main(int ac, char **av, char **env)
 		line = read_minish();
 		if (!line)
 			break ;
-		if (*line)
+		ast = pars(line, d_env);
+		if (ast)
 		{
-			ast = pars(line, d_env);
-			if (ast)
-			{
-				exec_ast(ast, d_env, ast);
-				ast_destroy(ast);
-			}
+			exec_ast(ast, d_env, ast);
+			ast_destroy(ast);
 		}
 		free(line);
 	}

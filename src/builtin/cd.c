@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:51:12 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:51:06 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static char	*get_old(t_dict *d_env)
 {
-    char    *old;
-    char    *tmp;
+	char	*old;
+	char	*tmp;
 
-    tmp = dict_get(d_env, "PWD");
-    if (tmp)
-        old = ft_strdup(tmp);
-    else
-        old = getcwd(NULL, 0);
-    return (old);
+	tmp = dict_get(d_env, "PWD");
+	if (tmp)
+		old = ft_strdup(tmp);
+	else
+		old = getcwd(NULL, 0);
+	return (old);
 }
 
 static char	*get_dest(t_dict *env, char *arg)
@@ -60,8 +60,8 @@ static void	update_pwd(t_dict *env, char *oldpwd)
 
 int	ft_cd(t_ast_node *cmd, t_dict *d_env)
 {
-	char			*dest;
-	char			*old;
+	char	*dest;
+	char	*old;
 	char	**args;
 
 	args = cmd->argv;

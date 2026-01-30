@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 20:03:42 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 16:44:16 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,5 @@ t_btree	*parse_or(t_token **token);
 t_btree	*parse_subtree(t_token **token);
 int		parse_redir(t_token **token, t_redir **redirs);
 //=============================================================================
-
-//=================================DEBUG=======================================
-void	print_ast(t_btree *root, int depth);
 
 #endif

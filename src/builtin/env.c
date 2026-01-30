@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 12:37:21 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:49:15 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_env(t_ast_node *cmd, t_dict *d_env)
 	while (env[++i])
 	{
 		if (ft_strchr(env[i], '='))
-				ft_putendl_fd(env[i], STDOUT_FILENO);
+			ft_putendl_fd(env[i], STDOUT_FILENO);
 	}
 	ft_free_arr((void **)env);
 	return (0);
