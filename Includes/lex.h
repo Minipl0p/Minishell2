@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 14:08:34 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/21 15:24:36 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 19:01:40 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,5 @@ void	add_token(t_token **token_lst, t_token *token);
 void	destroy_token(t_token *token_lst);
 int		create_token(t_token **token_lst, t_token_type type, char *content);
 int		is_token(char *c);
-
-void	display_tokens(t_token *token_lst);
 
 #endif

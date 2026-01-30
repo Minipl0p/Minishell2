@@ -33,17 +33,17 @@ SRC_DICT := convert_dict.c init_d_env.c
 
 SRC_BANNER := banner.c banner_utils.c
 
-SRC_HERE := heredocs.c heredocs_write.c
+SRC_HERE := heredocs_fork.c heredocs.c heredocs_write.c
 
 SRC_SIGN := signals.c
 
-SRC_EXP  := expand.c
+SRC_EXP  := expand.c expand_utils.c
 
 SRC_EXEC := exec.c
 
 SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c
 
-SRC_LEX  := lex.c token.c word_utils.c
+SRC_LEX  := lex.c token.c word_utils.c token_utils.c
 
 SRC_RL   := readline.c
 

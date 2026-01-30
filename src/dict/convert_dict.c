@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 09:54:11 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 18:29:29 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*build_exp_line(char *key, char *value)
 	return (line);
 }
 
-static char	*build_line(char *key, char *value, int	flag)
+static char	*build_line(char *key, char *value, int flag)
 {
 	char	*tmp;
 	char	*line;
@@ -50,9 +50,7 @@ static char	*build_line(char *key, char *value, int	flag)
 	if (!key)
 		return (NULL);
 	tmp = ft_strdup(key);
-	if (!tmp)
-		return (NULL);
-	if (!value)
+	if (!tmp || !value)
 		return (tmp);
 	tmp2 = ft_strjoin(tmp, "=");
 	if (!tmp2)

@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   heredocs_fork.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 15:20:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:54:00 by miniplop         ###   ########.fr       */
+/*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
+/*   Updated: 2026/01/30 18:56:47 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "../../Includes/heredocs.h"
+#include <sys/wait.h>
 
-#include "ast.h"
-#include <fcntl.h>
-#include <stdio.h>
+void	here(t_btree *ast, t_dict *d_env)
+{
+	int	pid;
 
-int	expand_flatten(t_list *cmds, t_dict *d_env);
-int	expand_str(char **str, t_dict *d_env);
-
-#endif
+	pid = fork();
+	if (pid == 0)
+	{
+		rl_clear_history();
+		dict_destroy(d_env, free);
+		create_heredocs(ast);
+		ast_destroy(ast);
+		exit (0);
+	}
+	waitpid(pid, NULL, 0);
+}

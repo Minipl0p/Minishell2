@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 12:01:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/23 23:24:08 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 18:56:43 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 int		write_heredoc(int fd, t_redir *redir);
 int		create_heredocs(t_btree *ast);
 void	unlink_all(t_btree *ast);
-
-//-------get one line-----------
-char	*get_one_line(int fd);
 void	here(t_btree *ast, t_dict *d_env);
 
 #endif

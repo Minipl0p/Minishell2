@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 18:05:25 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 13:12:44 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 19:02:48 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,57 +54,6 @@ void	display_tokens(t_token *token_lst)
 		tmp = tmp->next;
 		if (tmp)
 			printf("\n");
-	}
-}
-
-static t_token	*token_last(t_token *token_lst)
-{
-	if (!token_lst)
-		return (NULL);
-	while (token_lst->next)
-		token_lst = token_lst->next;
-	return (token_lst);
-}
-
-t_token	*new_token(t_token_type type, char *content)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->value = content;
-	token->next = NULL;
-	return (token);
-}
-
-void	add_token(t_token **token_lst, t_token *token)
-{
-	t_token	*last;
-
-	if (!token_lst || !token)
-		return ;
-	if (!*token_lst)
-	{
-		*token_lst = token;
-		return ;
-	}
-	last = token_last(*token_lst);
-	last->next = token;
-}
-
-void	destroy_token(t_token *token_lst)
-{
-	t_token	*next;
-
-	while (token_lst)
-	{
-		next = token_lst->next;
-		if (token_lst->value)
-			free(token_lst->value);
-		free(token_lst);
-		token_lst = next;
 	}
 }
 
