@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/29 16:49:30 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:13:23 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	redir_fds(t_pipeline *data, int i)
 
 int	exec_child_built_in(int fctn, t_pipeline *data)
 {
-	static int (*const f_built_in[8])(t_btree *ast, t_dict *d_env) = {
+	static int (*const f_built_in[8])(t_ast_node *cmd, t_dict *d_env) = {
 	[1] = ft_cd,
 	[2] = ft_echo,
     [3] = ft_env,
@@ -88,7 +88,7 @@ int	exec_child_built_in(int fctn, t_pipeline *data)
 	};
 	int	status;
 
-	status = f_built_in[fctn](data->ast, data->dict);
+	status = f_built_in[fctn](data->cmds->content, data->dict);
 	ast_destroy(data->ast);
 	dict_destroy(data->dict, free);
 	free_cmd_list(data->cmds);
@@ -137,6 +137,8 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	{
 		free(path);
 		free(data->pids);
+		dict_destroy(data->dict, free);
+		free_cmd_list(data->cmds);
 		free_cmd_list(data->cmds);
 		ft_free_arr((void **)data->ev);
 		perror("execve");

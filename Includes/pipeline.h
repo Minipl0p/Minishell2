@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:13:49 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/28 10:27:16 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:26:10 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ int		init_pipeline(t_pipeline *data, t_dict *dict, t_btree *ast, t_list *cmds);
 char	*parse_path(t_dict *dict, char **cmd);
 int		run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast);
 int		set_fds(t_pipeline *data, t_list *cmds);
-int		exec_ast(t_btree *ast, t_dict *dict);
+int		exec_ast(t_btree *ast, t_dict *dict, t_btree *root);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:39:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:03:53 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 12:37:25 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,29 @@ void	print_args(char **args, int no_nl)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-int	echo(t_btree *ast, t_dict *d_env)
+int	ft_echo(t_ast_node *cmd, t_dict *d_env)
 {
 	int		i;
 	int		j;
 	int		no_nl;
-	char	**cmd;
+	char	**cmds;
 
-	cmd = ((t_ast_node *)ast->content)->argv;
+	cmds = cmd->argv;
 	(void)d_env;
-	if (ft_strcmp(cmd[0], "echo"))
+	if (ft_strcmp(cmds[0], "echo"))
 		return (-1);
 	j = 1;
 	no_nl = 0;
-	while (!ft_strncmp(cmd[j], "-n", 2))
+	while (!ft_strncmp(cmds[j], "-n", 2))
 	{
-		i = 0;
-		while (cmd[j][i] && cmd[j][i] == 'n')
+		i = 1;
+		while (cmds[j][i] && cmds[j][i] == 'n')
 			i++;
-		if (cmd[j][i] != '\0')
+		if (cmds[j][i] != '\0')
 			break ;
 		no_nl = 1;
 		j++;
 	}
-	print_args(cmd + j, no_nl);
+	print_args(cmds + j, no_nl);
 	return (0);
 }

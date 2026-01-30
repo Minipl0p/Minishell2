@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 17:01:12 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:06:44 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	set_raw(char *raw, t_dict **d_env)
 	{
 		key = ft_substr(raw, 0, len);
 		value = ft_strdup(raw + len + 1);
-		if (!key || !value || dict_set(*d_env, key, value) < 0)
+		if (!key || !value || dict_set(*d_env, key, value, free) < 0)
 		{
 			if (key)
 				free(key);

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/27 11:48:31 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 09:54:11 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 static char	*build_exp_line(char *key, char *value)
 {
 	char	*line;
+	int		len_v;
 
-	line = ft_calloc(sizeof(char), ft_strlen(key) + ft_strlen(value) + 4);
-	if (line)
+	if (!key)
 		return (NULL);
-	line = ft_strcat(line, key);
+	if (!value)
+		len_v = 0;
+	else
+		len_v = ft_strlen(value);
+	line = ft_calloc(sizeof(char), ft_strlen(key) + len_v + 4);
+	if (!line)
+		return (NULL);
+	ft_strcat(line, key);
 	if (value)
 	{
-		line = ft_strcat(line, "=\"");
-		line = ft_strcat(line, value);
-		line = ft_strcat(line, "\"");
+		ft_strcat(line, "=\"");
+		ft_strcat(line, value);
+		ft_strcat(line, "\"");
 	}
 	return (line);
 }

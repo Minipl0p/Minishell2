@@ -6,19 +6,19 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:02:57 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:07:31 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
 
-static void	free_cd_res(char *old, char *dest, int flags)
-{
-	if (flags & 1)
-		free(old);
-	if (flags & 2)
-		free(dest);
-}
+// static void	free_cd_res(char *old, char *dest, int flags)
+// {
+// 	if (flags & 1)
+// 		free(old);
+// 	if (flags & 2)
+// 		free(dest);
+// }
 
 static char	*get_old(t_dict *d_env, unsigned char *flags)
 {
@@ -63,23 +63,20 @@ static void	update_pwd(t_dict *env, char *oldpwd)
 {
 	char	*curr;
 
-	dict_set(env, "OLDPWD", oldpwd);
+	dict_set(env, "OLDPWD", oldpwd, free);
 	curr = getcwd(NULL, 0);
 	if (curr)
-	{
-		dict_set(env, "PWD", curr);
-		free(curr);
-	}
+		dict_set(env, "PWD", curr, free);
 }
 
-int	ft_cd(t_btree *ast, t_dict *d_env)
+int	ft_cd(t_ast_node *cmd, t_dict *d_env)
 {
 	char			*dest;
 	char			*old;
 	unsigned char	flags;
 	char	**args;
 
-	args = ((t_ast_node *)ast->content)->argv;
+	args = cmd->argv;
 	if (args[1] && args[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
@@ -94,10 +91,8 @@ int	ft_cd(t_btree *ast, t_dict *d_env)
 	{
 		if (dest)
 			ft_putendl_fd("minishell: cd failed", STDOUT_FILENO);
-		free_cd_res(old, dest, flags);
 		return (1);
 	}
 	update_pwd(d_env, old);
-	free_cd_res(old, dest, flags);
 	return (0);
 }

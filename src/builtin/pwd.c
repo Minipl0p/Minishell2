@@ -6,19 +6,19 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 23:50:08 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:01:59 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 12:41:35 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
+#include <unistd.h>
 
-int	ft_pwd(t_btree *ast, t_dict *d_env)
+int	ft_pwd(t_ast_node *cmd, t_dict *d_env)
 {
 	char	*path;
-	char	*dir;
 	char	**args;
 
-	args = ((t_ast_node *)ast->content)->argv;
+	args = cmd->argv;
 	(void)d_env;
 	if (!args || args[1] || ft_strcmp(args[0], "pwd"))
 		return (1);
@@ -26,7 +26,7 @@ int	ft_pwd(t_btree *ast, t_dict *d_env)
 	if (!path)
 	{
 		ft_putendl_fd("Minishell : pwd failed", STDERR_FILENO);
-		return (NULL);
+		return (-1);
 	}
 	ft_putendl_fd(path, STDOUT_FILENO);
 	free(path);

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/29 12:34:11 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:25:38 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = read_minish();
-		ast = pars(line, d_env);
 		if (!line)
+			break ;
+		if (*line)
 		{
-			ast_destroy(ast);
-			dict_destroy(d_env, free);
-			rl_clear_history();
-			return (0);
+			ast = pars(line, d_env);
+			if (ast)
+			{
+				exec_ast(ast, d_env, ast);
+				ast_destroy(ast);
+			}
 		}
-		exec_ast(ast, d_env);
-		if (ast)
-			ast_destroy(ast);
 		free(line);
 	}
 	dict_destroy(d_env, free);

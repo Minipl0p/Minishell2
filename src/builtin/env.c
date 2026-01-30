@@ -6,19 +6,19 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/26 10:04:14 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 12:37:21 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
 
-int	ft_env(t_btree *ast, t_dict *d_env)
+int	ft_env(t_ast_node *cmd, t_dict *d_env)
 {
 	char	**env;
 	int		i;
 	char	**args;
 
-	args = ((t_ast_node *)ast->content)->argv;
+	args = cmd->argv;
 	if (!d_env || !args || !*args)
 		return (1);
 	if (ft_strcmp(*args, "env"))
@@ -28,14 +28,14 @@ int	ft_env(t_btree *ast, t_dict *d_env)
 		ft_putstr_fd("minishell: env: too many arguments\n", 2);
 		return (2);
 	}
-	env = dict_to_env(d_env);
+	env = dict_to_env(d_env, ENV);
 	if (!env)
 		return (1);
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		if (ft_strchr(env[i], '='))
-				ft_putendl_fd(env[i++], STDOUT_FILENO);
+				ft_putendl_fd(env[i], STDOUT_FILENO);
 	}
 	ft_free_arr((void **)env);
 	return (0);

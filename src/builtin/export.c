@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/29 17:11:07 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/01/30 14:03:19 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static char	**parse_no_eq(char *arg)
 static char	**parse_replace(char *arg, char *eq)
 {
 	char	**p;
-//	char	*content;
 
 	p = ft_calloc(sizeof(char *), 3);
 	if (!p)
@@ -61,9 +60,12 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 		return (NULL);
 	p[0] = ft_strndup(arg, eq - 1 - arg);
 	if (!(p[0]))
+	{
+		free(p);
 		return (NULL);
+	}
 	content = dict_get(d, p[0]);
-	p[1] = ft_calloc(sizeof(char), ft_strlen(content) + ft_strlen(eq));
+	p[1] = ft_calloc(sizeof(char), ft_strlen(content) + ft_strlen(eq) + 1);
 	if (!p[1])
 	{
 		ft_free_arr((void **)p);
@@ -74,7 +76,7 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 	return (p);
 }
 
-int	ft_export(t_btree *ast, t_dict *d_env)
+int	ft_export(t_ast_node *cmd, t_dict *d_env)
 {
 	int		ret;
 	int		i;
@@ -82,7 +84,7 @@ int	ft_export(t_btree *ast, t_dict *d_env)
 	char	*eq;
 	char	**args;
 
-	args = ((t_ast_node *)ast->content)->argv;
+	args = cmd->argv;
 	if (!args[1])
 		return (ft_export_no_args(d_env));
 	else
@@ -92,18 +94,16 @@ int	ft_export(t_btree *ast, t_dict *d_env)
 		{
 			eq = ft_strchr(args[i], '=');
 			if (eq && *(eq - 1) == '+')
-				parsed = parse_append(args[1], eq, d_env);
+				parsed = parse_append(args[i], eq, d_env);
 			else if (eq)
-				parsed = parse_replace(args[1], eq);
+				parsed = parse_replace(args[i], eq);
 			else
-				parsed = parse_no_eq(args[1]);
+				parsed = parse_no_eq(args[i]);
 			if (parsed)
-				ret = dict_set(d_env, parsed[0], parsed[1]);
-			// j'ai ajouter ca pour compiler
-			if (!ret)
-				ret = -1;
-			ft_free_arr((void **)parsed);
+				ret = dict_set(d_env, parsed[0], parsed[1], free);
+			free(parsed[0]);
+			free(parsed);
 		}
 	}
-	return (0);
+	return (ret);
 }
