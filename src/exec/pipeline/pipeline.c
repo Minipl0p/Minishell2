@@ -6,17 +6,19 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/31 09:17:11 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:37:23 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
+#include <signal.h>
 
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 {
 	char	*path;
 	int		fctn;
 
+	signal(SIGINT, SIG_DFL);
 	redir_fds(data, i);
 	fctn = is_forkable(cmd);
 	if (fctn)
@@ -47,6 +49,7 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 		if (pipe(data->p_fd) == -1)
 			return (-1);
 	}
+	signal(SIGINT, SIG_IGN);
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
 	{
@@ -104,6 +107,7 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 		cmd_lst = cmd_lst->next;
 	}
 	status = wait_all(&data);
+	signal(SIGINT, SIG_DFL);
 	if (data.prev_fd != -1)
 		close(data.prev_fd);
 	free(data.pids);

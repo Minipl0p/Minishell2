@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/30 23:09:09 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:30:05 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ char	*parse_path(t_dict *dict, char **cmd)
 	char	*path;
 	char	*tmp;
 
+	if (cmd[0] && ft_strchr(cmd[0], '/'))
+	{
+		path = ft_strdup(cmd[0]);
+		return (path);
+	}
 	tmp = dict_get(dict, "PATH");
 	path_ar = ft_split(tmp, ':');
 	if (!path_ar || !tmp)
