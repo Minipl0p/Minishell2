@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 11:56:20 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 19:16:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 19:41:09 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,8 @@ int	expand_flatten(t_list *cmds, t_dict *d_env)
 	err = expand_argv(((t_ast_node *)cmds->content)->argv, d_env);
 	if (err == -1)
 		return (-1);
-	// argv
 	// redir other 
 	// redir explore_heredocs
-	while (head)
-	{
-		err = explore((t_ast_node *)head->content, d_env, expand_str);
-		head = head->next;
-	}
+	// liste chaine de cmd !
 	return (err);
 }
