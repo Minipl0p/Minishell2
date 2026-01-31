@@ -6,67 +6,69 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 11:56:20 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:53:23 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 19:16:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/expand.h"
+#include <stdio.h>
 
-static int	explore_heredocs(t_redir *head, t_dict *d_env,
-		int (*f)(char **, t_dict *))
+char	**manage_interpretor(char *argv, t_dict *d_env)
 {
-	int		fd;
-	int		err;
-	char	*line;
-	int		flag;
+	char	*tmp;
+	char	**new;
 
-	fd = open(head->target, O_RDWR, 0644);
-	if (fd < 0)
-		return (-1);
-	flag = 1;
-	while (flag || line)
-	{
-		flag = 0;
-		line = get_next_line(fd);
-		err = f(&line, d_env);
-		if (err < 0)
-		{
-			free(line);
-			close(fd);
-			return (-1);
-		}
-		free(line);
-	}
-	close(fd);
-	return (err);
+	tmp = expand_str(argv, d_env);
+	if (!tmp)
+		return (NULL);
+	new = split_quoted(tmp);
+	free(tmp);
+	return (new);
 }
 
-static int	explore(t_ast_node *n, t_dict *d_env, int (*f)(char **, t_dict *))
+char	**manage_wildcard(char *argv, t_dict *d_env)
 {
-	int		i;
-	int		err;
-	t_redir	*head;
+	char	**new;
+	char	*tmp;
 
-	if (n->type != AST_COMMAND)
-		return (0);
-	i = -1;
-	while (n->argv[++i])
+	(void)d_env;
+	tmp = expand_wildcard(argv);
+	if (!tmp)
+		return (NULL);
+	new = split_quoted(tmp);
+	free(tmp);
+	return (new);
+}
+
+static int	manage(char **argv, t_dict *d_env, char **(*f)(char *, t_dict *))
+{
+	int		ret;
+	int		i;
+	char	**new;
+
+	i = 0;
+	while (argv[i])
 	{
-		err = f(&(n->argv[i]), d_env);
-		if (err < 0)
+		new = f(argv[i], d_env);
+		if (!new)
 			return (-1);
-	}
-	head = n->redirs;
-	while (head)
-	{
-		if (head->type == R_HEREDOC)
-			err = explore_heredocs(head, d_env, f);
-		else
-			err = f(&(head->target), d_env);
-		if (err < 0)
+		ret = insert_arr(argv, i, new);
+		ft_free_arr((void **)new);
+		if (ret == -1)
 			return (-1);
-		head = head->next;
+		i++;
 	}
+	return (0);
+}
+
+static int	expand_argv(char **argv, t_dict *d_env)
+{
+	if (manage(argv, d_env, manage_interpretor) == -1)
+		return (-1);
+	if (manage(argv, d_env, manage_wildcard) == -1)
+		return (-1);
+	if (remove_quote(argv) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -78,6 +80,12 @@ int	expand_flatten(t_list *cmds, t_dict *d_env)
 	if (!cmds)
 		return (0);
 	head = cmds;
+	err = expand_argv(((t_ast_node *)cmds->content)->argv, d_env);
+	if (err == -1)
+		return (-1);
+	// argv
+	// redir other 
+	// redir explore_heredocs
 	while (head)
 	{
 		err = explore((t_ast_node *)head->content, d_env, expand_str);

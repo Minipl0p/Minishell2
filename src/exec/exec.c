@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 23:51:08 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 16:36:24 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static int	exec_or(t_btree *ast, t_dict *d_env, t_btree *root)
 
 static int	exec_subtree(t_btree *ast, t_dict *d_env, t_btree *root)
 {
-	int	pid;
-	int	ret;
+	pid_t	pid;
+	int		ret;
 
 	pid = fork();
 	if (pid == -1)

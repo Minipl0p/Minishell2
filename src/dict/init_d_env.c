@@ -6,11 +6,26 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 13:06:44 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 17:34:56 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/dict.h"
+
+static int	set_return_status(t_dict *d_env)
+{
+	char	*value;
+
+	value = ft_strdup("0");
+	if (!value)
+	{
+		dict_destroy(d_env, free);
+		return (-1);
+	}
+	if (dict_set(d_env, "?", value, free) == - 1)
+		free(value);
+	return (0);
+}
 
 static int	len_key(char *str)
 {
@@ -69,5 +84,7 @@ t_dict	*init_d_env(char **env)
 			return (NULL);
 		size++;
 	}
+	if (set_return_status(d_env) == -1)
+		return (NULL);
 	return (d_env);
 }

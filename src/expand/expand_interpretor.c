@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   expand_interpretor.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:52:56 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 13:25:44 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 19:30:09 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,54 +47,30 @@ static char	*expand_key(char *str, int pos, t_dict *d_env)
 	return (new);
 }
 
-static char	*remove_quote(char *str, int pos)
+char	*expand_str(char *str, t_dict *d_env)
 {
+	int		i;
+	int		flag;
 	char	*new;
-
-	if (!str)
-		return (0);
-	new = ft_calloc(sizeof(char), ft_strlen(str));
-	if (!new)
-		return (NULL);
-	ft_strlcat(new, str, pos + 1);
-	ft_strcat(new, str + pos + 1);
-	free(str);
-	return (new);
-}
-
-static void	expand_str_step(int *flag, char **str, int *i, t_dict *d_env)
-{
-	if (*flag == 0 && ((*str)[*i] == '\'' || (*str)[*i] == '\"'))
-	{
-		*flag += ((*str)[*i] == '\'') + 2 * ((*str)[*i] == '\"');
-		*str = remove_quote(*str, *i);
-	}
-	else if (*flag != 1 && (*str)[*i] == '$')
-		*str = expand_key(*str, *i + 1, d_env);
-	else if ((*flag == 1 && (*str)[*i] == '\'')
-			|| (*flag == 2 && (*str)[*i] == '\"'))
-	{
-		*flag -= ((*str)[*i] == '\'') + 2 * ((*str)[*i] == '\"');
-		*str = remove_quote(*str, *i);
-	}
-	else
-		(*i)++;
-}
-
-int	expand_str(char **str, t_dict *d_env)
-{
-	int	i;
-	int	flag;
 
 	i = 0;
 	flag = 0;
-	if (!str || !(*str))
-		return (-1);
-	while ((*str)[i])
+	if (!str)
+		return (NULL);
+	new = ft_strdup(str);
+	while (new[i])
 	{
-		expand_str_step(&flag, str, &i, d_env);
-		if (!*str)
-			return (-1);
+		if (flag == 0 && (new[i] == '\'' || new[i] == '"'))
+			flag += (new[i] == '\'') + 2 * (new[i] == '"');
+		else if (flag != 1 && new[i] == '$')
+			new = expand_key(new, i + 1, d_env);
+		else if ((flag == 1 && new[i] == '\'')
+				|| (flag == 2 && new[i] == '\"'))
+			flag -= (new[i] == '\'') + 2 * (new[i] == '"');
+		else
+			i++;
+		if (!new)
+			return (NULL);
 	}
-	return (0);
+	return (new);
 }
