@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:52:56 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:53:47 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 13:25:44 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*remove_quote(char *str, int pos)
 
 static void	expand_str_step(int *flag, char **str, int *i, t_dict *d_env)
 {
-	if (flag == 0 && ((*str)[*i] == '\'' || (*str)[*i] == '\"'))
+	if (*flag == 0 && ((*str)[*i] == '\'' || (*str)[*i] == '\"'))
 	{
 		*flag += ((*str)[*i] == '\'') + 2 * ((*str)[*i] == '\"');
 		*str = remove_quote(*str, *i);

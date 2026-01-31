@@ -6,25 +6,25 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/22 22:54:22 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 11:09:21 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/readline.h"
 
-static char	*get_prompt(void)
+static char	*get_prompt(t_dict *d_env)
 {
 	char	*cwd;
 	char	*base;
 	char	*prompt;
 
-	cwd = getcwd(NULL, 0);
+	cwd = ft_strdup(dict_get(d_env, "PWD"));
 	if (!cwd)
 	{
 		cwd = ft_strdup("?");
 		if (!cwd)
 			return (cwd);
-		prompt = ft_strjoin(cwd, ":🐌>");
+		prompt = ft_strjoin(cwd, ":⛏️> ");
 		free(cwd);
 		return (prompt);
 	}
@@ -38,12 +38,12 @@ static char	*get_prompt(void)
 	return (prompt);
 }
 
-char	*read_minish(void)
+char	*read_minish(t_dict *d_env)
 {
 	char	*line;
 	char	*prompt;
 
-	prompt = get_prompt();
+	prompt = get_prompt(d_env);
 	if (!prompt)
 		return (NULL);
 	line = readline(prompt);

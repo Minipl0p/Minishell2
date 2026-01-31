@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 00:39:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 11:08:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	while (1)
 	{
-		line = read_minish();
+		line = read_minish(d_env);
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
