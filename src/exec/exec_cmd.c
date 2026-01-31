@@ -6,18 +6,19 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 21:54:55 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 22:29:01 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:13:10 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/pipeline.h"
 
-static int	apply_redirections(t_redir *redir)
+static int	unforkable_builtin(t_ast_node *cmd, t_dict *d_env,
+		int (*f)(t_ast_node *, t_dict *))
 {
-	int		fd;
 	t_redir	*head;
+	int		fd;
 
-	head = redir;
+	head = cmd->redirs;
 	while (head)
 	{
 		if (head->type == R_IN || head->type == R_HEREDOC)
@@ -31,48 +32,57 @@ static int	apply_redirections(t_redir *redir)
 			perror(head->target);
 			return (-1);
 		}
-		if (head->type == R_IN || head->type == R_HEREDOC)
-			dup2(fd, STDIN_FILENO);
-		else
-			dup2(fd, STDOUT_FILENO);
 		close(fd);
 		head = head->next;
 	}
-	return (0);
+	fd = f(cmd, d_env);
+	return (fd);
 }
 
-static int	exec_builtin(t_ast_node *cmd, t_dict *d_env,
-		int (*f)(t_ast_node *, t_dict *))
+int	is_forkable(t_ast_node *cmd)
 {
-	int	ret;
-
-	if (apply_redirections(cmd->redirs) == -1)
-	{
-		dup2(0, STDIN_FILENO);
-		dup2(1, STDOUT_FILENO);
+	if (!cmd)
+		return (0);
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (1);
-	}
-	ret = f(cmd, d_env);
-	dup2(0, STDIN_FILENO);
-	dup2(1, STDOUT_FILENO);
-	return (ret);
+	if (!ft_strcmp(cmd->argv[0], "env"))
+		return (2);
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (3);
+	if ((!ft_strcmp(cmd->argv[0], "export")) && !cmd->argv[1])
+		return (4);
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		return (5);
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (6);
+	if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (7);
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (8);
+	return (0);
 }
 
 int	exec_cmd(t_btree *ast, t_dict *d_env, t_btree *root)
 {
-	static int (*const	f_built_in[8])(t_ast_node *cmd, t_dict *d_env) = {
-	[1] = ft_cd, [2] = ft_echo, [3] = ft_env, [4] = ft_exit,
-	[5] = ft_export, [6] = ft_pwd, [7] = ft_unset};
+	static int (*const	f_built_in[9])(t_ast_node *cmd, t_dict *d_env) = {
+	[1] = ft_pwd,
+	[2] = ft_env,
+	[3] = ft_echo,
+	[4] = ft_export_no_args,
+	[5] = ft_export,
+	[6] = ft_cd,
+	[7] = ft_exit,
+	[8] = ft_unset};
 	t_list				*cmds;
 	int					ret;
 
 	cmds = NULL;
 	pipe_flatten(ast, &cmds);
 	expand_flatten(cmds, d_env);
-	ret = is_built_in((t_ast_node *)ast->content);
-	if (ret)
+	ret = is_forkable((t_ast_node *)cmds->content);
+	if (ret >= 5 && !cmds->next)
 	{
-		ret = exec_builtin(cmds->content, d_env, f_built_in[ret]);
+		ret = unforkable_builtin(cmds->content, d_env, f_built_in[ret]);
 		free_cmd_list(cmds);
 		return (ret);
 	}

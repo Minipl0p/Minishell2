@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 22:25:11 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/30 23:51:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	exec_ast(t_btree *ast, t_dict *d_env, t_btree *root)
 	ret = 0;
 	if (((t_ast_node *)ast->content)->type == AST_PIPE)
 		ret = exec_pipeline(ast, d_env, root);
-	else if (((t_ast_node *)ast->content)->type == AST_COMMAND)
+	if (((t_ast_node *)ast->content)->type == AST_COMMAND)
 		ret = exec_cmd(ast, d_env, root);
-	else if (((t_ast_node *)ast->content)->type == AST_OR)
+	if (((t_ast_node *)ast->content)->type == AST_OR)
 		ret = exec_or(ast, d_env, root);
-	else if (((t_ast_node *)ast->content)->type == AST_AND)
+	if (((t_ast_node *)ast->content)->type == AST_AND)
 		ret = exec_and(ast, d_env, root);
-	else if (((t_ast_node *)ast->content)->type == AST_SUBTREE)
+	if (((t_ast_node *)ast->content)->type == AST_SUBTREE)
 		ret = exec_subtree(ast, d_env, root);
 	return (ret);
 }

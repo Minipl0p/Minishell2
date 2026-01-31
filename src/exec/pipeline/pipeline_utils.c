@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 23:08:28 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:17:41 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,15 @@ void	redir_fds(t_pipeline *data, int i)
 
 int	exec_child_built_in(int fctn, t_pipeline *data)
 {
-	static int (*const	f_built_in[8])(t_ast_node *cmd, t_dict *d_env) = {
-	[1] = ft_cd, [2] = ft_echo, [3] = ft_env, [4] = ft_exit,
-	[5] = ft_export, [6] = ft_pwd, [7] = ft_unset};
+	static int (*const	f_built_in[9])(t_ast_node *cmd, t_dict *d_env) = {
+	[1] = ft_pwd,
+	[2] = ft_env,
+	[3] = ft_echo,
+	[4] = ft_export_no_args,
+	[5] = ft_export,
+	[6] = ft_cd,
+	[7] = ft_exit,
+	[8] = ft_unset};
 	int					status;
 
 	status = f_built_in[fctn](data->cmds->content, data->dict);
@@ -92,13 +98,11 @@ int	exec_child_built_in(int fctn, t_pipeline *data)
 	dict_destroy(data->dict, free);
 	free_cmd_list(data->cmds);
 	ft_free_arr((void **)data->ev);
-	free(data->pids);
-	if (data->in_fd > 2)
-		close(data->in_fd);
-	if (data->out_fd > 2)
-		close(data->out_fd);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (data->prev_fd != -1)
 		close(data->prev_fd);
+	free(data->pids);
 	return (status);
 }
 

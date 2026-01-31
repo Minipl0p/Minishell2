@@ -6,11 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 21:55:10 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 00:39:02 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 static t_btree	*pars(char *line, t_dict *d_env)
 {

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:52:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:26:49 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:21:01 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	print_arr(char **arr)
 	int	i;
 
 	i = 0;
+	if (!arr || !*arr)
+		return ;
 	while (arr[i])
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
@@ -26,16 +28,16 @@ static void	print_arr(char **arr)
 	return ;
 }
 
-int	ft_export_no_args(t_dict *d_env)
+static char	**sort_env(t_dict *d_env)
 {
 	char	**exp;
-	char	*tmp;
 	int		i;
 	size_t	j;
+	char	*tmp;
 
 	exp = dict_to_env(d_env, EXP);
 	if (!exp)
-		return (1);
+		return (NULL);
 	j = -1;
 	while (++j < d_env->count - 1)
 	{
@@ -50,6 +52,15 @@ int	ft_export_no_args(t_dict *d_env)
 			}
 		}
 	}
+	return (exp);
+}
+
+int	ft_export_no_args(t_ast_node *cmd, t_dict *d_env)
+{
+	char	**exp;
+
+	(void)cmd;
+	exp = sort_env(d_env);
 	print_arr(exp);
 	ft_free_arr((void **)exp);
 	return (0);

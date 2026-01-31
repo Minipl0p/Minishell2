@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 17:02:26 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 08:27:44 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 
 	args = cmd->argv;
 	if (!args[1])
-		return (ft_export_no_args(d_env));
+		return (ft_export_no_args(cmd, d_env));
 	else
 	{
 		i = 0;

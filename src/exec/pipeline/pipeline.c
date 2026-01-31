@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/30 23:06:56 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/01/31 09:17:11 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	int		fctn;
 
 	redir_fds(data, i);
-	fctn = is_built_in(cmd);
+	fctn = is_forkable(cmd);
 	if (fctn)
 	{
 		fctn = exec_child_built_in(fctn, data);
@@ -79,7 +79,6 @@ static void	run_pipeline_step(t_pipeline *data, t_list *cmd_lst,
 		close(data->in_fd);
 	if (data->out_fd > 2)
 		close(data->out_fd);
-	cmd_lst = cmd_lst->next;
 	data->in_fd = -1;
 	data->out_fd = -1;
 	(*i)++;
@@ -100,7 +99,10 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 	status = 0;
 	i = 0;
 	while (i < data.cmd_count)
+	{
 		run_pipeline_step(&data, cmd_lst, &status, &i);
+		cmd_lst = cmd_lst->next;
+	}
 	status = wait_all(&data);
 	if (data.prev_fd != -1)
 		close(data.prev_fd);
