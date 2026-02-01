@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 08:27:44 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/01 13:01:48 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
+#include <unistd.h>
 
 static char	**parse_no_eq(char *arg)
 {
@@ -71,8 +72,8 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 		ft_free_arr((void **)p);
 		return (NULL);
 	}
-	p[1] = ft_strcat(p[1], dict_get(d, p[0]));
-	p[1] = ft_strcat(p[1], eq + 1);
+	ft_strcat(p[1], content);
+	ft_strcat(p[1], eq + 1);
 	return (p);
 }
 
@@ -107,9 +108,18 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 		return (ft_export_no_args(cmd, d_env));
 	else
 	{
-		i = 0;
-		while (args[++i])
+		i = 1;
+		while (args[i])
+		{
+			while (args[i] && !(args[i][0] == '_' || ft_isalpha(args[i][0])))
+			{
+				ft_putstr_fd(args[i], STDERR_FILENO);
+				ft_putendl_fd(": not valid identifier", STDERR_FILENO);
+				i++;
+			}
 			ret = export_step(args, d_env, i);
+			i++;
+		}
 	}
 	return (ret);
 }

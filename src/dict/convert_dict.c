@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:29:29 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/01 13:10:34 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,16 @@ static int	fill_env(t_dict *dict, char **env, int flag)
 		entry = dict->bucket[i];
 		while (entry)
 		{
-			line = build_line(entry->key, entry->value, flag);
-			if (!line)
+			if (entry->key && entry->key[0] != '?')
 			{
-				ft_free_arr((void **)env);
-				return (-1);
+				line = build_line(entry->key, entry->value, flag);
+				if (!line)
+				{
+					ft_free_arr((void **)env);
+					return (-1);
+				}
+				env[j++] = line;
 			}
-			env[j++] = line;
 			entry = entry->next;
 		}
 		i++;
@@ -102,7 +105,7 @@ char	**dict_to_env(t_dict *dict, int flag)
 		return (NULL);
 	count = dict->count + 1;
 	env = ft_calloc(sizeof(char *), (count + 1));
-	if (!flag)
+	if (!env)
 		return (NULL);
 	if (fill_env(dict, env, flag) < 0)
 		return (NULL);
