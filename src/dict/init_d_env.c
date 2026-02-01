@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 13:06:44 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/01 11:26:36 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ t_dict	*init_d_env(char **env)
 	int		size;
 	t_dict	*d_env;
 
-	size = 0;
+	size = 10;
 	if (!env)
 		return (NULL);
-	while (env[size])
+	while (env && env[size])
 		size++;
 	d_env = dict_create(size);
 	if (!d_env)
 		return (NULL);
 	size = 0;
-	while (env[size])
+	while (env && env[size])
 	{
 		if (set_raw(env[size], &d_env) < 0)
 			return (NULL);
