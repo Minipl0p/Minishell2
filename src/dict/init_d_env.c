@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/01 11:26:36 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/01 11:43:40 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/dict.h"
+#include <unistd.h>
 
 static int	len_key(char *str)
 {
@@ -49,6 +50,26 @@ static int	set_raw(char *raw, t_dict **d_env)
 	return (0);
 }
 
+static int	minimal_env(t_dict *d_env)
+{
+	char	*pwd_val;
+	char	*cwd;
+	char	*exit_status;
+
+	pwd_val = dict_get(d_env, "PWD");
+	if (pwd_val == NULL)
+	{
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+			dict_set(d_env, "PWD", cwd, free);
+	}
+	exit_status = ft_strdup("0");
+	if (!exit_status)
+		return (-1);
+	dict_set(d_env, "?", exit_status, free);
+	return (0);
+}
+
 t_dict	*init_d_env(char **env)
 {
 	int		size;
@@ -68,6 +89,11 @@ t_dict	*init_d_env(char **env)
 		if (set_raw(env[size], &d_env) < 0)
 			return (NULL);
 		size++;
+	}
+	if (minimal_env(d_env) == -1)
+	{
+		dict_destroy(d_env, free);
+		return (NULL);
 	}
 	return (d_env);
 }

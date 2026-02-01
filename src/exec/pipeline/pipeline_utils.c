@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 09:17:41 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/01 11:56:04 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ void	close_fds(t_pipeline *data, int i, int is_redir)
 {
 	if (i < data->cmd_count - 1)
 	{
-		close(data->p_fd[0]);
-		close(data->p_fd[1]);
+		if (data->p_fd[0] != -1)
+			close(data->p_fd[0]);
+		if (data->p_fd[1] != -1)
+			close(data->p_fd[1]);
+		data->p_fd[0] = -1;
+		data->p_fd[1] = -1;
 	}
 	if (is_redir == 1)
 	{
