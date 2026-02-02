@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 18:05:25 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/30 19:02:48 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:23:31 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,6 @@ void	display_type(t_token *token_lst)
 		printf("R_PAR : ");
 	if (token_lst->type == EOF_TOK)
 		printf("EOF_TOK : ");
-}
-
-void	display_tokens(t_token *token_lst)
-{
-	t_token	*tmp;
-
-	printf("=========TOKENS=========\n");
-	tmp = token_lst;
-	while (tmp)
-	{
-		display_type(tmp);
-		if (tmp->value)
-			printf("<%s>\n", tmp->value);
-		else
-			printf("NULL\n");
-		tmp = tmp->next;
-		if (tmp)
-			printf("\n");
-	}
 }
 
 int	create_token(t_token **token_lst, t_token_type type, char *content)

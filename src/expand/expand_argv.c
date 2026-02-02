@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 11:15:39 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 12:34:29 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 	i = 0;
 	while (step2_split[i])
 	{
-		if (expand_wildcard_and_unquote(step2_split[i], final_list) == -1)
+		if (expand_wildcard_and_unquote(step2_split[i], final_list, d_env) == -1)
 		{
 			ft_free_arr((void **)step2_split);
 			return (-1);
