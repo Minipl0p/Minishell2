@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 18:56:17 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 10:36:25 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	random_name(char *buf)
 	return (0);
 }
 
-static int	open_tmp_file(char **path)
+int	open_tmp_file(char **path)
 {
 	char	name[17];
 	int		fd;
