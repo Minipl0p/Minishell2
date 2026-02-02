@@ -6,12 +6,19 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/31 09:37:23 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:50:00 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
-#include <signal.h>
+
+static void	restore_signals()
+{
+	struct sigaction	sa;
+
+	init_signal(&sa, NULL, MAIN);
+	signal(SIGINT, SIG_DFL);
+}
 
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 {
@@ -107,7 +114,7 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 		cmd_lst = cmd_lst->next;
 	}
 	status = wait_all(&data);
-	signal(SIGINT, SIG_DFL);
+	retore_signals();
 	if (data.prev_fd != -1)
 		close(data.prev_fd);
 	free(data.pids);
