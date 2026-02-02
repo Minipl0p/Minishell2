@@ -6,12 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 11:42:08 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:44:18 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/expand.h"
 #include "../../Includes/heredocs.h"
+#include <unistd.h>
 
 static void	write_in_new_heredocs(char **line, int fd)
 {
@@ -44,6 +45,7 @@ static void	replace_target(int old_fd, int new_fd, t_redir *head, char *path)
 {
 	close(old_fd);
 	close(new_fd);
+	unlink(head->target);
 	free(head->target);
 	head->target = path;
 }
