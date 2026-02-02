@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:13:49 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/31 08:43:14 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:50:17 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "ast.h"
 # include "builtin.h"
 # include "expand.h"
+# include "signal.h"
 
 # include <fcntl.h>
 # include <sys/wait.h>
