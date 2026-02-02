@@ -6,39 +6,72 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 10:37:11 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:42:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/expand.h"
 #include "../../Includes/heredocs.h"
 
-static int	expand_heredocs(t_redir *head, t_dict *d_env)
+static void	write_in_new_heredocs(char **line, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (line && line[i])
+	{
+		write(fd, line[i], ft_strlen(line[i]));
+		i++;
+	}
+}
+
+static char	**expand_heredocs_line(char *str, t_dict *d_env)
+{
+	char	*step1_vars;
+	char	**step2_split;
+	t_list	*wildcard_list;
+	int		i;
+
+	step1_vars = expand_str_vars(str, d_env);
+	if (!step1_vars)
+		return (NULL);
+	step2_split = split_words_nquoted(step1_vars, ' ');
+	free(step1_vars);
+	return (step2_split);
+}
+
+static void	replace_target(int old_fd, int new_fd, t_redir *head, char *path)
+{
+	close(old_fd);
+	close(new_fd);
+	free(head->target);
+	head->target = path;
+}
+
+int	expand_heredocs(t_redir *head, t_dict *d_env)
 {
 	int		old_fd;
 	int		new_fd;
-	int		err;
+	char	*path;
 	char	*line;
-	int		flag;
+	char	**new_line;
 
 	old_fd = open(head->target, O_RDWR, 0644);
 	if (old_fd < 0)
 		return (-1);
-	new_fd = open_tmp_
-	flag = 1;
-	while (flag || line)
+	new_fd = open_tmp_file(&path);
+	if (new_fd == -1)
+		return (-1);
+	line = get_next_line(old_fd);
+	while (line)
 	{
-		flag = 0;
-		line = get_next_line(fd);
-		err = f(&line, d_env);
-		if (err < 0)
-		{
-			free(line);
-			close(fd);
-			return (-1);
-		}
+		new_line = expand_heredocs_line(line, d_env);
 		free(line);
+		if (!new_line)
+			return (-1);
+		write_in_new_heredocs(new_line, new_fd);
+		line = get_next_line(old_fd);
 	}
-	close(fd);
-	return (err);
+	replace_target(old_fd, new_fd, head, path);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 15:42:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 09:36:40 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:41:29 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	expand_single_redir(t_redir *redir, t_dict *env)
 
 	if (redir->type == R_HEREDOC && redir->expand == 1)
 	{
-		expand_heredoc(redir);
+		expand_heredocs(redir);
 		return (0);
 	}
 	res_list = NULL;

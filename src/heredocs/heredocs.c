@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 10:36:25 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/02 11:24:40 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	open_tmp_file(char **path)
 			break ;
 		free(*path);
 	}
-	fd = open(*path, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	fd = open(*path, O_CREAT | O_WRONLY | O_APPEND, 0600);
 	if (fd < 0)
 	{
 		free(*path);
