@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/02 17:03:50 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/03 16:44:42 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <dirent.h>
 #include "../../../libft/Includes/ft_list.h"
 #include "../../../libft/Includes/ft_dict.h"
+#include "../../../Includes/expand.h"
 
 int	add_to_expand_list(t_list **e_lst, char *str)
 {
@@ -35,7 +36,6 @@ static int	build_dir_lst(t_list **dir_lst)
 {
 	DIR				*curr_dir;
 	struct dirent	*curr_file;
-	t_list			*node;
 	char			*file_name;
 
 	curr_dir = opendir(".");
@@ -52,12 +52,58 @@ static int	build_dir_lst(t_list **dir_lst)
 		}
 		curr_file = readdir(curr_dir);
 	}
+	closedir(curr_dir);
 	return (0);
 }
 
-static int	expand_wildcards(char *str, int i, t_dict *d_env, t_list **lst)
+static char	*remove_lst_fctn(char *str, int pos)
+{
+	char	*new;
+
+	if (!str)
+		return (0);
+	new = ft_calloc(sizeof(char), ft_strlen(str));
+	if (!new)
+		return (NULL);
+	ft_strlcat(new, str, pos + 1);
+	ft_strcat(new, str + pos + 1);
+	free(str);
+	return (new);
+}
+
+int	remove_lst_quote(char **av)
+{
+	int		i;
+	int		flag;
+
+	flag = 0;
+	i = 0;
+	while ((*av)[i])
+	{
+		if (flag == 0 && ((*av)[i] == '\'' || (*av)[i] == '"'))
+		{
+			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
+			(*av) = remove_lst_fctn((*av), i);
+		}
+		else if ((flag == 1 && (*av)[i] == '\'')
+			|| (flag == 2 && (*av)[i] == '\"'))
+		{
+			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
+			(*av) = remove_lst_fctn((*av), i);
+		}
+		else
+			i++;
+		if (!*av)
+			return (-1);
+	}
+	return (0);
+}
+
+static int	expand_wildcards(char *str, t_list **lst)
 {
 	t_list	*dir_lst;
+	t_list	*head;
+	char	*tmp;
 
 	dir_lst = NULL;
 	if (build_dir_lst(&dir_lst) == -1)
@@ -65,19 +111,22 @@ static int	expand_wildcards(char *str, int i, t_dict *d_env, t_list **lst)
 		ft_lstclear(&dir_lst, free);
 		return (-1);
 	}
-	trunc_start();
-	trunc_middle();
-	trunc_end();
-
-	lst_remove_quote(dir_lst);
+	trunc_start(&dir_lst, str);
+	trunc_middle(&dir_lst, str);
+	trunc_last(&dir_lst, str);
+	head = dir_lst;
+	while (head)
+	{
+		tmp = (char *)head->content;
+		remove_lst_quote(&tmp);
+		head = head->next;
+	}
 	if (!*lst)
 		*lst = dir_lst;
 	else
 		ft_lstadd_back(lst, dir_lst);
 	return (0);
 }
-
-
 
 static int	is_expandable(char *str)
 {
@@ -100,15 +149,20 @@ static int	is_expandable(char *str)
 	return (0);
 }
 
-int	expand_wildcard_and_unquote(char *str, t_list **expand_lst, t_dict *d_env)
+int	e_wildcard_unquote(char *str, t_list **expand_lst)
 {
+	char	*new_str;
+
 	if (!str)
 		return (-1);
 	if (!is_expandable(str))
-		add_to_lst(expand_lst, str);
+	{
+		new_str = ft_strdup(str);
+		if (!new_str)
+			return (-1);
+		add_to_expand_list(expand_lst, new_str);
+	}
 	else
-		expand_wildcard(str, d_env, expand_lst);
+		expand_wildcards(str, expand_lst);
 	return (1);
 }
-
-//opendir(path)

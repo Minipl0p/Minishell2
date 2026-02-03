@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 15:42:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 11:41:29 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:41:41 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ int	check_ambiguous(t_list *lst)
 	return (0);
 }
 
-int	expand_single_redir(t_redir *redir, t_dict *env)
+int	expand_single_redir(t_redir *redir, t_dict *d_env)
 {
 	t_list	*res_list;
 	char	*new_target;
 
 	if (redir->type == R_HEREDOC && redir->expand == 1)
 	{
-		expand_heredocs(redir);
+		expand_heredocs(redir, d_env);
 		return (0);
 	}
 	res_list = NULL;
-	if (process_expand(redir->target, &res_list, env) == -1)
+	if (process_expand(redir->target, &res_list, d_env) == -1)
 		return (-1);
 	if (check_ambiguous(res_list) == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 12:34:29 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/03 16:41:22 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 {
 	char	*step1_vars;
 	char	**step2_split;
-	t_list	*wildcard_list;
 	int		i;
 
 	step1_vars = expand_str_vars(str, d_env);
@@ -29,7 +28,7 @@ int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 	i = 0;
 	while (step2_split[i])
 	{
-		if (expand_wildcard_and_unquote(step2_split[i], final_list, d_env) == -1)
+		if (e_wildcard_unquote(step2_split[i], final_list) == -1)
 		{
 			ft_free_arr((void **)step2_split);
 			return (-1);
@@ -40,7 +39,36 @@ int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 	return (0);
 }
 
-// ATTENTION la conversion list to char **, il ne faudrais pas free le content de la lst si on a pas strdup ou free si on strdup
+static char	**lst_to_arr(t_list *lst)
+{
+	char	**arr;
+	t_list	*head;
+	int		size;
+
+	size = ft_lstsize(lst);
+	arr = ft_calloc(size + 1, sizeof(char *));
+	if (arr)
+	{
+		size = 0;
+		head = lst;
+		while (head)
+		{
+			arr[size] = ft_strdup(((char *)head->content));
+			if (!arr[size])
+			{
+				ft_free_arr((void **)arr);
+				break ;
+			}
+			head = head->next;
+			size++;
+		}
+		ft_lstclear(&lst, free);
+		return (arr);
+	}
+	ft_lstclear(&lst, free);
+	return (NULL);
+}
+
 int	expand_argv_array(char ***argv_ptr, t_dict *env)
 {
 	char	**old_argv;
@@ -61,6 +89,5 @@ int	expand_argv_array(char ***argv_ptr, t_dict *env)
 	}
 	ft_free_arr((void **)old_argv);
 	*argv_ptr = lst_to_arr(lst_res);
-	ft_lstclear(&lst_res, free);
 	return (0);
 }

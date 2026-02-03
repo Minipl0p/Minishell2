@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/02 13:50:00 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:31:24 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 		cmd_lst = cmd_lst->next;
 	}
 	status = wait_all(&data);
-	retore_signals();
+	restore_signals();
 	if (data.prev_fd != -1)
 		close(data.prev_fd);
 	free(data.pids);

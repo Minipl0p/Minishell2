@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 11:44:48 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:40:57 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static char	**expand_heredocs_line(char *str, t_dict *d_env)
 {
 	char	*step1_vars;
 	char	**step2_split;
-	t_list	*wildcard_list;
-	int		i;
 
 	step1_vars = expand_str_vars(str, d_env);
 	if (!step1_vars)

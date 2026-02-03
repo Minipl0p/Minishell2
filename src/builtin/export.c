@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/01 13:01:48 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:33:17 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	export_step(char **args, t_dict *d_env, int i)
 	char	**parsed;
 	int		ret;
 
+	ret = -1;
 	eq = ft_strchr(args[i], '=');
 	if (eq && *(eq - 1) == '+')
 		parsed = parse_append(args[i], eq, d_env);
