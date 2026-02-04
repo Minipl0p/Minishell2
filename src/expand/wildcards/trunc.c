@@ -6,11 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 14:39:05 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/03 17:55:39 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/04 15:58:37 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/expand.h"
+#include <stdio.h>
 
 static char	*ft_strcpy_sep_skip(char *str, char sep, int len)
 {
@@ -62,34 +63,30 @@ static int	ft_strlen_sep_skip(char *str, char sep)
 	return (len);
 }
 
-static void	remove_lst(t_list **dir_lst, int count)
+static void	remove_lst(t_list **dir_lst, t_list *to_remove)
 {
-	t_list	*head;
+	t_list	*curr;
+	t_list	*prev;
 	t_list	*next;
-	int		i;
 
-	head = *dir_lst;
-	next = NULL;
 	if (!dir_lst || !*dir_lst)
 		return ;
-	i = 0;
-	while (i < count)
+	prev = *dir_lst;
+	curr = *dir_lst;
+	if (curr == to_remove)
 	{
-		head = head->next;
-		i++;
-	}
-	if (count == 0)
-	{
-		head = head->next;
-		free((*dir_lst)->content);
-		free(*dir_lst);
-		*dir_lst = head;
+		*dir_lst = curr->next;
+		ft_lstdelone(curr, free);
 		return ;
 	}
-	next = head->next->next;
-	free(head->next->content);
-	free(head->next);
-	head->next = next;
+	while (curr && curr != to_remove)
+	{
+		prev = curr;
+		curr = curr->next;
+		next = curr->next;
+	}
+	prev->next = next;
+	ft_lstdelone(curr, free);
 }
 
 int	trunc_start(t_list **dir_lst, char *arg)
@@ -97,22 +94,23 @@ int	trunc_start(t_list **dir_lst, char *arg)
 	int		len;
 	char	*start;
 	t_list	*head;
-	int		count;
-	int		size;
+	t_list	*to_del;
 
 	len = ft_strlen_sep_skip(arg, '*');
 	start = ft_strcpy_sep_skip(arg, '*', len);
 	if (!start)
 		return (-1);
 	head = *dir_lst;
-	count = 0;
-	size = ft_lstsize(*dir_lst);
-	while (count != size)
+	while (head)
 	{
-		if (ft_strncmp((*dir_lst)->content, start, len))
-			remove_lst(dir_lst, count);
-		count++;
-		size = ft_lstsize(*dir_lst);
+		if (ft_strncmp(head->content, start, len))
+		{
+			to_del = head;
+			head = head->next;
+			remove_lst(dir_lst, to_del);
+		}
+		else
+			head = head->next;
 	}
 	return (0);
 }
@@ -143,15 +141,13 @@ t_list	*create_word_lst(char *arg)
 	t_list	*word_lst;
 	char	*tmp;
 	char	*word;
-	int		i;
 	int		len;
 
 	word_lst = NULL;
-	i = 0;
 	tmp = skip_to_next_star(arg);
 	while (tmp)
 	{
-		if (!(tmp + 1))
+		if (!(*(tmp + 1)))
 			break ;
 		len = ft_strlen_sep_skip(tmp + 1, '*');
 		word = ft_strcpy_sep_skip(tmp + 1, '*', len);
@@ -186,19 +182,22 @@ int	trunc_middle(t_list **dir_lst, char *arg)
 {
 	t_list	*word_lst;
 	t_list	*head;
-	int		count;
+	t_list	*to_del;
 
 	word_lst = create_word_lst(arg);
 	if (!word_lst)
 		return (-1);
 	head = *dir_lst;
-	count = 0;
 	while (head)
 	{
 		if (is_correct_name(head, word_lst) < 0)
-			remove_lst(dir_lst, count);
-		count++;
-		head = head->next;
+		{
+			to_del = head;
+			head = head->next;
+			remove_lst(dir_lst, to_del);
+		}
+		else
+			head = head->next;
 	}
 	return (0);
 }
@@ -216,8 +215,8 @@ int	is_correct_char(t_list *head, int i, char c)
 void	trunc_last(t_list **dir_lst, char *arg)
 {
 	t_list	*head;
+	t_list	*to_del;
 	int		i;
-	int		count;
 	int		len;
 	int		flag;
 
@@ -229,13 +228,16 @@ void	trunc_last(t_list **dir_lst, char *arg)
 	{
 		if (flag == 0 && (arg[len - i] == '\'' || arg[len - i] == '"'))
 			flag += (arg[len - i] == '\'') + 2 * (arg[len - i] == '"');
-		count = 0;
 		while (head)
 		{
 			if (is_correct_char(head, i, arg[len - i] == 0))
-				remove_lst(dir_lst, count);
-			count++;
-			head = head->next;
+			{
+				to_del = head;
+				head = head->next;
+				remove_lst(dir_lst, to_del);
+			}
+			else
+				head = head->next;
 		}
 		if ((flag == 2 && arg[len - i] == '"') || (flag == 1 && arg[len - i] == '\''))
 			flag -= (arg[len - i] == '\'') + 2 * (arg[len - i] == '"');
