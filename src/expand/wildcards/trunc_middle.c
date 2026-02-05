@@ -6,10 +6,9 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:58:35 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/04 20:20:38 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/05 13:22:59 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../Includes/expand.h"
 #include "../../../libft/Includes/ft_list.h"
@@ -46,8 +45,7 @@ static char	*skip_to_next_star(char *arg)
 			return (&arg[i]);
 		if ((flag == 2 && arg[i] == '"') || (flag == 1 && arg[i] == '\''))
 			flag -= (arg[i] == '\'') + 2 * (arg[i] == '"');
-		else
-			i++;
+		i++;
 	}
 	return (NULL);
 }

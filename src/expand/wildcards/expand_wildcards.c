@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/04 15:59:25 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/05 13:31:42 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,39 +71,78 @@ static char	*remove_lst_fctn(char *str, int pos)
 	return (new);
 }
 
-int	remove_lst_quote(char **av)
+char	*does_remove(int *flag, char *str, int i)
 {
+	if (*flag == 0 && (str[i] == '\'' || str[i] == '"'))
+	{
+		*flag += (str[i] == '\'') + 2 * (str[i] == '"');
+		str = remove_lst_fctn(str, i);
+	}
+	else if ((*flag == 1 && str[i] == '\'')
+		|| (*flag == 2 && str[i] == '"'))
+	{
+		*flag = 0;
+		str = remove_lst_fctn(str, i);
+	}
+	return (str);
+}
+
+void	remove_quotes_in_list(t_list *lst)
+{
+	char	*str;
 	int		i;
 	int		flag;
 
-	flag = 0;
-	i = 0;
-	while ((*av)[i])
+	while (lst)
 	{
-		if (flag == 0 && ((*av)[i] == '\'' || (*av)[i] == '"'))
+		str = (char *)lst->content;
+		i = 0;
+		flag = 0;
+		while (str[i])
 		{
-			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
-			(*av) = remove_lst_fctn((*av), i);
-		}
-		else if ((flag == 1 && (*av)[i] == '\'')
-			|| (flag == 2 && (*av)[i] == '\"'))
-		{
-			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
-			(*av) = remove_lst_fctn((*av), i);
-		}
-		else
+			str = does_remove(&flag, str, i);
 			i++;
-		if (!*av)
-			return (-1);
+			if (!str)
+				break ;
+		}
+		lst->content = str;
+		lst = lst->next;
 	}
-	return (0);
 }
+
+// int	remove_lst_quote(char **av)
+// {
+// 	int		i;
+// 	int		flag;
+//
+// 	flag = 0;
+// 	i = 0;
+// 	while ((*av)[i])
+// 	{
+// 		if (flag == 0 && ((*av)[i] == '\'' || (*av)[i] == '"'))
+// 		{
+// 			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
+// 			(*av) = remove_lst_fctn((*av), i);
+// 		}
+// 		else if ((flag == 1 && (*av)[i] == '\'')
+// 			|| (flag == 2 && (*av)[i] == '\"'))
+// 		{
+// 			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
+// 			(*av) = remove_lst_fctn((*av), i);
+// 		}
+// 		else
+// 			i++;
+// 		if (!*av)
+// 			return (-1);
+// 	}
+// 	return (0);
+// }
 
 static int	expand_wildcards(char *str, t_list **lst)
 {
 	t_list	*dir_lst;
-	t_list	*head;
-	char	*tmp;
+	// t_list	*head;
+	// char	*tmp;
 
 	dir_lst = NULL;
 	if (build_dir_lst(&dir_lst) == -1)
@@ -114,17 +153,18 @@ static int	expand_wildcards(char *str, t_list **lst)
 	trunc_start(&dir_lst, str);
 	trunc_middle(&dir_lst, str);
 	trunc_last(&dir_lst, str);
-	head = dir_lst;
-	while (head)
-	{
-		tmp = (char *)head->content;
-		remove_lst_quote(&tmp);
-		head = head->next;
-	}
+	// head = dir_lst;
+	// while (head)
+	// {
+	// 	tmp = (char *)head->content;
+	// 	remove_lst_quote(&tmp);
+	// 	head = head->next;
+	// }
 	if (!*lst)
 		*lst = dir_lst;
 	else
 		ft_lstadd_back(lst, dir_lst);
+	remove_quotes_in_list(*lst);
 	return (0);
 }
 
@@ -143,8 +183,7 @@ static int	is_expandable(char *str)
 				return (1);
 		else if ((flag == 1 && str[i] == '\'') || (flag = 2 && str[i] == '"'))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '"');
-		else
-			i++;
+		i++;
 	}
 	return (0);
 }
@@ -161,6 +200,7 @@ int	e_wildcard_unquote(char *str, t_list **expand_lst)
 		if (!new_str)
 			return (-1);
 		add_to_expand_list(expand_lst, new_str);
+		remove_quotes_in_list(*expand_lst);
 	}
 	else
 		expand_wildcards(str, expand_lst);

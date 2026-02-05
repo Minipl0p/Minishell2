@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 15:20:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/04 20:13:40 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/05 11:49:04 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	remove_lst(t_list **dir_lst, t_list *to_remove);
 int		ft_strlen_sep_skip(char *str, char sep);
 char	*ft_strcpy_sep_skip(char *str, char sep, int len);
 
+void	remove_quotes_in_list(t_list *lst);
 
 #endif

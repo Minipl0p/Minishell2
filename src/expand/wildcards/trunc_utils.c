@@ -6,11 +6,29 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:16:20 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/04 20:16:22 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/05 10:27:51 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../libft/Includes/libft.h"
+
+static void	ft_strncat(char *dest, char *src, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (dest && dest[j])
+		j++;
+	while (src[i] && i < len)
+	{
+		dest[j] = src[i];
+		i++;
+		j++;
+	}
+	return ;
+}
 
 char	*ft_strcpy_sep_skip(char *str, char sep, int len)
 {
@@ -32,7 +50,7 @@ char	*ft_strcpy_sep_skip(char *str, char sep, int len)
 		if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '"');
 		else
-			ft_strlcat(new_str, &str[i], 2);
+			ft_strncat(new_str, &str[i], 1);
 		i++;
 	}
 	return (new_str);
