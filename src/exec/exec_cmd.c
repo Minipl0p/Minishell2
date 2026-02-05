@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 21:54:55 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/31 09:13:10 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/05 18:56:56 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	unforkable_builtin(t_ast_node *cmd, t_dict *d_env,
 
 int	is_forkable(t_ast_node *cmd)
 {
-	if (!cmd)
+	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (0);
 	if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (1);
