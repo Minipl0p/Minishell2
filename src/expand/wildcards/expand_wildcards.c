@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 13:31:42 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:57:25 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,39 +110,9 @@ void	remove_quotes_in_list(t_list *lst)
 	}
 }
 
-// int	remove_lst_quote(char **av)
-// {
-// 	int		i;
-// 	int		flag;
-//
-// 	flag = 0;
-// 	i = 0;
-// 	while ((*av)[i])
-// 	{
-// 		if (flag == 0 && ((*av)[i] == '\'' || (*av)[i] == '"'))
-// 		{
-// 			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
-// 			(*av) = remove_lst_fctn((*av), i);
-// 		}
-// 		else if ((flag == 1 && (*av)[i] == '\'')
-// 			|| (flag == 2 && (*av)[i] == '\"'))
-// 		{
-// 			flag += ((*av)[i] == '\'') + 2 * ((*av)[i] == '"');
-// 			(*av) = remove_lst_fctn((*av), i);
-// 		}
-// 		else
-// 			i++;
-// 		if (!*av)
-// 			return (-1);
-// 	}
-// 	return (0);
-// }
-
 static int	expand_wildcards(char *str, t_list **lst)
 {
 	t_list	*dir_lst;
-	// t_list	*head;
-	// char	*tmp;
 
 	dir_lst = NULL;
 	if (build_dir_lst(&dir_lst) == -1)
@@ -153,13 +123,6 @@ static int	expand_wildcards(char *str, t_list **lst)
 	trunc_start(&dir_lst, str);
 	trunc_middle(&dir_lst, str);
 	trunc_last(&dir_lst, str);
-	// head = dir_lst;
-	// while (head)
-	// {
-	// 	tmp = (char *)head->content;
-	// 	remove_lst_quote(&tmp);
-	// 	head = head->next;
-	// }
 	if (!*lst)
 		*lst = dir_lst;
 	else
@@ -179,9 +142,9 @@ static int	is_expandable(char *str)
 	{
 		if (flag == 0 && (str[i] == '\'' || str[i] == '"'))
 			flag += (str[i] == '\'') + 2 * (str[i] == '"');
-		else if (flag != 1 && str[i] == '*')
+		else if (flag == 0 && str[i] == '*')
 				return (1);
-		else if ((flag == 1 && str[i] == '\'') || (flag = 2 && str[i] == '"'))
+		else if ((flag == 1 && str[i] == '\'') || (flag == 2 && str[i] == '"'))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '"');
 		i++;
 	}

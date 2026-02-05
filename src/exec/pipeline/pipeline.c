@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/03 15:31:24 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/05 17:55:52 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	restore_signals()
 	struct sigaction	sa;
 
 	init_signal(&sa, NULL, MAIN);
-	signal(SIGINT, SIG_DFL);
 }
 
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)

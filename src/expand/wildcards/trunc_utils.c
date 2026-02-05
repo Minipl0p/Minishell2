@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:16:20 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 10:27:51 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/05 17:55:55 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ char	*ft_strcpy_sep_skip(char *str, char sep, int len)
 	{
 		if (flag == 0 && (str[i] == '\'' || str[i] == '"'))
 			flag += (str[i] == '\'') + 2 * (str[i] == '"');
-		if (!str[i] || (flag == 0 && str[i] == sep))
+		else if (!str[i] || (flag == 0 && str[i] == sep))
 			return (new_str);
-		if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
+		else if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '"');
 		else
 			ft_strncat(new_str, &str[i], 1);
@@ -69,9 +69,9 @@ int	ft_strlen_sep_skip(char *str, char sep)
 	{
 		if (flag == 0 && (str[i] == '\'' || str[i] == '"'))
 			flag += (str[i] == '\'') + 2 * (str[i] == '"');
-		if (!str[i] || (flag == 0 && str[i] == sep))
+		else if (!str[i] || (flag == 0 && str[i] == sep))
 			return (len);
-		if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
+		else if ((flag == 2 && str[i] == '"') || (flag == 1 && str[i] == '\''))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '"');
 		else
 			len++;
