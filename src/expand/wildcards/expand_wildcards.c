@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 16:57:25 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/05 19:41:17 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,21 @@ static char	*remove_lst_fctn(char *str, int pos)
 	return (new);
 }
 
-char	*does_remove(int *flag, char *str, int i)
+char	*does_remove(int *flag, char *str, int *i)
 {
-	if (*flag == 0 && (str[i] == '\'' || str[i] == '"'))
+	if (*flag == 0 && (str[*i] == '\'' || str[*i] == '"'))
 	{
-		*flag += (str[i] == '\'') + 2 * (str[i] == '"');
-		str = remove_lst_fctn(str, i);
+		*flag += (str[*i] == '\'') + 2 * (str[*i] == '"');
+		str = remove_lst_fctn(str, *i);
 	}
-	else if ((*flag == 1 && str[i] == '\'')
-		|| (*flag == 2 && str[i] == '"'))
+	else if ((*flag == 1 && str[*i] == '\'')
+		|| (*flag == 2 && str[*i] == '"'))
 	{
 		*flag = 0;
-		str = remove_lst_fctn(str, i);
+		str = remove_lst_fctn(str, *i);
 	}
+	else
+		(*i)++;
 	return (str);
 }
 
@@ -100,8 +102,7 @@ void	remove_quotes_in_list(t_list *lst)
 		flag = 0;
 		while (str[i])
 		{
-			str = does_remove(&flag, str, i);
-			i++;
+			str = does_remove(&flag, str, &i);
 			if (!str)
 				break ;
 		}
