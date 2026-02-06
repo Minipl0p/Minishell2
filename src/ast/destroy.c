@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:59:12 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 16:52:04 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:13:59 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	free_redirs(t_redir *redir)
 	{
 		tmp = redir->next;
 		free(redir->target);
+		free(redir->delim);
 		free(redir);
 		redir = tmp;
 	}

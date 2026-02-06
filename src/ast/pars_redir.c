@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 12:03:45 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/21 10:56:42 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:42:43 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	parse_redir(t_token **token, t_redir **redirs)
 	if (!new)
 		return (-1);
 	new->expand = 0;
+	new->next = NULL;
+	new->delim = NULL;
 	new->type = token_to_redir((*token)->type);
 	*token = (*token)->next;
 	if (!*token || (*token)->type != WORD)

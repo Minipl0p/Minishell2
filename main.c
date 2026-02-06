@@ -6,13 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/05 17:55:58 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 09:46:06 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_convert.h"
 #include "libft/Includes/ft_dict.h"
+#include "libft/Includes/ft_io.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -46,7 +47,7 @@ static t_btree	*pars(char *line, t_dict *d_env)
 		return (NULL);
 	}
 	destroy_token(token_lst);
-	here(ast, d_env);
+	create_heredocs(ast, d_env);
 	return (ast);
 }
 

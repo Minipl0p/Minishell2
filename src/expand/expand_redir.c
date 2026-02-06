@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 15:42:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/03 15:41:41 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/06 11:09:24 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ int	expand_single_redir(t_redir *redir, t_dict *d_env)
 	t_list	*res_list;
 	char	*new_target;
 
-	if (redir->type == R_HEREDOC && redir->expand == 1)
+	if (redir->type == R_HEREDOC)
 	{
-		expand_heredocs(redir, d_env);
+		if (redir->expand == 1)
+			expand_heredocs(redir, d_env);
 		return (0);
 	}
 	res_list = NULL;
@@ -49,14 +50,11 @@ int	expand_single_redir(t_redir *redir, t_dict *d_env)
 
 int	expand_redir_list(t_redir *head, t_dict *env)
 {
-	t_redir	*curr;
-
-	curr = head;
-	while (curr)
+	while (head)
 	{
-		if (expand_single_redir(curr, env) == -1)
+		if (expand_single_redir(head, env) == -1)
 			return (-1);
-		curr = curr->next;
+		head = head->next;
 	}
 	return (0);
 }

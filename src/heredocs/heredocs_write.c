@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/23 23:20:43 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:11:44 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,87 +38,20 @@ void	unlink_all(t_btree *ast)
 	unlink_all(ast->right);
 }
 
-char	*remove_quote(char *s, int i)
-{
-	char	*new_string;
-	int		len;
-
-	len = ft_strlen(s);
-	new_string = ft_calloc(sizeof(char), len);
-	if (!new_string)
-		return (NULL);
-	ft_strlcat(new_string, s, i + 1);
-	ft_strcat(new_string, &s[i] + 1);
-	free(s);
-	return (new_string);
-}
-
-char	*step_delim(char *delim, int *f_quote)
-{
-	int		i;
-	char	*s;
-
-	s = ft_strdup(delim);
-	*f_quote = -1;
-	i = 0;
-	while (s && s[i])
-	{
-		if (s && *f_quote <= 0 && (s[i] == '\'' || s[i] == '\"'))
-		{
-			*f_quote = 2;
-			if (s[i] == '\'')
-				*f_quote = 1;
-			s = remove_quote(s, i);
-		}
-		else if (s && ((*f_quote == 1 && s[i] == '\'')
-				|| (*f_quote == 2 && s[i] == '\"')))
-		{
-			*f_quote = 0;
-			s = remove_quote(s, i);
-		}
-		else
-			i++;
-	}
-	return (s);
-}
-
-static char	*clean_delim(char *delim, int *expand)
-{
-	int		f_quote;
-	char	*s;
-
-	*expand = 0;
-	s = step_delim(delim, &f_quote);
-	if (f_quote == -1)
-		*expand = 1;
-	else if (f_quote != 0)
-	{
-		free(s);
-		s = NULL;
-		return (s);
-	}
-	return (s);
-}
 
 int	write_heredoc(int fd, t_redir *redir)
 {
 	char	*line;
-	char	*delim;
-
-	delim = clean_delim(redir->target, &redir->expand);
-	if (!delim)
-		return (1);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || g_stop)
 			break ;
-		if (!ft_strcmp(line, delim))
+		if (!ft_strcmp(line, redir->delim))
 			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	free(delim);
 	free(line);
 	if (g_stop)
 	{

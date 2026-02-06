@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 16:44:16 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:09:31 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_redir
 {
 	t_redir_type		type;
 	char				*target;
+	char				*delim;
 	int					expand;
 	struct s_redir		*next;
 }	t_redir;
