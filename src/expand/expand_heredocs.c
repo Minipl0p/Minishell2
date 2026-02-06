@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 12:05:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:09:57 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	write_in_new_heredocs(char **line, int fd)
 	while (line && line[i])
 	{
 		write(fd, line[i], ft_strlen(line[i]));
-		write(fd, "\n", 1);
 		i++;
 	}
 }

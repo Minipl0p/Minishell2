@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 11:16:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 11:38:11 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:09:06 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	write_heredoc(int fd, t_redir *redir)
 			break ;
 		if (!ft_strcmp(line, redir->delim))
 			break ;
-		ft_putstr_fd(line, fd);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	free(line);
