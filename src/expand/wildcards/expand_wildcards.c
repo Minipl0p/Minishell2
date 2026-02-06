@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 16:57:25 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:47:36 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ void	remove_quotes_in_list(t_list *lst)
 		while (str[i])
 		{
 			str = does_remove(&flag, str, i);
-			i++;
-			if (!str)
+			if (!str || !str[i])
 				break ;
+			i++;
 		}
 		lst->content = str;
 		lst = lst->next;

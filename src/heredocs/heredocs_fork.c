@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 10:22:50 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:37:00 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env)
 	{
 		rl_clear_history();
 		dict_destroy(d_env, free);
-		fd = open(redir->target, O_TRUNC);
+		fd = open(redir->target, O_WRONLY, O_TRUNC);
 		if (fd != -1)
 		{
 			write_heredoc(fd, redir);

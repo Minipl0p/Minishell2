@@ -6,10 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 09:46:06 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:45:37 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Includes/heredocs.h"
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_convert.h"
 #include "libft/Includes/ft_dict.h"
@@ -79,6 +80,7 @@ static void	process(t_dict *d_env)
 		if (ast)
 		{
 			ret = exec_ast(ast, d_env, ast);
+			unlink_all(ast);
 			ast_destroy(ast);
 			if (update_return_value(ret, d_env) == -1)
 			{
