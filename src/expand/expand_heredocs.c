@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 10:37:04 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:05:31 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	expand_heredocs(t_redir *head, t_dict *d_env)
 		if (!new_line)
 			return (-1);
 		write_in_new_heredocs(new_line, new_fd);
+		ft_free_arr((void **)new_line);
 		line = get_next_line(old_fd);
 	}
 	replace_target(old_fd, new_fd, head, path);
