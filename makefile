@@ -21,7 +21,7 @@ OBJDIR  := obj
 LIBFT   := libft
 
 # --- Sous-dossiers sources --------------------------------------------------
-SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline banner builtin expand/wildcards
+SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline banner builtin expand/wildcards errors
 
 # --- Sources (sans nom de dossier !) ----------------------------------------
 SRC_MAIN := main.c
@@ -45,6 +45,8 @@ SRC_EXEC := exec.c exec_cmd.c
 
 SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c pipeline_utils.c
 
+SRC_ERROR := errors.c
+
 SRC_LEX  := lex.c token.c word_utils.c token_utils.c
 
 SRC_RL   := readline.c
@@ -54,7 +56,7 @@ SRC_BUILT_IN := cd.c echo.c export.c export_no_arg.c pwd.c unset.c env.c exit.c
 # -----------------------------------------------------------------------------
 
 SRCS := $(SRC_MAIN) $(SRC_AST) $(SRC_SIGN) $(SRC_HERE) $(SRC_DICT) $(SRC_EXP) $(SRC_BANNER) $(SRC_EXEC) $(SRC_EXEC_P) $(SRC_LEX) $(SRC_RL) \
-		$(SRC_BUILT_IN) $(SRC_WILD)
+		$(SRC_BUILT_IN) $(SRC_WILD) $(SRC_ERROR)
 
 # --- PATH -------------------------------------
 VPATH := $(SRCDIR) $(addprefix $(SRCDIR)/, $(SUBDIRS))
