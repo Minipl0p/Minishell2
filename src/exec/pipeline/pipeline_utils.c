@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/01 11:56:04 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 10:00:08 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
+#include "../../../Includes/errors.h"
 
 int	wait_all(t_pipeline *data)
 {
@@ -62,24 +63,24 @@ void	redir_fds(t_pipeline *data, int i)
 	if (data->in_fd > 2)
 	{
 		if (dup2(data->in_fd, STDIN_FILENO) == -1)
-			perror("dup2 in_fd");
+			ft_print_error(NULL, "dup2");
 		close(data->in_fd);
 	}
 	else if (i > 0 && data->prev_fd != -1)
 	{
 		if (dup2(data->prev_fd, STDIN_FILENO) == -1)
-			perror("dup2 prev_fd");
+			ft_print_error(NULL, "dup2");
 	}
 	if (data->out_fd > 2)
 	{
 		if (dup2(data->out_fd, STDOUT_FILENO) == -1)
-			perror("dup2 out_fd");
+			ft_print_error(NULL, "dup2");
 		close(data->out_fd);
 	}
 	else if (i < data->cmd_count - 1)
 	{
 		if (dup2(data->p_fd[1], STDOUT_FILENO) == -1)
-			perror("dup2 pipe");
+			ft_print_error(NULL, "dup2");
 	}
 	close_fds(data, i, 1);
 }
@@ -110,8 +111,12 @@ int	exec_child_built_in(int fctn, t_pipeline *data)
 	return (status);
 }
 
-void	free_child(t_pipeline *data)
+void	free_child(t_pipeline *data, char *path)
 {
+	if (path)
+		free(path);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	ast_destroy(data->ast);
 	dict_destroy(data->dict, free);
 	free_cmd_list(data->cmds);

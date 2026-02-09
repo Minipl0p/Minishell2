@@ -6,11 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 17:55:52 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 10:01:01 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
+#include "../../../Includes/errors.h"
 
 static void	restore_signals()
 {
@@ -22,6 +23,7 @@ static void	restore_signals()
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 {
 	char	*path;
+	int		perm_error;
 	int		fctn;
 
 	signal(SIGINT, SIG_DFL);
@@ -33,18 +35,17 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 		close_fds(data, i, 0);
 		exit(fctn);
 	}
-	path = parse_path(data->dict, cmd->argv);
+	perm_error = 0;
+	path = parse_path(data->dict, cmd->argv, &perm_error);
 	if (!path)
 	{
-		perror("command not found.");
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		free_child(data);
+		put_perm_error(data, cmd->argv[0], i, perm_error);
+		free_child(data, NULL);
 		exit(127);
 	}
 	execve(path, cmd->argv, data->ev);
-	perror("execve");
-	free_child(data);
+	ft_print_error(NULL, cmd->argv[0]);
+	free_child(data, path);
 	exit(126);
 }
 
@@ -80,8 +81,19 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 static void	run_pipeline_step(t_pipeline *data, t_list *cmd_lst,
 		int *status, int *i)
 {
+	*status = 0;
 	if (set_fds(data, cmd_lst) == -1)
 		*status = -1;
+//	if (data->in_fd == -1 && *i == 0 && data->cmd_count > 1)
+//	{
+//		if (*i < data->cmd_count - 1)
+//		{
+//			close(data->p_fd[1]);
+//			data->prev_fd = data->p_fd[0];
+//		}
+//		data->pids[*i] = -1;
+//		*status = -1;
+//	}
 	if (*status != -1 && pipeline(data, cmd_lst, *i) == -1)
 		*status = -1;
 	if (data->in_fd > 2)

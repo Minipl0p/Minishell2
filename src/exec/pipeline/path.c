@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/31 09:30:05 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:11:54 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*str_catsep(char *s1, char *s2, char sep)
 	return (str);
 }
 
-static char	*check_cmd_path(char **path_ar, char **cmd)
+static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 {
 	char	*path;
 	int		i;
@@ -55,13 +55,15 @@ static char	*check_cmd_path(char **path_ar, char **cmd)
 		}
 		if (access(path, F_OK | X_OK) == 0)
 			return (path);
+		if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
+			*perm_error = 1;
 		free(path);
 		i++;
 	}
 	return (NULL);
 }
 
-char	*parse_path(t_dict *dict, char **cmd)
+char	*parse_path(t_dict *dict, char **cmd, int *perm_error)
 {
 	char	**path_ar;
 	char	*path;
@@ -76,7 +78,7 @@ char	*parse_path(t_dict *dict, char **cmd)
 	path_ar = ft_split(tmp, ':');
 	if (!path_ar || !tmp)
 		return (NULL);
-	path = check_cmd_path(path_ar, cmd);
+	path = check_cmd_path(path_ar, cmd, perm_error);
 	ft_free_arr((void *)path_ar);
 	return (path);
 }

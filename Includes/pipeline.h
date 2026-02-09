@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:13:49 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/03 15:30:30 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/06 16:10:50 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_pipeline
 
 //================================UTILS========================================
 void	free_cmd_list(t_list *lst);
-void	free_child(t_pipeline *data);
+void	free_child(t_pipeline *data, char *path);
 void	redir_fds(t_pipeline *data, int i);
 void	close_fds(t_pipeline *data, int i, int is_redir);
 int		wait_all(t_pipeline *data);
@@ -50,7 +50,7 @@ int		init_pipeline(t_pipeline *data, t_dict *dict,
 			t_btree *ast, t_list *cmds);
 
 //================================PIPELINE=====================================
-char	*parse_path(t_dict *dict, char **cmd);
+char	*parse_path(t_dict *dict, char **cmd, int *perm_error);
 int		run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast);
 int		set_fds(t_pipeline *data, t_list *cmds);
 int		exec_ast(t_btree *ast, t_dict *dict, t_btree *root);
