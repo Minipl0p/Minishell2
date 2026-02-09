@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 12:11:25 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 16:35:27 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/heredocs.h"
+#include "../../Includes/errors.h"
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -97,6 +98,8 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env)
 		rl_clear_history();
 		dict_destroy(d_env, free);
 		fd = open(redir->target, O_WRONLY, O_TRUNC);
+		if (fd == -1)
+			ft_print_error(1, NULL, "open");
 		if (fd != -1)
 		{
 			write_heredoc(fd, redir);

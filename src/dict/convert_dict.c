@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 11:47:56 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 16:31:14 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/dict.h"
+#include "../../Includes/errors.h"
 
 static char	*build_exp_line(char *key, char *value)
 {
@@ -25,7 +26,10 @@ static char	*build_exp_line(char *key, char *value)
 		len_v = ft_strlen(value);
 	line = ft_calloc(sizeof(char), ft_strlen(key) + len_v + 4);
 	if (!line)
+	{
+		ft_print_error(1, NULL, "ft_calloc");
 		return (NULL);
+	}
 	ft_strcat(line, key);
 	if (value)
 	{
@@ -73,6 +77,7 @@ static int	set_line(t_dict_entry *entry, char **env, size_t *j, int flag)
 		line = build_line(entry->key, entry->value, flag);
 		if (!line)
 		{
+			ft_print_error(1, NULL, "malloc");
 			ft_free_arr((void **)env);
 			return (-1);
 		}
@@ -115,7 +120,10 @@ char	**dict_to_env(t_dict *dict, int flag)
 	count = dict->count + 1;
 	env = ft_calloc(sizeof(char *), (count + 1));
 	if (!env)
+	{
+		ft_print_error(1, NULL, "malloc");
 		return (NULL);
+	}
 	if (fill_env(dict, env, flag) < 0)
 		return (NULL);
 	return (env);

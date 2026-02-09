@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/03 16:03:49 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 15:48:57 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/readline.h"
+#include "../../Includes/errors.h"
 
 static char	*get_prompt(t_dict *d_env)
 {
@@ -23,7 +24,10 @@ static char	*get_prompt(t_dict *d_env)
 	{
 		cwd = ft_strdup("?");
 		if (!cwd)
+		{
+			ft_print_error(1, NULL, "malloc");
 			return (cwd);
+		}
 		prompt = ft_strjoin(cwd, ":⛏️> ");
 		free(cwd);
 		return (prompt);

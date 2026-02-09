@@ -6,11 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/01/19 17:39:24 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 15:44:53 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lex.h"
+#include "../../Includes/errors.h"
 
 static int	get_quoted_len(char *input, char c)
 {
@@ -82,6 +83,8 @@ char	*set_value(char **input)
 	if (len == -1)
 		return (NULL);
 	value = ft_strndup(*input, len);
+	if (!value)
+		ft_print_error(1, NULL, "malloc");
 	(*input) += len;
 	return (value);
 }

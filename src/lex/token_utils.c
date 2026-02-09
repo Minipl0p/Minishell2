@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 19:02:35 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 15:59:01 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lex.h"
+#include "../../Includes/errors.h"
 
 t_token	*new_token(t_token_type type, char *content)
 {
@@ -18,7 +19,10 @@ t_token	*new_token(t_token_type type, char *content)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
+	{
+		ft_print_error(1, NULL, "malloc");
 		return (NULL);
+	}
 	token->type = type;
 	token->value = content;
 	token->next = NULL;

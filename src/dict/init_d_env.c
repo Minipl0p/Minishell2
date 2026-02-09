@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:38:09 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 10:05:34 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:33:41 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/dict.h"
+#include "../../Includes/errors.h"
 #include <unistd.h>
 
 static int	len_key(char *str)
@@ -38,6 +39,7 @@ static int	set_raw(char *raw, t_dict **d_env)
 		value = ft_strdup(raw + len + 1);
 		if (!key || !value || dict_set(*d_env, key, value, free) < 0)
 		{
+			ft_print_error(1, NULL, "malloc");
 			if (key)
 				free(key);
 			if (value)
@@ -65,7 +67,10 @@ static int	minimal_env(t_dict *d_env)
 	}
 	exit_status = ft_strdup("0");
 	if (!exit_status)
+	{
+		ft_print_error(1, NULL, "malloc");
 		return (-1);
+	}
 	dict_set(d_env, "?", exit_status, free);
 	return (0);
 }

@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 11:52:57 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 15:51:49 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/expand.h"
+#include "../../Includes/errors.h"
 
 int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 {
@@ -88,5 +89,7 @@ int	expand_argv_array(char ***argv_ptr, t_dict *env)
 	}
 	ft_free_arr((void **)old_argv);
 	*argv_ptr = lst_to_arr(lst_res);
+	if (!*argv_ptr)
+		ft_print_error(1, NULL, "malloc");
 	return (0);
 }
