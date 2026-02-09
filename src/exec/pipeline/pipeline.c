@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 11:37:04 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 14:19:30 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	if (fctn)
 	{
 		fctn = exec_child_built_in(fctn, data);
+		free_child(data, NULL);
 		close_fds(data, i, 0);
 		exit(fctn);
 	}
