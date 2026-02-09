@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 21:21:46 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 11:35:02 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:02:42 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	trunc_last(t_list **dir_lst, char *arg)
 		if (flag == 0 && (arg[len - i] == '\'' || arg[len - i] == '"'))
 			flag += (arg[len - i] == '\'') + 2 * (arg[len - i] == '"');
 		trunc_last_remove(dir_lst, arg[len - i], i);
-		if ((flag == 2 && arg[len - i] == '"') || (flag == 1 && arg[len - i] == '\''))
+		if ((flag == 2 && arg[len - i] == '"')
+			|| (flag == 1 && arg[len - i] == '\''))
 			flag -= (arg[len - i] == '\'') + 2 * (arg[len - i] == '"');
 		i++;
 	}

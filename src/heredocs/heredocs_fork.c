@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 11:37:00 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:11:25 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 #include <unistd.h>
 
 extern int	g_stop;
-
-char	*remove_quote(char *s, int i)
-{
-	char	*new_string;
-	int		len;
-
-	len = ft_strlen(s);
-	new_string = ft_calloc(sizeof(char), len);
-	if (!new_string)
-		return (NULL);
-	ft_strlcat(new_string, s, i + 1);
-	ft_strcat(new_string, &s[i] + 1);
-	free(s);
-	return (new_string);
-}
 
 char	*step_delim(char *delim, int *f_quote)
 {
@@ -47,13 +32,13 @@ char	*step_delim(char *delim, int *f_quote)
 			*f_quote = 2;
 			if (s[i] == '\'')
 				*f_quote = 1;
-			s = remove_quote(s, i);
+			s = remove_hered_quote(s, i);
 		}
 		else if (s && ((*f_quote == 1 && s[i] == '\'')
 				|| (*f_quote == 2 && s[i] == '\"')))
 		{
 			*f_quote = 0;
-			s = remove_quote(s, i);
+			s = remove_hered_quote(s, i);
 		}
 		else
 			i++;
@@ -117,7 +102,6 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env)
 			write_heredoc(fd, redir);
 			close(fd);
 		}
-		// ast_destroy(ast);
 		exit (0);
 	}
 	waitpid(pid, NULL, 0);

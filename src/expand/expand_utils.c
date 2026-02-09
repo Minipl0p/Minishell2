@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:52:56 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/03 15:27:37 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 11:59:38 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ char	**split_words_nquoted(char const *s, char c)
 //	free(str);
 //	return (new);
 //}
-

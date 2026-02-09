@@ -39,7 +39,7 @@ SRC_SIGN := signals.c
 
 SRC_EXP  := expand.c expand_utils.c expand_argv.c expand_heredocs.c expand_interpretor.c expand_redir.c
 
-SRC_WILD := expand_wildcards.c trunc.c trunc_middle.c trunc_utils.c 
+SRC_WILD := expand_wildcards.c trunc.c trunc_middle.c trunc_utils.c quotes.c 
 
 SRC_EXEC := exec.c exec_cmd.c
 

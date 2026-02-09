@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 09:57:07 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:10:17 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 #include <fcntl.h>
 
 extern int	g_stop;
+
+char	*remove_hered_quote(char *s, int i)
+{
+	char	*new_string;
+	int		len;
+
+	len = ft_strlen(s);
+	new_string = ft_calloc(sizeof(char), len);
+	if (!new_string)
+		return (NULL);
+	ft_strlcat(new_string, s, i + 1);
+	ft_strcat(new_string, &s[i] + 1);
+	free(s);
+	return (new_string);
+}
 
 static int	random_name(char *buf)
 {

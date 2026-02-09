@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 11:51:55 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:58:44 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static char	*create_new_str(char *old_str, char *key, t_dict *d_env, int pos)
 	value = dict_get(d_env, key);
 	if (!value)
 		value = "";
-	new = ft_calloc(sizeof(char), ft_strlen(old_str) - len_k + ft_strlen(value));
+	new = ft_calloc(sizeof(char),
+			ft_strlen(old_str) - len_k + ft_strlen(value));
 	if (!new)
 	{
 		free(key);

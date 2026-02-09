@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/03 16:41:22 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 11:52:57 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static char	**lst_to_arr(t_list *lst)
 	t_list	*head;
 	int		size;
 
-	size = ft_lstsize(lst);
-	arr = ft_calloc(size + 1, sizeof(char *));
+	arr = ft_calloc(ft_lstsize(lst) + 1, sizeof(char *));
 	if (arr)
 	{
 		size = 0;

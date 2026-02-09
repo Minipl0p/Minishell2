@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:19:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/01 13:10:34 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:47:56 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,29 @@ static char	*build_line(char *key, char *value, int flag)
 	return (line);
 }
 
+static int	set_line(t_dict_entry *entry, char **env, size_t *j, int flag)
+{
+	char	*line;
+
+	if (entry->key && entry->key[0] != '?')
+	{
+		line = build_line(entry->key, entry->value, flag);
+		if (!line)
+		{
+			ft_free_arr((void **)env);
+			return (-1);
+		}
+		env[*j] = line;
+		(*j)++;
+	}
+	return (0);
+}
+
 static int	fill_env(t_dict *dict, char **env, int flag)
 {
 	size_t			i;
 	size_t			j;
 	t_dict_entry	*entry;
-	char			*line;
 
 	i = 0;
 	j = 0;
@@ -78,16 +95,8 @@ static int	fill_env(t_dict *dict, char **env, int flag)
 		entry = dict->bucket[i];
 		while (entry)
 		{
-			if (entry->key && entry->key[0] != '?')
-			{
-				line = build_line(entry->key, entry->value, flag);
-				if (!line)
-				{
-					ft_free_arr((void **)env);
-					return (-1);
-				}
-				env[j++] = line;
-			}
+			if (set_line(entry, env, &j, flag) == -1)
+				return (-1);
 			entry = entry->next;
 		}
 		i++;

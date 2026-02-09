@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 10:00:08 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 11:49:08 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,24 @@ void	redir_fds(t_pipeline *data, int i)
 	if (data->in_fd > 2)
 	{
 		if (dup2(data->in_fd, STDIN_FILENO) == -1)
-			ft_print_error(NULL, "dup2");
+			ft_print_error(1, NULL, "dup2");
 		close(data->in_fd);
 	}
 	else if (i > 0 && data->prev_fd != -1)
 	{
 		if (dup2(data->prev_fd, STDIN_FILENO) == -1)
-			ft_print_error(NULL, "dup2");
+			ft_print_error(1, NULL, "dup2");
 	}
 	if (data->out_fd > 2)
 	{
 		if (dup2(data->out_fd, STDOUT_FILENO) == -1)
-			ft_print_error(NULL, "dup2");
+			ft_print_error(1, NULL, "dup2");
 		close(data->out_fd);
 	}
 	else if (i < data->cmd_count - 1)
 	{
 		if (dup2(data->p_fd[1], STDOUT_FILENO) == -1)
-			ft_print_error(NULL, "dup2");
+			ft_print_error(1, NULL, "dup2");
 	}
 	close_fds(data, i, 1);
 }
