@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 10:04:27 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 10:37:13 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 #include "../../libft/Includes/ft_string.h"
 #include "../../Includes/pipeline.h"
 
-void	ft_print_error(char *msg, char *target)
+void	ft_print_error(int sh_error, char *msg, char *target)
 {
 	char	*error;
 
-	write(2, "Minishell: ", 11);
+	if (sh_error)
+		write(2, "Minishell: ", 11);
 	if (target)
 	{
 		write(2, target, ft_strlen(target));
@@ -32,8 +33,6 @@ void	ft_print_error(char *msg, char *target)
 	else
 	{
 		error = strerror(errno);
-		if (!error)
-			perror("Minishell: Malloc");
 		write(2, error, ft_strlen(error));
 	}
 	write(2, "\n", 1);
@@ -42,7 +41,7 @@ void	ft_print_error(char *msg, char *target)
 void	put_perm_error(t_pipeline *data, char *target, int i, int perm_error)
 {
 	if ((i != data->cmd_count - 1 || data->out_fd != -1) && perm_error == 0)
-		ft_print_error("Command not found", target);
+		ft_print_error(0, "Command not found", target);
 	else
-		ft_print_error(NULL, NULL);
+		ft_print_error(1, NULL, NULL);
 }

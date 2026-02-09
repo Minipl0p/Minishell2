@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 11:45:37 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:31:13 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static int	update_return_value(int	ret, t_dict *d_env)
+static int	update_return_value(int ret, t_dict *d_env)
 {
 	char	*exit_status;
 

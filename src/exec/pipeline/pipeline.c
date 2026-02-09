@@ -6,14 +6,14 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 10:01:01 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/09 11:37:04 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
 #include "../../../Includes/errors.h"
 
-static void	restore_signals()
+static void	restore_signals(void)
 {
 	struct sigaction	sa;
 
@@ -44,7 +44,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 		exit(127);
 	}
 	execve(path, cmd->argv, data->ev);
-	ft_print_error(NULL, cmd->argv[0]);
+	ft_print_error(1, NULL, cmd->argv[0]);
 	free_child(data, path);
 	exit(126);
 }
@@ -60,7 +60,6 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
 	{
-		perror("fork");
 		close_fds(data, i, 0);
 		return (-1);
 	}
@@ -83,17 +82,10 @@ static void	run_pipeline_step(t_pipeline *data, t_list *cmd_lst,
 {
 	*status = 0;
 	if (set_fds(data, cmd_lst) == -1)
+	{
+		data->pids[*i] = -1;
 		*status = -1;
-//	if (data->in_fd == -1 && *i == 0 && data->cmd_count > 1)
-//	{
-//		if (*i < data->cmd_count - 1)
-//		{
-//			close(data->p_fd[1]);
-//			data->prev_fd = data->p_fd[0];
-//		}
-//		data->pids[*i] = -1;
-//		*status = -1;
-//	}
+	}
 	if (*status != -1 && pipeline(data, cmd_lst, *i) == -1)
 		*status = -1;
 	if (data->in_fd > 2)
