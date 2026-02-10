@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 12:01:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 12:10:52 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/10 10:33:59 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <signal.h>
 
 int		write_heredoc(int fd, t_redir *redir);
-int		create_heredocs(t_btree *ast, t_dict *d_env);
+int		create_heredocs(t_btree *ast, t_dict *d_env, t_btree *root);
 void	unlink_all(t_btree *ast);
 void	here(t_btree *ast, t_dict *d_env);
 int		open_tmp_file(char **path);

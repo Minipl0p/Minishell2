@@ -6,15 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 08:58:54 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/10 10:34:32 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/heredocs.h"
-#include "libft/Includes/ft_convert.h"
-#include "libft/Includes/ft_dict.h"
-#include <fcntl.h>
-#include <unistd.h>
+#include "Includes/minishell.h"
 
 static int	update_return_value(int ret, t_dict *d_env)
 {
@@ -46,7 +42,7 @@ static t_btree	*pars(char *line, t_dict *d_env)
 		return (NULL);
 	}
 	destroy_token(token_lst);
-	create_heredocs(ast, d_env);
+	create_heredocs(ast, d_env, ast);
 	return (ast);
 }
 
@@ -75,18 +71,15 @@ static void	process(t_dict *d_env)
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
+		free(line);
 		if (ast)
 		{
 			ret = exec_ast(ast, d_env, ast);
 			unlink_all(ast);
 			ast_destroy(ast);
 			if (update_return_value(ret, d_env) == -1)
-			{
-				free(line);
 				break ;
-			}
 		}
-		free(line);
 	}
 }
 

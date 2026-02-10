@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 16:35:27 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/10 10:38:28 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	open_heredocs(t_redir *redir)
 	return (0);
 }
 
-static void	fork_heredocs(t_redir *redir, t_dict *d_env)
+static void	fork_heredocs(t_redir *redir, t_dict *d_env, t_btree *root)
 {
 	int					pid;
 	int					fd;
@@ -105,20 +105,21 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env)
 			write_heredoc(fd, redir);
 			close(fd);
 		}
+		ast_destroy(root);
 		exit (0);
 	}
 	waitpid(pid, NULL, 0);
 	init_signal(&sa, NULL, MAIN);
 }
 
-int	create_heredocs(t_btree *ast, t_dict *d_env)
+int	create_heredocs(t_btree *ast, t_dict *d_env, t_btree *root)
 {
 	t_ast_node	*cmd;
 	t_redir		*redir;
 
 	if (!ast)
 		return (0);
-	if (create_heredocs(ast->left, d_env))
+	if (create_heredocs(ast->left, d_env, root))
 		return (1);
 	cmd = ast->content;
 	if (cmd->type == AST_COMMAND)
@@ -127,9 +128,9 @@ int	create_heredocs(t_btree *ast, t_dict *d_env)
 		while (redir)
 		{
 			if (redir->type == R_HEREDOC)
-				fork_heredocs(redir, d_env);
+				fork_heredocs(redir, d_env, root);
 			redir = redir->next;
 		}
 	}
-	return (create_heredocs(ast->right, d_env));
+	return (create_heredocs(ast->right, d_env, root));
 }

@@ -6,14 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 23:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 14:22:41 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/10 10:12:38 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
 #include <stdio.h>
 
-// Check if a token can appear inside a simple command.
 static int	is_cmd_token(t_token *token)
 {
 	if (!token)
@@ -55,8 +54,6 @@ static int	add_word(t_ast_node *cmd, t_token **token)
 	return (0);
 }
 
-// Parse a simple command composed of words and redirections.
-// Builds an AST_COMMAND node and consumes all related tokens.
 t_btree	*parse_simple_cmd(t_token **token, t_btree *tree)
 {
 	t_ast_node	*cmd;

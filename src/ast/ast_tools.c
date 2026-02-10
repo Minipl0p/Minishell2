@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 21:40:03 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 10:41:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/10 09:55:08 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_btree	*parse_error(char *msg)
 	return (NULL);
 }
 
-//free the redir's linked-list from t_ast_node
 static void	free_redirs(t_redir *redir)
 {
 	t_redir	*tmp;
@@ -34,7 +33,6 @@ static void	free_redirs(t_redir *redir)
 	}
 }
 
-//free the ast binary tree using postfile exploration
 void	ast_destroy(t_btree *root)
 {
 	t_ast_node	*new;
@@ -55,8 +53,6 @@ void	ast_destroy(t_btree *root)
 	free(root);
 }
 
-// Create a binary AST node linking a left and right subtree.
-// The node represents a binary operator (OR, AND, PIPE, etc.). (NORM FUNCTION)
 t_btree	*ast_link_binary(t_ast_type type, t_btree *left, t_btree *right)
 {
 	t_btree	*node;
@@ -69,7 +65,6 @@ t_btree	*ast_link_binary(t_ast_type type, t_btree *left, t_btree *right)
 	return (node);
 }
 
-//Create a new empty node with the corresponding type given in args
 t_btree	*ast_new(t_ast_type type)
 {
 	t_btree		*new_tree;
