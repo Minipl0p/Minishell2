@@ -6,12 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 10:00:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:08:52 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
 #include "../../../Includes/errors.h"
+#include <unistd.h>
 
 int	wait_all(t_pipeline *data)
 {
@@ -85,7 +86,7 @@ void	redir_fds(t_pipeline *data, int i)
 	close_fds(data, i, 1);
 }
 
-int	exec_child_built_in(int fctn, t_pipeline *data)
+int	exec_child_built_in(int fctn, t_pipeline *data, t_ast_node *cmd)
 {
 	static int (*const	f_built_in[9])(t_ast_node *cmd, t_dict *d_env) = {
 	[1] = ft_pwd,
@@ -98,7 +99,7 @@ int	exec_child_built_in(int fctn, t_pipeline *data)
 	[8] = ft_unset};
 	int					status;
 
-	status = f_built_in[fctn](data->cmds->content, data->dict);
+	status = f_built_in[fctn](cmd, data->dict);
 	ast_destroy(data->ast);
 	dict_destroy(data->dict, free);
 	free_cmd_list(data->cmds);

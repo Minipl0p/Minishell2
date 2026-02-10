@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 14:13:49 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/06 16:10:50 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:09:16 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int		exec_ast(t_btree *ast, t_dict *dict, t_btree *root);
 
 //================================BUILTINS=====================================
 int		exec_cmd(t_btree *ast, t_dict *dict, t_btree *root);
-int		exec_child_built_in(int fctn, t_pipeline *data);
+int		exec_child_built_in(int fctn, t_pipeline *data, t_ast_node *cmd);
 
 #endif

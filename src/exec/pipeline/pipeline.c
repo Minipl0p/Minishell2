@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/10 09:43:12 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:09:35 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	fctn = is_forkable(cmd);
 	if (fctn)
 	{
-		fctn = exec_child_built_in(fctn, data);
+		fctn = exec_child_built_in(fctn, data, cmd);
 		close_fds(data, i, 0);
 		exit(fctn);
 	}
