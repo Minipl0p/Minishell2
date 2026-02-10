@@ -6,15 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 11:31:13 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/10 08:58:54 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/heredocs.h"
-#include "Includes/minishell.h"
 #include "libft/Includes/ft_convert.h"
 #include "libft/Includes/ft_dict.h"
-#include "libft/Includes/ft_io.h"
 #include <fcntl.h>
 #include <unistd.h>
 
