@@ -6,25 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 21:40:03 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:27:09 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/11 14:10:36 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
-
-static void	free_redirs(t_redir *redir)
-{
-	t_redir	*tmp;
-
-	while (redir)
-	{
-		tmp = redir->next;
-		free(redir->delim);
-		free(redir->target);
-		free(redir);
-		redir = tmp;
-	}
-}
 
 void	ast_destroy(t_btree *root)
 {

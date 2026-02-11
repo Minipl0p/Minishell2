@@ -6,13 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:59:12 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 10:13:59 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:10:32 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
 
-static void	free_redirs(t_redir *redir)
+void	free_redirs(t_redir *redir)
 {
 	t_redir	*tmp;
 

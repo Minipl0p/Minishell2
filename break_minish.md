@@ -62,5 +62,4 @@ syntaxe error on set_word_len
 
 probleme emoji fail readline
 EXIT
-doublons destroy.c && ast_tools.c
 

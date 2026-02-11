@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/06 10:09:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 14:10:50 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_btree	*ast_link_binary(t_ast_type type, t_btree *left, t_btree *right);
 void	ast_destroy(t_btree *root);
 t_btree	*ast_new(t_ast_type type);
 t_btree	*parse_error(char *msg);
+void	free_redirs(t_redir *redir);
 //=============================================================================
 
 //=================================PARS========================================
