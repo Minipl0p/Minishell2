@@ -15,14 +15,6 @@ Minishell > echo ''
 ```
 (EXPECTED: \n)
 
-## Syntax
-
-```bash
-Minishell > echo "hello
-Minishell >
-```
-(EXPECTED: syntaxe error)
-
 ## BONUS
 
 ```bash
@@ -47,16 +39,6 @@ LEAKS
 Minishell > echo *sjdfhgsd
 ```
 LEAKS
-
-## Lexer
-
-```bash
-Minishell > echo a"b
-
-```
-(LOOP)
-
-syntaxe error on set_word_len
 
 ## shlag
 
