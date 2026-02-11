@@ -6,24 +6,28 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 15:44:53 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/11 14:46:25 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lex.h"
 #include "../../Includes/errors.h"
 
-static int	get_quoted_len(char *input, char c)
-{
-	int	len;
+static void	get_quoted_len(char *input, char c, int *len)
+{	
+	char	quote;
 
-	len = 1;
-	while (input[len] && input[len] != c)
-		len++;
-	if (!input[len])
-		return (-1);
-	len++;
-	return (len);
+	(*len)++;
+	quote = c; 
+	while (input[*len] && input[*len] != c)
+		(*len)++;
+	if (!input[*len])
+	{
+		ft_print_error(1, "missing end of quoted expression", &quote);
+		*len = -1;
+		return ;
+	}
+	(*len)++;
 }
 
 static int	check_word_sep(char c)
@@ -46,9 +50,9 @@ static int	set_word_len(char *input)
 		if (input[len] == '\'' || input[len] == '\"')
 		{
 			if (input[len] == '\"')
-				len += get_quoted_len(&input[len], '\"');
+				get_quoted_len(input, '\"', &len);
 			else if (input[len] == '\'')
-				len += get_quoted_len(&input[len], '\'');
+				get_quoted_len(input, '\'', &len);
 			if (len == -1)
 				return (-1);
 		}
