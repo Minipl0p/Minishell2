@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:50 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/16 14:33:43 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:37:25 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
+#include "../../Includes/errors.h"
 
 t_btree	*parse_subtree(t_token **token)
 {
@@ -18,7 +19,10 @@ t_btree	*parse_subtree(t_token **token)
 	t_btree	*inside;
 
 	if (!*token || (*token)->type != L_PAR)
-		return (parse_error("unexpected token"));
+	{
+		ft_print_error(1, "syntax error", "|");
+		return (NULL);
+	}
 	*token = (*token)->next;
 	inside = parse_or(token);
 	if (!inside)
@@ -26,7 +30,8 @@ t_btree	*parse_subtree(t_token **token)
 	if (!*token || (*token)->type != R_PAR)
 	{
 		ast_destroy(inside);
-		return (parse_error("missing ')'"));
+		ft_print_error(1, "missing ')'", "syntax error");
+		return (NULL);
 	}
 	*token = (*token)->next;
 	node = ast_new(AST_SUBTREE);

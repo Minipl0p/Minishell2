@@ -23,13 +23,6 @@ Minishell >
 ```
 (EXPECTED: syntaxe error)
 
-```bash
-Minishell > | ls
-Minishell: sytaxe error:...
-Includes src main.c ...
-```
-(EXPECTED: sytaxe error and no exec)
-
 ## BONUS
 
 ```bash
@@ -37,13 +30,6 @@ Minishell > true || echo a && echo b
 Minishell >
 ```
 (EXPECTED: b)
-
-```bash
-Minishell > ((echo a))
-a
-```
-(EXPECTED: syntax error)
-
 
 ### WILDCARDS
 
@@ -62,8 +48,19 @@ Minishell > echo *sjdfhgsd
 ```
 LEAKS
 
+## Lexer
+
+```bash
+Minishell > echo a"b
+
+```
+(LOOP)
+
+syntaxe error on set_word_len
 
 ## shlag
 
 probleme emoji fail readline
 EXIT
+doublons destroy.c && ast_tools.c
+

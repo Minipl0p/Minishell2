@@ -6,15 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:44:18 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/19 16:52:31 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:45:31 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
+#include "../../Includes/errors.h"
 
-// Check if a token can legally appear after a logical AND operator.
-// After '&&', the next token must start a command and cannot be
-// another operator, a closing parenthesis, or EOF.
 static int	is_valid_token(t_token *token)
 {
 	if (!token)
@@ -26,9 +24,6 @@ static int	is_valid_token(t_token *token)
 	return (1);
 }
 
-// Parse one '&&' operation.
-// Consumes the AND token, checks syntax validity, parses the right side,
-// and builds a new AST_AND node linking both subtrees.
 static t_btree	*pars_and_step(t_btree *left, t_token **token)
 {
 	t_btree	*right;
@@ -38,7 +33,8 @@ static t_btree	*pars_and_step(t_btree *left, t_token **token)
 	if (!is_valid_token(*token))
 	{
 		ast_destroy(left);
-		return (parse_error("invalid &&"));
+		ft_print_error(1, "syntax error", "&&");
+		return (NULL);
 	}
 	right = parse_pipe(token);
 	if (!right)
@@ -61,6 +57,8 @@ t_btree	*parse_and(t_token **token)
 	t_btree	*left;
 
 	left = parse_pipe(token);
+	if (!left)
+		return (left);
 	while (*token && (*token)->type == AND)
 	{
 		left = pars_and_step(left, token);

@@ -6,18 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 21:40:03 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 09:55:08 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:27:09 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
-
-t_btree	*parse_error(char *msg)
-{
-	ft_putstr_fd("minishell: syntax error: ", 2);
-	ft_putendl_fd(msg, 2);
-	return (NULL);
-}
 
 static void	free_redirs(t_redir *redir)
 {

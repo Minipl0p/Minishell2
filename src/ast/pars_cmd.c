@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 23:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 10:12:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 11:29:11 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
+#include "../../Includes/errors.h"
 #include <stdio.h>
 
 static int	is_cmd_token(t_token *token)
@@ -74,7 +75,8 @@ t_btree	*parse_simple_cmd(t_token **token, t_btree *tree)
 			if (parse_redir(token, &cmd->redirs) < 0)
 			{
 				ast_destroy(tree);
-				return (parse_error("invalid redirection"));
+				ft_print_error(1, "invalid redirection", NULL);
+				return (NULL);
 			}
 		}
 	}
@@ -93,7 +95,10 @@ t_btree	*parse_cmd(t_token **token)
 	if (*token && (*token)->type == EOF_TOK)
 		return (NULL);
 	if (!*token || !is_cmd_token(*token))
-		return (parse_error("syntaxeeeeeee error"));
+	{
+		ft_print_error(1, "syntaxeeeeeee error", (*token)->value);
+		return (NULL);
+	}
 	new = ast_new(AST_COMMAND);
 	if (!new)
 		return (NULL);
