@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:39:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 23:55:45 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:44:27 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
+#include <unistd.h>
 
 void	print_args(char **args, int no_nl)
 {
@@ -39,11 +40,13 @@ int	ft_echo(t_ast_node *cmd, t_dict *d_env)
 
 	cmds = cmd->argv;
 	(void)d_env;
+	if (!cmds[1])
+		write(STDOUT_FILENO, "\n", 1);
 	if (ft_strcmp(cmds[0], "echo") || !cmds[1])
 		return (-1);
 	j = 1;
 	no_nl = 0;
-	while (!ft_strncmp(cmds[j], "-n", 2))
+	while (cmds[j] && !ft_strncmp(cmds[j], "-n", 2))
 	{
 		i = 1;
 		while (cmds[j][i] && cmds[j][i] == 'n')

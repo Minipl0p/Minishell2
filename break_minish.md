@@ -15,27 +15,6 @@ Minishell > echo ''
 ```
 (EXPECTED: \n)
 
-```bash
-Minishell > echo $NONEXIST
-Minishell >
-```
-(EXPECTED: \n)
-LEAKS depuis ajout \n sur echo simple
-
-```bash
-echo -nnnnnnnnnnn coucou
-coucouPROMPT
-```
-
-## Expand
-
-```bash
-Minishell > echo $$
-$
-```
-(EXPECTED: pid(int))
-leak si prochaine cmd == echo $NONEXIST
-
 ## Syntax
 
 ```bash
@@ -87,3 +66,4 @@ LEAKS
 ## shlag
 
 probleme emoji fail readline
+EXIT
