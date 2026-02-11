@@ -4,20 +4,14 @@
 
 ```bash
 Minishell > echo ""
-" 
+"
 Minishell >
 ```
 Expected : \n !
 
 ```bash
 Minishell > echo ''
-' 
-```
-(EXPECTED: \n)
-
-```bash
-Minishell > echo
-Minishell >
+'
 ```
 (EXPECTED: \n)
 
@@ -26,6 +20,12 @@ Minishell > echo $NONEXIST
 Minishell >
 ```
 (EXPECTED: \n)
+LEAKS depuis ajout \n sur echo simple
+
+```bash
+echo -nnnnnnnnnnn coucou
+coucouPROMPT
+```
 
 ## Expand
 
@@ -50,11 +50,6 @@ Minishell: sytaxe error:...
 Includes src main.c ...
 ```
 (EXPECTED: sytaxe error and no exec)
-
-## Signals
-
-ctrl \: errase prompt
-(EXPECTED: ignore signal)
 
 ## BONUS
 
@@ -87,3 +82,8 @@ LEAKS
 Minishell > echo *sjdfhgsd
 ```
 LEAKS
+
+
+## shlag
+
+probleme emoji fail readline

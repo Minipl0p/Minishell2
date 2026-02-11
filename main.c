@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 10:34:32 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:30:53 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static t_dict	*init(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	init_signal(&sa, NULL, MAIN);
+	signal(SIGQUIT, SIG_IGN);
 	print_banner();
 	d_env = init_d_env(env);
 	return (d_env);

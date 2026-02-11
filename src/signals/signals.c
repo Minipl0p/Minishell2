@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:04:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/23 23:37:06 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:34:39 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	init_signal(struct sigaction *sa, struct sigaction *old_sa, int from)
 	{
 		sa->sa_handler = handler_main;
 		sa->sa_flags = SA_RESTART;
-		sigaction(SIGQUIT, sa, NULL);
 	}
 	sigaction(SIGINT, sa, old_sa);
 }
