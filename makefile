@@ -27,7 +27,7 @@ SUBDIRS := heredocs signals ast dict expand exec exec/pipeline lex readline bann
 SRC_MAIN := main.c
 
 SRC_AST  := ast_tools.c destroy.c create_ast.c pars_cmd.c \
-            pars_pipe.c pars_redir.c pars_subtree.c
+            pars_pipe.c pars_redir.c pars_subtree.c debug.c
 
 SRC_DICT := convert_dict.c init_d_env.c
 

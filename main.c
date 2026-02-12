@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/12 10:42:38 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/12 17:04:42 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void	process(t_dict *d_env)
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
+		print_ast(ast);
 		free(line);
 		if (ast)
 		{
