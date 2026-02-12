@@ -3,11 +3,23 @@
 # ============================================================================#
 
 # --- Couleurs ---------------------------------------------------------------
-RED     := \033[0;31m
-GREEN   := \033[0;32m
-YELLOW  := \033[0;33m
-BLUE    := \033[0;34m
-NC      := \033[0m
+ESC=\033
+RESET=\033[0m
+BOLD=$(ESC)[1m
+
+PRIMARY = $(BOLD)$(ESC)[38;2;73;212;117m
+INFO    = $(ESC)[38;2;52;170;94m
+ACCENT  = $(ESC)[38;2;34;120;70m
+WARN    = $(ESC)[38;2;120;140;125m
+ERROR   = $(BOLD)$(ESC)[38;2;180;50;50m
+
+# --- header -----------------------------------------------------------------
+define HEADER
+$(ESC)[38;2;120;235;155m ██▄  ▄██ ██ ███  ██ ██ ▄█████ ██  ██ ██████ ██     ██  
+$(ESC)[38;2;73;212;117m ██ ▀▀ ██ ██ ██ ▀▄██ ██ ▀▀▀▄▄▄ ██████ ██▄▄   ██     ██  
+$(ESC)[38;2;34;120;70m ██    ██ ██ ██   ██ ██ █████▀ ██  ██ ██▄▄▄▄ ██████ ██████
+endef
+export HEADER
 
 # --- Configuration ----------------------------------------------------------
 NAME    := minishell
@@ -69,37 +81,44 @@ RM      := rm -rf
 MKDIR   := mkdir -p
 
 # --- PHONY ------------------------------------------------------------------
-.PHONY: all clean fclean re lib
+.PHONY: all clean fclean re lib header
 
 # --- RULES -----------------------------------------------------------------
-all: lib $(NAME)
+all: header lib $(NAME)
+
+header:
+	@printf "\n"
+	@printf "$(BOLD)$$HEADER\n$(RESET)"
+	@printf "\n"
 
 $(NAME): $(OBJS)
-	@printf "$(BLUE)🔗 Linking $@...$(NC)\n"
+	@printf "$(INFO)\nLinking $@...$(RESET)\n"
 	@$(CC) $(OBJS) $(LFLAGS) -o $@
-	@printf "$(GREEN)✅ Built $@$(NC)\n"
+	@printf "$(PRIMARY)Built $@$(RESET)\n"
 
 $(OBJDIR)/%.o: %.c
 	@$(MKDIR) $(OBJDIR)
-	@printf "$(YELLOW)🔨 Compiling $< -> $@$(NC)\n"
+	@printf "\r$(ESC)[K$(ACCENT)Compiling $< -> $@$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 lib:
-	@printf "$(BLUE)📦 Building libft...$(NC)\n"
+	@printf "$(INFO)Building libft...\n"
+	@printf "$(WARN)"
 	@test -d $(LIBFT) || git clone git@github.com:Minipl0p/libft_perso.git $(LIBFT) --depth=1
+	@printf "$(RESET)"
 	@$(MAKE) --no-print-directory -C $(LIBFT)
-	@printf "$(GREEN)📦 libft ready$(NC)\n"
+	@printf "$(SUCCESS)libft ready$(RESET)\n"
 
-clean:
-	@printf "$(RED)🧹 Cleaning objects...$(NC)\n"
+clean: header
+	@printf "$(ERROR)Cleaning objects...$(RESET)\n"
 	@$(RM) $(OBJDIR)
 	@if [ -d "$(LIBFT)" ]; then \
-		printf "$(RED)🧹 Cleaning libft...$(NC)\n"; \
+		printf "$(ACCENT)Cleaning libft...$(RESET)\n"; \
 		$(MAKE) --no-print-directory -C $(LIBFT) clean; \
 	fi
 
-fclean: clean
-	@printf "$(RED)🧹 Removing binary and libft...$(NC)\n"
+fclean: header clean
+	@printf "$(ERROR)Removing binary and libft...$(RESET)\n"
 	@$(RM) $(NAME) $(LIBFT)
 
-re: fclean all
+re: header fclean all
