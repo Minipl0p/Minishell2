@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 23:35:32 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/12 10:42:56 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 # include "pipeline.h"
 # include "builtin.h"
 # include "expand.h"
+# include "errors.h"
 
 #endif

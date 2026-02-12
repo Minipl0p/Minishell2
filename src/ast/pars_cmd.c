@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 23:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:29:11 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/12 09:44:56 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../Includes/errors.h"
 #include <stdio.h>
 
-static int	is_cmd_token(t_token *token)
+int	is_cmd_token(t_token *token)
 {
 	if (!token)
 		return (0);
