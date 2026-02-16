@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:58:35 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/11 15:33:45 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 09:55:58 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ int	trunc_middle(t_list **dir_lst, char *arg)
 		else
 			head = head->next;
 	}
-	ft_lstclear(&word_lst, free); 
+	ft_lstclear(&word_lst, free);
 	return (0);
 }

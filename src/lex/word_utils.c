@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/11 14:46:25 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 09:56:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "../../Includes/errors.h"
 
 static void	get_quoted_len(char *input, char c, int *len)
-{	
+{
 	char	quote;
 
 	(*len)++;
-	quote = c; 
+	quote = c;
 	while (input[*len] && input[*len] != c)
 		(*len)++;
 	if (!input[*len])
