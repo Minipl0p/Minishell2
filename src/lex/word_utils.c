@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 10:18:16 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 12:53:03 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	get_quoted_len(char *input, char c, int *len)
 static int	check_word_sep(char c)
 {
 	if (!ft_isspace(c) && c != '\'' && c != '\"' && c != ')'
-		&& c != '<' && c != '>' && c != '|')
+		&& c != '<' && c != '>' && c != '|' && c != '&')
 		return (1);
 	return (0);
 }
@@ -58,6 +58,8 @@ static int	set_word_len(char *input)
 		}
 		while (input[len] && check_word_sep(input[len]))
 			len++;
+		if (input[len] == '&' && input[len + 1] != '&')
+			return (-2);
 		if (!input[len] || is_token(&input[len]))
 			end = 1;
 	}
@@ -84,8 +86,12 @@ char	*set_value(char **input)
 	while (*input && ft_isspace(**input))
 		(*input)++;
 	len = set_word_len(*input);
-	if (len == -1)
+	if (len < 0)
+	{
+		if (len == -2)
+			ft_print_error(1, "& is not handle by Minishell", "Syntax error");
 		return (NULL);
+	}
 	value = ft_strndup(*input, len);
 	if (!value)
 		ft_print_error(1, NULL, "malloc");
