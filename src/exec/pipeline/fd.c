@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:04:26 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 11:38:01 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 12:12:19 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,13 @@ static int	set_out_redir(t_pipeline *data, t_redir *redir)
 	{
 		data->out_fd = open(redir->target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (data->out_fd == -1)
-		{
-			ft_print_error(1, NULL, redir->target);
 			return (-1);
-		}
 	}
 	else if (redir->type == R_APPEND)
 	{
 		data->out_fd = open(redir->target, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (data->out_fd == -1)
-		{
-			ft_print_error(1, NULL, redir->target);
 			return (-1);
-		}
 	}
 	return (0);
 }
@@ -40,6 +34,8 @@ static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 {
 	if (redir->type == R_IN || redir->type == R_HEREDOC)
 	{
+		if (data->in_fd > 2)
+			close(data->in_fd);
 		data->in_fd = open(redir->target, O_RDONLY);
 		if (data->in_fd == -1)
 		{
@@ -49,8 +45,13 @@ static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 	}
 	else
 	{
+		if (data->out_fd > 2)
+			close(data->out_fd);
 		if (set_out_redir(data, redir) == -1)
+		{
+			ft_print_error(1, NULL, redir->target);
 			return (-1);
+		}
 	}
 	return (0);
 }
@@ -66,10 +67,6 @@ int	set_fds(t_pipeline *data, t_list *cmds)
 	redirs = ((t_ast_node *)cmds->content)->redirs;
 	while (redirs)
 	{
-		if (data->in_fd > 2)
-			close(data->in_fd);
-		if (data->out_fd > 2)
-			close(data->out_fd);
 		if (set_redir_fd(data, redirs) == -1)
 			return (-1);
 		redirs = redirs->next;
