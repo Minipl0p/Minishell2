@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/10 16:09:35 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:05:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	perm_error = 0;
 	path = parse_path(data->dict, cmd->argv, &perm_error);
 	if (!path)
-	{
-		put_perm_error(data, cmd->argv[0], i, perm_error);
-		free_child(data, NULL);
-		exit(127);
-	}
+		exit_path_error(cmd, data, perm_error);
 	execve(path, cmd->argv, data->ev);
 	ft_print_error(1, NULL, cmd->argv[0]);
 	free_child(data, path);

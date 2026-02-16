@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 12:23:52 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:09:15 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,18 @@ void	ft_print_error(int sh_error, char *msg, char *target)
 	write(2, "\n", 1);
 }
 
-void	put_perm_error(t_pipeline *data, char *target, int i, int perm_error)
+void	exit_path_error(t_ast_node *cmd, t_pipeline *data, int perm_error)
 {
-	(void)data;
-	(void)i;
-	if (!target)
-		return ;
-	if (perm_error == 0)
+	char	*target;
+
+	target = NULL;
+	if (cmd->argv && cmd->argv[0])
+		target = cmd->argv[0];
+	if (perm_error == 0 && target)
 		ft_print_error(0, "Command not found", target);
-	else
+	else if (perm_error == 1)
 		ft_print_error(1, NULL, target);
+	free_child(data, NULL);
+	exit(127);
 }
+

@@ -6,11 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/06 16:11:54 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:06:51 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
+#include "../../../Includes/errors.h"
 
 static char	*str_catsep(char *s1, char *s2, char sep)
 {
@@ -45,7 +46,7 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 	int		i;
 
 	i = 0;
-	while (path_ar[i])
+	while (cmd && cmd[0] && path_ar[i])
 	{
 		path = str_catsep(path_ar[i], cmd[0], '/');
 		if (!path)
@@ -69,7 +70,7 @@ char	*parse_path(t_dict *dict, char **cmd, int *perm_error)
 	char	*path;
 	char	*tmp;
 
-	if (cmd[0] && ft_strchr(cmd[0], '/'))
+	if (cmd && cmd[0] && ft_strchr(cmd[0], '/'))
 	{
 		path = ft_strdup(cmd[0]);
 		return (path);
