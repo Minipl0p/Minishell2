@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 14:10:50 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/12 17:05:12 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	ast_destroy(t_btree *root);
 t_btree	*ast_new(t_ast_type type);
 t_btree	*parse_error(char *msg);
 void	free_redirs(t_redir *redir);
+int		is_cmd_token(t_token *token);
+t_btree	*create_ast(t_token **token);
 //=============================================================================
 
 //=================================PARS========================================
@@ -70,4 +72,5 @@ t_btree	*parse_subtree(t_token **token);
 int		parse_redir(t_token **token, t_redir **redirs);
 //=============================================================================
 
+void print_ast(t_btree *root);
 #endif

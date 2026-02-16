@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:50 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 10:09:43 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:14:35 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_btree	*parse_subtree(t_token **token)
 		return (NULL);
 	}
 	*token = (*token)->next;
-	inside = parse_or(token);
+	inside = create_ast(token);
 	if (!inside)
 		return (NULL);
 	if (!*token || (*token)->type != R_PAR)

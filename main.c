@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:55:58 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:13:15 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ static t_btree	*pars(char *line, t_dict *d_env)
 	if (!token_lst)
 		return (NULL);
 	head = token_lst;
-	ast = parse_or(&head);
+	ast = create_ast(&head);
+	if (ast && head->type != EOF_TOK)
+	{
+		ft_print_error(1, "Unexpected token", "syntax error");
+		ast_destroy(ast);
+		ast = NULL;
+	}
 	if (!ast)
 	{
 		destroy_token(token_lst);
@@ -72,6 +78,7 @@ static void	process(t_dict *d_env)
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
+		print_ast(ast);
 		free(line);
 		if (ast)
 		{
