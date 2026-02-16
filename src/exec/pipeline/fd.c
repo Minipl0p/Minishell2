@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:04:26 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 16:12:05 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:59:03 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ static int	set_out_redir(t_pipeline *data, t_redir *redir)
 	return (0);
 }
 
+static int	check_middle_fd(t_pipeline *data, t_redir *redir)
+{
+	if (data->in_fd == -1)
+	{
+		ft_print_error(1, NULL, redir->target);
+		return (-1);
+	}
+	return (0);
+}
+
 static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 {
 	char	*tmp;
@@ -43,11 +53,8 @@ static int	set_redir_fd(t_pipeline *data, t_redir *redir)
 		if (redir->target && tmp && *(tmp + 1))
 			return (-1);
 		data->in_fd = open(redir->target, O_RDONLY);
-		if (data->in_fd == -1)
-		{
-			ft_print_error(1, NULL, redir->target);
+		if (check_middle_fd(data, redir) < 0)
 			return (-1);
-		}
 	}
 	else
 	{
