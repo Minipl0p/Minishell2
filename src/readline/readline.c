@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 15:59:42 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 12:28:09 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,17 @@ static char	*get_prompt(t_dict *d_env)
 	char	*base;
 	char	*prompt;
 
-	cwd = ft_strdup(dict_get(d_env, "PWD"));
+	cwd = dict_get(d_env, "PWD");
 	if (!cwd)
 	{
 		cwd = ft_strdup("?");
 		if (!cwd)
-		{
-			ft_print_error(1, NULL, "malloc");
 			return (cwd);
-		}
 		prompt = ft_strjoin(cwd, ":⛏️> ");
 		free(cwd);
 		return (prompt);
 	}
+	cwd = ft_strdup(cwd);
 	base = ft_strrchr(cwd, '/');
 	if (!base || !*(base + 1))
 		base = cwd;

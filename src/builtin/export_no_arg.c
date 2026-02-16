@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:52:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/01 13:11:50 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 12:16:03 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ static char	**sort_env(t_dict *d_env)
 		}
 	}
 	return (exp);
+}
+
+void	cat_append(char **p, char *content, char *eq, int len)
+{
+	if (len > 0)
+		ft_strcat(p[1], content);
+	ft_strcat(p[1], eq + 1);
 }
 
 int	ft_export_no_args(t_ast_node *cmd, t_dict *d_env)

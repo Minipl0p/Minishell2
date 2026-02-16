@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/03 15:33:17 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 12:16:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 {
 	char	**p;
 	char	*content;
+	int		len;
 
 	p = ft_calloc(sizeof(char *), 3);
 	if (!p)
@@ -65,15 +66,17 @@ static char	**parse_append(char *arg, char *eq, t_dict *d)
 		free(p);
 		return (NULL);
 	}
+	len = 0;
 	content = dict_get(d, p[0]);
-	p[1] = ft_calloc(sizeof(char), ft_strlen(content) + ft_strlen(eq) + 1);
+	if (content)
+		len = ft_strlen(content);
+	p[1] = ft_calloc(sizeof(char), len + ft_strlen(eq) + 1);
 	if (!p[1])
 	{
 		ft_free_arr((void **)p);
 		return (NULL);
 	}
-	ft_strcat(p[1], content);
-	ft_strcat(p[1], eq + 1);
+	cat_append(p, content, eq, len);
 	return (p);
 }
 
@@ -118,6 +121,8 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 				ft_putendl_fd(": not valid identifier", STDERR_FILENO);
 				i++;
 			}
+			if (!args[i])
+				break ;
 			ret = export_step(args, d_env, i);
 			i++;
 		}

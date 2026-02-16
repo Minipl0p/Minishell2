@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/09 15:12:40 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 12:23:52 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	put_perm_error(t_pipeline *data, char *target, int i, int perm_error)
 {
 	(void)data;
 	(void)i;
+	if (!target)
+		return ;
 	if (perm_error == 0)
 		ft_print_error(0, "Command not found", target);
 	else
