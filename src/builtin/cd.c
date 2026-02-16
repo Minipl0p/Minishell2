@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 00:13:38 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 16:51:06 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:07:42 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*get_old(t_dict *d_env)
 	if (tmp)
 		old = ft_strdup(tmp);
 	else
-		old = getcwd(NULL, 0);
+		old = ft_strdup("");
 	return (old);
 }
 

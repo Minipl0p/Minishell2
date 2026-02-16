@@ -6,10 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 10:31:03 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:00:49 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Includes/errors.h"
+#include "Includes/lex.h"
 #include "Includes/minishell.h"
 
 int	update_return_value(int ret, t_dict *d_env)
@@ -35,13 +37,10 @@ static t_btree	*pars(char *line, t_dict *d_env)
 	if (!token_lst)
 		return (NULL);
 	head = token_lst;
+	if (check_start_token(head, token_lst) < 0)
+		return (NULL);
 	ast = create_ast(&head);
-	if (ast && head->type != EOF_TOK)
-	{
-		ft_print_error(1, "Unexpected token", "syntax error");
-		ast_destroy(ast);
-		ast = NULL;
-	}
+	check_end_token(ast, head);
 	if (!ast)
 	{
 		destroy_token(token_lst);

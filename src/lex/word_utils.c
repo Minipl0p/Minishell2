@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:49:03 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 12:53:03 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 17:05:20 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 static void	get_quoted_len(char *input, char c, int *len)
 {
-	char	quote;
+	char	quote[2];
 
 	(*len)++;
-	quote = c;
+	quote[0] = c;
+	quote[1] = '\0';
 	while (input[*len] && input[*len] != c)
 		(*len)++;
 	if (!input[*len])
 	{
-		ft_print_error(1, "missing end of quoted expression", &quote);
+		ft_print_error(1, "missing end of quoted expression", quote);
 		*len = -1;
 		return ;
 	}

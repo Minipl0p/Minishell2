@@ -6,15 +6,14 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 15:09:15 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:01:21 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include "../../libft/Includes/ft_string.h"
-#include "../../Includes/pipeline.h"
+#include "../../Includes/minishell.h"
 
 void	ft_print_error(int sh_error, char *msg, char *target)
 {
@@ -52,3 +51,23 @@ void	exit_path_error(t_ast_node *cmd, t_pipeline *data, int perm_error)
 	exit(127);
 }
 
+int	check_start_token(t_token *head, t_token *token_lst)
+{
+	if (head->type == OR || head->type == AND || head->type == PIPE)
+	{
+		ft_print_error(1, "Unexpected token", "syntax error");
+		destroy_token(token_lst);
+		return (-1);
+	}
+	return (0);
+}
+
+void	check_end_token(t_btree *ast, t_token *head)
+{
+	if (ast && head->type != EOF_TOK)
+	{
+		ft_print_error(1, "Unexpected token", "syntax error");
+		ast_destroy(ast);
+		ast = NULL;
+	}
+}
