@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 18:01:37 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 23:51:08 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:44:20 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	exec_pipeline(t_btree *ast, t_dict *d_env, t_btree *root)
 	pipe_flatten(ast, &cmds);
 	expand_flatten(cmds, d_env);
 	ret = run_pipeline(cmds, d_env, root);
+	update_return_value(ret, d_env);
 	return (ret);
 }
 
@@ -73,6 +74,7 @@ static int	exec_subtree(t_btree *ast, t_dict *d_env, t_btree *root)
 		ret = WEXITSTATUS(ret);
 	else if (WIFSIGNALED(ret))
 		ret = 128 + WTERMSIG(ret);
+	update_return_value(ret, d_env);
 	return (ret);
 }
 

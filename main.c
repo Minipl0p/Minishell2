@@ -6,13 +6,13 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 10:13:15 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:31:03 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
 
-static int	update_return_value(int ret, t_dict *d_env)
+int	update_return_value(int ret, t_dict *d_env)
 {
 	char	*exit_status;
 
@@ -78,7 +78,6 @@ static void	process(t_dict *d_env)
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
-		print_ast(ast);
 		free(line);
 		if (ast)
 		{

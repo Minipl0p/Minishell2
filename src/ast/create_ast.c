@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_pars.c                                         :+:      :+:    :+:   */
+/*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 17:21:45 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/12 10:39:47 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:16:41 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_btree	*create_operator(t_token **token)
 {
 	t_btree	*new;
 
+	new = NULL;
 	if ((*token)->type == OR)
 		new = ast_new(AST_OR);
 	else if ((*token)->type == AND)

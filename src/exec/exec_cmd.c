@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 21:54:55 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:09:20 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:33:09 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int	exec_cmd(t_btree *ast, t_dict *d_env, t_btree *root)
 		return (ret);
 	}
 	ret = run_pipeline(cmds, d_env, root);
+	update_return_value(ret, d_env);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/12 17:05:12 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:17:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,4 @@ t_btree	*parse_subtree(t_token **token);
 int		parse_redir(t_token **token, t_redir **redirs);
 //=============================================================================
 
-void print_ast(t_btree *root);
 #endif
