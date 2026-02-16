@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:27:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 16:47:29 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:23:01 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_play_loading(int fd)
 	struct sigaction	old_sa;
 
 	init_signal(&sa, &old_sa, BANNER);
-	write(1, "\033[2J\033[?25l", 10);
+	write(1, "\033[H\033[2J\033[?25l", 10);
 	i = 0;
 	while (i < NB_FRAMES && !g_stop)
 	{
@@ -81,7 +81,7 @@ void	print_banner(void)
 	}
 	else
 	{
-		write(1, "\n", 1);
+		write(1, "\n\033[B", 1);
 		if (success > 0)
 			close(fd);
 	}

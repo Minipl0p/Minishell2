@@ -6,13 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 17:00:49 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:44:52 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/errors.h"
 #include "Includes/lex.h"
 #include "Includes/minishell.h"
+#include <readline/readline.h>
 
 int	update_return_value(int ret, t_dict *d_env)
 {

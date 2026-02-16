@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 12:28:47 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 16:47:52 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:22:09 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_sleep_exec(char *time_str, int fd)
 	pid_t	pid;
 	char	*args[3];
 
-	args[0] = "/bin/sleep";
+	args[0] = "/usr/bin/sleep";
 	args[1] = time_str;
 	args[2] = NULL;
 	pid = fork();
@@ -95,7 +95,7 @@ int	ft_sleep_exec(char *time_str, int fd)
 	if (pid == 0)
 	{
 		close(fd);
-		execve("/bin/sleep", args, NULL);
+		execve(args[0], args, NULL);
 		exit(1);
 	}
 	waitpid(pid, NULL, 0);
