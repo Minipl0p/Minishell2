@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 23:50:08 by miniplop          #+#    #+#             */
-/*   Updated: 2026/01/30 12:41:35 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:26:24 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_pwd(t_ast_node *cmd, t_dict *d_env)
 	char	*path;
 	char	**args;
 
+	signal(SIGPIPE, SIG_IGN);
 	args = cmd->argv;
 	(void)d_env;
 	if (!args || args[1] || ft_strcmp(args[0], "pwd"))

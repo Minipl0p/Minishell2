@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:56:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 10:46:05 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:29:16 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static int	is_valid_token(t_token *token)
 		return (0);
 	if (token->type == OR || token->type == AND
 		|| token->type == EOF_TOK || token->type == PIPE
-		|| token->type == R_PAR)
+		|| token->type == R_PAR || token->type == L_PAR)
 		return (0);
 	return (1);
 }
 
-static t_btree	*pars_pipe_step(t_btree *left, t_token **token)
+static t_btree	*pars_pipe_step(t_btree *left, t_token **token, t_dict *d_env)
 {
 	t_btree	*right;
 	t_btree	*node;
@@ -36,7 +36,7 @@ static t_btree	*pars_pipe_step(t_btree *left, t_token **token)
 		ft_print_error(1, "Syntax error", "|");
 		return (NULL);
 	}
-	right = parse_cmd(token);
+	right = parse_cmd(token, d_env);
 	if (!right)
 	{
 		ast_destroy(left);
@@ -52,16 +52,21 @@ static t_btree	*pars_pipe_step(t_btree *left, t_token **token)
 	return (node);
 }
 
-t_btree	*parse_pipe(t_token **token)
+t_btree	*parse_pipe(t_token **token, t_dict *d_env)
 {
 	t_btree	*left;
 
-	left = parse_cmd(token);
+	left = parse_cmd(token, d_env);
+	if ((*token)->type == L_PAR)
+	{
+		ast_destroy(left);
+		return (NULL);
+	}
 	if (!left)
 		return (left);
 	while (*token && (*token)->type == PIPE)
 	{
-		left = pars_pipe_step(left, token);
+		left = pars_pipe_step(left, token, d_env);
 		if (!left)
 			return (NULL);
 	}

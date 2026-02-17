@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:28:59 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 18:44:02 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:13:27 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*get_prompt(t_dict *d_env)
 		base = cwd;
 	else
 		base++;
-	prompt = ft_strjoin(base, "\001: \002⛏ ");
+	prompt = ft_strjoin(base, "\001: \002 ⛏ ");
 	free(cwd);
 	return (prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:39:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 10:44:27 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/17 15:25:21 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_echo(t_ast_node *cmd, t_dict *d_env)
 	int		no_nl;
 	char	**cmds;
 
+	signal(SIGPIPE, SIG_IGN);
 	cmds = cmd->argv;
 	(void)d_env;
 	if (!cmds[1])

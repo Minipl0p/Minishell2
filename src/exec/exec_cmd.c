@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 21:54:55 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 09:54:41 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:58:42 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,12 @@ int	exec_cmd(t_btree *ast, t_dict *d_env, t_btree *root)
 	if (ret >= 5 && !cmds->next)
 	{
 		ret = unforkable_builtin(cmds->content, d_env, f_built_in[ret]);
+		signal(SIGPIPE, SIG_DFL);
 		free_cmd_list(cmds);
 		return (ret);
 	}
 	ret = run_pipeline(cmds, d_env, root);
+	signal(SIGPIPE, SIG_DFL);
 	update_return_value(ret, d_env);
 	return (ret);
 }

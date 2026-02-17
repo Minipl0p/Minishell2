@@ -6,12 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 12:16:05 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:10:10 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
-#include <unistd.h>
 
 static char	**parse_no_eq(char *arg)
 {
@@ -93,8 +92,13 @@ int	export_step(char **args, t_dict *d_env, int i)
 	else if (eq)
 		parsed = parse_replace(args[i], eq);
 	else
+	{
 		parsed = parse_no_eq(args[i]);
-	if (parsed)
+		eq = dict_get(d_env, parsed[0]);
+		if (eq && *eq != '\0')
+			ret = 0;
+	}
+	if (parsed && ret != 0)
 		ret = dict_set(d_env, parsed[0], parsed[1], free);
 	free(parsed[0]);
 	free(parsed);
@@ -107,6 +111,7 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 	int		i;
 	char	**args;
 
+	signal(SIGPIPE, SIG_IGN);
 	args = cmd->argv;
 	if (!args[1])
 		return (ft_export_no_args(cmd, d_env));

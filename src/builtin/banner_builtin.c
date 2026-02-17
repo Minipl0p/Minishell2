@@ -6,7 +6,7 @@
 /*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:49:01 by pchazalm          #+#    #+#             */
-/*   Updated: 2026/02/17 09:51:25 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:22:13 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	ft_banner(t_ast_node *cmd, t_dict *d_env)
 {
+	signal(SIGPIPE, SIG_IGN);
 	(void)cmd;
 	(void)d_env;
 	print_banner();

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 09:55:22 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:22:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	wait_all(t_pipeline *data)
 	int	final_status;
 
 	status = 0;
-	final_status = 0;
+	final_status = 127;
 	i = 0;
 	while (i < data->cmd_count)
 	{

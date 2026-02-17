@@ -6,13 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 18:44:52 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 17:42:02 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/errors.h"
 #include "Includes/lex.h"
 #include "Includes/minishell.h"
+#include "libft/Includes/ft_io.h"
 #include <readline/readline.h>
 
 int	update_return_value(int ret, t_dict *d_env)
@@ -40,8 +41,8 @@ static t_btree	*pars(char *line, t_dict *d_env)
 	head = token_lst;
 	if (check_start_token(head, token_lst) < 0)
 		return (NULL);
-	ast = create_ast(&head);
-	check_end_token(ast, head);
+	ast = create_ast(&head, d_env);
+	ast = check_end_token(ast, head);
 	if (!ast)
 	{
 		destroy_token(token_lst);
@@ -61,7 +62,7 @@ static t_dict	*init(int ac, char **av, char **env)
 	(void)av;
 	init_signal(&sa, NULL, MAIN);
 	signal(SIGQUIT, SIG_IGN);
-	print_banner();
+	// print_banner();
 	d_env = init_d_env(env);
 	return (d_env);
 }

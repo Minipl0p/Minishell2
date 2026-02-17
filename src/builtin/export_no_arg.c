@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 14:52:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 12:16:03 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:26:19 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	ft_export_no_args(t_ast_node *cmd, t_dict *d_env)
 {
 	char	**exp;
 
+	signal(SIGPIPE, SIG_IGN);
 	(void)cmd;
 	exp = sort_env(d_env);
 	print_arr(exp);

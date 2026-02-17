@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:32:52 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 09:53:38 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 15:25:01 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "dict.h"
+# include "signals.h"
 # include "ast.h"
 
 int		ft_export_no_args(t_ast_node *cmd, t_dict *d_env);
