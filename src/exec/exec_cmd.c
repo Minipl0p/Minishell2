@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 21:54:55 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 15:16:43 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:54:41 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,34 @@ int	is_forkable(t_ast_node *cmd)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (0);
-	if (!ft_strcmp(cmd->argv[0], "pwd"))
+	if (!ft_strcmp(cmd->argv[0], "banner"))
 		return (1);
-	if (!ft_strcmp(cmd->argv[0], "env"))
+	if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (2);
-	if (!ft_strcmp(cmd->argv[0], "echo"))
+	if (!ft_strcmp(cmd->argv[0], "env"))
 		return (3);
-	if ((!ft_strcmp(cmd->argv[0], "export")) && !cmd->argv[1])
+	if (!ft_strcmp(cmd->argv[0], "echo"))
 		return (4);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
+	if ((!ft_strcmp(cmd->argv[0], "export")) && !cmd->argv[1])
 		return (5);
-	if (!ft_strcmp(cmd->argv[0], "cd"))
+	else if (!ft_strcmp(cmd->argv[0], "export"))
 		return (6);
-	if (!ft_strcmp(cmd->argv[0], "exit"))
+	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (7);
-	if (!ft_strcmp(cmd->argv[0], "unset"))
+	if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (8);
+	if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (9);
 	return (0);
 }
 
 int	exec_cmd(t_btree *ast, t_dict *d_env, t_btree *root)
 {
-	static int (*const	f_built_in[9])(t_ast_node *cmd, t_dict *d_env) = {
-	[1] = ft_pwd,
-	[2] = ft_env,
-	[3] = ft_echo,
-	[4] = ft_export_no_args,
-	[5] = ft_export,
-	[6] = ft_cd,
-	[7] = ft_exit,
-	[8] = ft_unset};
+	static int (*const	f_built_in[10])(t_ast_node *cmd, t_dict *d_env) = {
+	[1] = ft_banner, [2] = ft_pwd,
+	[3] = ft_env, [4] = ft_echo,
+	[5] = ft_export_no_args, [6] = ft_export,
+	[7] = ft_cd, [8] = ft_exit, [9] = ft_unset};
 	t_list				*cmds;
 	int					ret;
 

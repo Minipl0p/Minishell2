@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:50 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 10:50:35 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 10:20:02 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_end_subtree(t_token *token, t_btree *inside)
 	if (!token || token->type != R_PAR)
 	{
 		ast_destroy(inside);
-		ft_print_error(1, "missing ')'", "syntax error");
+		ft_print_error(1, "missing ')'", "Syntax error");
 		return (-1);
 	}
 	return (0);
@@ -31,7 +31,7 @@ t_btree	*parse_subtree(t_token **token)
 
 	if (!*token || (*token)->type != L_PAR)
 	{
-		ft_print_error(1, "syntax error", "|");
+		ft_print_error(1, "Syntax error", "|");
 		return (NULL);
 	}
 	*token = (*token)->next;

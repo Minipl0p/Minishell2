@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 22:56:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:45:07 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/17 10:46:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_btree	*pars_pipe_step(t_btree *left, t_token **token)
 	if (!is_valid_token(*token))
 	{
 		ast_destroy(left);
-		ft_print_error(1, "syntax error", "|");
+		ft_print_error(1, "Syntax error", "|");
 		return (NULL);
 	}
 	right = parse_cmd(token);

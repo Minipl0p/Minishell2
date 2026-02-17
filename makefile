@@ -57,13 +57,13 @@ SRC_EXEC := exec.c exec_cmd.c
 
 SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c pipeline_utils.c
 
-SRC_ERROR := errors.c
+SRC_ERROR := errors.c error_kaam.c
 
 SRC_LEX  := lex.c token.c word_utils.c token_utils.c
 
 SRC_RL   := readline.c
 
-SRC_BUILT_IN := cd.c echo.c export.c export_no_arg.c pwd.c unset.c env.c exit.c
+SRC_BUILT_IN := cd.c echo.c export.c export_no_arg.c pwd.c unset.c env.c exit.c banner_builtin.c
 
 # -----------------------------------------------------------------------------
 

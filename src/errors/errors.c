@@ -6,19 +6,20 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 17:01:21 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 11:26:30 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include "../../Includes/minishell.h"
+#include "../../Includes/errors.h"
 
 void	ft_print_error(int sh_error, char *msg, char *target)
 {
 	char	*error;
 
+	if (target && ft_strcmp(target, "Syntax error") == 0)
+		print_kaamellot_error();
+	else if (msg && ft_strcmp(msg, "Syntax error") == 0)
+		print_kaamellot_error();
 	if (sh_error)
 		write(2, "Minishell: ", 11);
 	if (target)
@@ -55,7 +56,7 @@ int	check_start_token(t_token *head, t_token *token_lst)
 {
 	if (head->type == OR || head->type == AND || head->type == PIPE)
 	{
-		ft_print_error(1, "Unexpected token", "syntax error");
+		ft_print_error(1, "Unexpected token", "Syntax error");
 		destroy_token(token_lst);
 		return (-1);
 	}
@@ -66,7 +67,7 @@ void	check_end_token(t_btree *ast, t_token *head)
 {
 	if (ast && head->type != EOF_TOK)
 	{
-		ft_print_error(1, "Unexpected token", "syntax error");
+		ft_print_error(1, "Unexpected token", "Syntax error");
 		ast_destroy(ast);
 		ast = NULL;
 	}

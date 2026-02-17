@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 16:08:52 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/17 09:55:22 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,11 @@ void	redir_fds(t_pipeline *data, int i)
 
 int	exec_child_built_in(int fctn, t_pipeline *data, t_ast_node *cmd)
 {
-	static int (*const	f_built_in[9])(t_ast_node *cmd, t_dict *d_env) = {
-	[1] = ft_pwd,
-	[2] = ft_env,
-	[3] = ft_echo,
-	[4] = ft_export_no_args,
-	[5] = ft_export,
-	[6] = ft_cd,
-	[7] = ft_exit,
-	[8] = ft_unset};
+	static int (*const	f_built_in[10])(t_ast_node *cmd, t_dict *d_env) = {
+	[1] = ft_banner, [2] = ft_pwd,
+	[3] = ft_env, [4] = ft_echo,
+	[5] = ft_export_no_args, [6] = ft_export,
+	[7] = ft_cd, [8] = ft_exit, [9] = ft_unset};
 	int					status;
 
 	status = f_built_in[fctn](cmd, data->dict);
