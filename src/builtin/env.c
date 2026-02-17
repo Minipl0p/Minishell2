@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:07:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 15:25:31 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:59:38 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	ft_env(t_ast_node *cmd, t_dict *d_env)
 
 	signal(SIGPIPE, SIG_IGN);
 	args = cmd->argv;
-	if (!d_env || !args || !*args)
-		return (1);
-	if (ft_strcmp(*args, "env"))
+	if (!d_env || !args || !*args || ft_strcmp(*args, "env"))
 		return (1);
 	if (args[1])
 	{

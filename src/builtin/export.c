@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 16:10:10 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:03:28 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ int	export_step(char **args, t_dict *d_env, int i)
 			ret = 0;
 	}
 	if (parsed && ret != 0)
-		ret = dict_set(d_env, parsed[0], parsed[1], free);
+		dict_set(d_env, parsed[0], parsed[1], free);
 	free(parsed[0]);
 	free(parsed);
-	return (ret);
+	return (0);
 }
 
 int	ft_export(t_ast_node *cmd, t_dict *d_env)
@@ -117,19 +117,18 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 		return (ft_export_no_args(cmd, d_env));
 	else
 	{
-		i = 1;
-		while (args[i])
+		i = 0;
+		while (args[++i])
 		{
 			while (args[i] && !(args[i][0] == '_' || ft_isalpha(args[i][0])))
 			{
 				ft_putstr_fd(args[i], STDERR_FILENO);
 				ft_putendl_fd(": not valid identifier", STDERR_FILENO);
-				i++;
+				ret = 1;
 			}
-			if (!args[i])
+			if (!args[++i])
 				break ;
 			ret = export_step(args, d_env, i);
-			i++;
 		}
 	}
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 23:39:10 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 15:25:21 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:00:43 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	ft_echo(t_ast_node *cmd, t_dict *d_env)
 		write(STDOUT_FILENO, "\n", 1);
 	if (ft_strcmp(cmds[0], "echo") || !cmds[1])
 		return (-1);
-	j = 1;
+	j = 0;
 	no_nl = 0;
-	while (cmds[j] && !ft_strncmp(cmds[j], "-n", 2))
+	while (cmds[++j] && !ft_strncmp(cmds[j], "-n", 2))
 	{
 		i = 1;
 		while (cmds[j][i] && cmds[j][i] == 'n')
@@ -55,7 +55,6 @@ int	ft_echo(t_ast_node *cmd, t_dict *d_env)
 		if (cmds[j][i] != '\0')
 			break ;
 		no_nl = 1;
-		j++;
 	}
 	print_args(cmds + j, no_nl);
 	return (0);

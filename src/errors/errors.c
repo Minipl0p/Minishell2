@@ -6,11 +6,22 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 17:25:32 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:56:18 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/errors.h"
+
+int	update_return_value(int ret, t_dict *d_env)
+{
+	char	*exit_status;
+
+	exit_status = ft_itoa(ret);
+	if (!exit_status)
+		return (-1);
+	dict_set(d_env, "?", exit_status, free);
+	return (0);
+}
 
 void	ft_print_error(int sh_error, char *msg, char *target)
 {

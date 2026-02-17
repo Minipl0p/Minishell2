@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:01:16 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 16:59:46 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:56:29 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void	exit_path_error(t_ast_node *cmd, t_pipeline *data, int perm_error);
 int		check_start_token(t_token *head, t_token *token_lst);
 t_btree	*check_end_token(t_btree *ast, t_token *head);
 void	print_kaamellot_error(void);
+int		update_return_value(int ret, t_dict *d_env);
 
 #endif

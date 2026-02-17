@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 18:00:31 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:12:43 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	restore_signals(void)
 	struct sigaction	sa;
 
 	init_signal(&sa, NULL, MAIN);
+	signal(SIGPIPE, SIG_DFL);
 }
 
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
@@ -80,9 +81,9 @@ static void	run_pipeline_step(t_pipeline *data, t_list *cmd_lst,
 	if (set_fds(data, cmd_lst) == -1)
 	{
 		data->pids[*i] = -1;
-		*status = -2;
+		*status = -1;
 	}
-	if (*status != -1 && pipeline(data, cmd_lst, *i) == -1)
+	if (*status >= 0 && pipeline(data, cmd_lst, *i) == -1)
 		*status = -1;
 	if (data->in_fd > 2)
 		close(data->in_fd);
@@ -119,6 +120,5 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 	free(data.pids);
 	free_cmd_list(data.cmds);
 	ft_free_arr((void **)data.ev);
-	signal(SIGPIPE, SIG_DFL);
 	return (status);
 }

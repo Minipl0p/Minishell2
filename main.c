@@ -6,26 +6,16 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 18:07:26 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:56:32 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/errors.h"
 #include "Includes/lex.h"
 #include "Includes/minishell.h"
-#include "libft/Includes/ft_io.h"
 #include <readline/readline.h>
 
-int	update_return_value(int ret, t_dict *d_env)
-{
-	char	*exit_status;
-
-	exit_status = ft_itoa(ret);
-	if (!exit_status)
-		return (-1);
-	dict_set(d_env, "?", exit_status, free);
-	return (0);
-}
+extern int	g_stop;
 
 static t_btree	*pars(char *line, t_dict *d_env)
 {
@@ -62,9 +52,20 @@ static t_dict	*init(int ac, char **av, char **env)
 	(void)av;
 	init_signal(&sa, NULL, MAIN);
 	signal(SIGQUIT, SIG_IGN);
-	// print_banner();
+	print_banner();
 	d_env = init_d_env(env);
 	return (d_env);
+}
+
+static int	update_return_value_sig_int(t_dict *d_env)
+{
+	if (g_stop == 1)
+	{
+		if (update_return_value(130, d_env) == -1)
+			return (-1);
+		g_stop = 0;
+	}
+	return (0);
 }
 
 static void	process(t_dict *d_env)
@@ -76,6 +77,8 @@ static void	process(t_dict *d_env)
 	while (1)
 	{
 		line = read_minish(d_env);
+		if (update_return_value_sig_int(d_env) < 0)
+			break ;
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
@@ -85,9 +88,11 @@ static void	process(t_dict *d_env)
 			ret = exec_ast(ast, d_env, ast);
 			unlink_all(ast);
 			ast_destroy(ast);
-			if (update_return_value(ret, d_env) == -1)
-				break ;
 		}
+		else
+			ret = 0;
+		if (update_return_value(ret, d_env) == -1)
+			break ;
 	}
 }
 
