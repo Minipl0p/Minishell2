@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 17:42:02 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:07:26 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_btree	*pars(char *line, t_dict *d_env)
 	head = token_lst;
 	if (check_start_token(head, token_lst) < 0)
 		return (NULL);
-	ast = create_ast(&head, d_env);
+	ast = create_ast(&head);
 	ast = check_end_token(ast, head);
 	if (!ast)
 	{
