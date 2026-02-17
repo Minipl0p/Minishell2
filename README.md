@@ -66,17 +66,25 @@ built-in commands.
 
 ### Compilation
 
+To compile the project:
+
 ``` bash
 make
 ```
+
+To clean object files:
 
 ``` bash
 make clean
 ```
 
+To remove all the generated files:
+
 ``` bash
 make fclean
 ```
+
+To recompile the project:
 
 ``` bash
 make re
