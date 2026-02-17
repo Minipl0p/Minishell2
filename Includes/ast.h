@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:22 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 17:32:31 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:04:23 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int		is_cmd_token(t_token *token);
 //=============================================================================
 
 //=================================PARS========================================
-t_btree	*parse_pipe(t_token **token, t_dict *d_env);
-t_btree	*parse_cmd(t_token **token, t_dict *d_env);
-t_btree	*parse_subtree(t_token **token, t_dict *d_env);
+t_btree	*parse_pipe(t_token **token);
+t_btree	*parse_cmd(t_token **token);
+t_btree	*parse_subtree(t_token **token);
 int		parse_redir(t_token **token, t_redir **redir);
-t_btree	*create_ast(t_token **token, t_dict *d_env);
+t_btree	*create_ast(t_token **token);
 //=============================================================================
 
 #endif

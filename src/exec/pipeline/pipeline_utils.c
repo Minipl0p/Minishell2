@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 17:22:54 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:01:44 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "../../../Includes/errors.h"
 #include <unistd.h>
 
-int	wait_all(t_pipeline *data)
+int	wait_all(t_pipeline *data, int ret)
 {
 	int	i;
 	int	status;
 	int	final_status;
 
 	status = 0;
-	final_status = 127;
+	final_status = (ret > 0) * ret + (ret < 0) * -1 * ret;
 	i = 0;
 	while (i < data->cmd_count)
 	{

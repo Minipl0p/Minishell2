@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 23:00:58 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 17:32:54 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:04:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	add_word(t_ast_node *cmd, t_token **token)
 	return (0);
 }
 
-t_btree	*parse_simple_cmd(t_token **token, t_btree *tree, t_dict *d_env)
+t_btree	*parse_simple_cmd(t_token **token, t_btree *tree)
 {
 	t_ast_node	*cmd;
 
@@ -74,7 +74,6 @@ t_btree	*parse_simple_cmd(t_token **token, t_btree *tree, t_dict *d_env)
 			if (parse_redir(token, &cmd->redirs) < 0)
 			{
 				ast_destroy(tree);
-				update_return_value(1, d_env);
 				ft_print_error(1, "invalid redirection", NULL);
 				return (NULL);
 			}
@@ -83,13 +82,13 @@ t_btree	*parse_simple_cmd(t_token **token, t_btree *tree, t_dict *d_env)
 	return (tree);
 }
 
-t_btree	*parse_cmd(t_token **token, t_dict *d_env)
+t_btree	*parse_cmd(t_token **token)
 {
 	t_btree	*new;
 
 	if ((*token)->type == L_PAR)
 	{
-		new = parse_subtree(token, d_env);
+		new = parse_subtree(token);
 		return (new);
 	}
 	if (*token && (*token)->type == EOF_TOK)
@@ -102,6 +101,6 @@ t_btree	*parse_cmd(t_token **token, t_dict *d_env)
 	new = ast_new(AST_COMMAND);
 	if (!new)
 		return (NULL);
-	new = parse_simple_cmd(token, new, d_env);
+	new = parse_simple_cmd(token, new);
 	return (new);
 }

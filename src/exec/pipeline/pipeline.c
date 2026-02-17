@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 17:47:00 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:00:31 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast)
 		run_pipeline_step(&data, cmd_lst, &status, &i);
 		cmd_lst = cmd_lst->next;
 	}
-	status = wait_all(&data);
+	status = wait_all(&data, status);
 	restore_signals();
 	if (data.prev_fd != -1)
 		close(data.prev_fd);

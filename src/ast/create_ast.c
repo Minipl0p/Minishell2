@@ -6,14 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 17:21:45 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 17:31:57 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:03:34 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/ast.h"
 #include "../../Includes/errors.h"
 
-static t_btree	*create_operator(t_token **token, t_dict *d_env)
+static t_btree	*create_operator(t_token **token)
 {
 	t_btree		*new;
 	t_ast_node	*tmp;
@@ -33,7 +33,7 @@ static t_btree	*create_operator(t_token **token, t_dict *d_env)
 			ft_print_error(1, "Syntax error", "&&");
 		return (NULL);
 	}
-	new->right = parse_pipe(token, d_env);
+	new->right = parse_pipe(token);
 	return (new);
 }
 
@@ -48,7 +48,7 @@ static int	safe_exit(t_btree *new, t_btree *ast)
 	return (0);
 }
 
-t_btree	*create_ast(t_token **token, t_dict *d_env)
+t_btree	*create_ast(t_token **token)
 {
 	t_btree	*ast;
 	t_btree	*new;
@@ -58,7 +58,7 @@ t_btree	*create_ast(t_token **token, t_dict *d_env)
 	{
 		if ((*token)->type == OR || (*token)->type == AND)
 		{
-			new = create_operator(token, d_env);
+			new = create_operator(token);
 			if (safe_exit(new, ast) < 0)
 				return (NULL);
 			new->left = ast;
@@ -66,7 +66,7 @@ t_btree	*create_ast(t_token **token, t_dict *d_env)
 		}
 		else
 		{
-			new = parse_pipe(token, d_env);
+			new = parse_pipe(token);
 			if (safe_exit(new, ast) < 0)
 				return (NULL);
 			ast = new;
