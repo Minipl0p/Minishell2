@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/18 09:42:41 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:29:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env, t_btree *root)
 	int					pid;
 	int					fd;
 	struct sigaction	sa;
-	int					catch;
 
 	open_heredocs(redir);
 	signal(SIGINT, SIG_IGN);
@@ -110,10 +109,7 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env, t_btree *root)
 		ast_destroy(root);
 		exit (g_stop);
 	}
-	waitpid(pid, &catch, 0);
-	init_signal(&sa, NULL, MAIN);
-	if (catch == 256)
-		g_stop = 1;
+	wait_heredoc(&sa, pid);
 }
 
 int	create_heredocs(t_btree *ast, t_dict *d_env, t_btree *root)

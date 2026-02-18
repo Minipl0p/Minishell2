@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:46:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 16:25:17 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/18 10:29:35 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,16 @@ static int	random_name(char *buf)
 	buf[i] = '\0';
 	close(fd);
 	return (0);
+}
+
+void	wait_heredoc(struct sigaction *sa, int pid)
+{
+	int	catch;
+
+	waitpid(pid, &catch, 0);
+	init_signal(sa, NULL, MAIN);
+	if (catch == 256)
+		g_stop = 1;
 }
 
 int	open_tmp_file(char **path)

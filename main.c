@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/18 10:07:07 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:36:56 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,17 @@ static t_dict	*init(int ac, char **av, char **env)
 	return (d_env);
 }
 
-static int	update_return_value_sig_int(t_dict *d_env)
+static int	update_return_value_sig_int(t_dict *d_env, t_btree *ast)
 {
 	if (g_stop == 1)
 	{
-		if (update_return_value(130, d_env) == -1)
-			return (-1);
+		update_return_value(130, d_env);
 		g_stop = 0;
+		if (ast)
+		{
+			unlink_all(ast);
+			ast_destroy(ast);
+		}
 		return (1);
 	}
 	return (0);
@@ -80,17 +84,13 @@ static void	process(t_dict *d_env)
 	while (1)
 	{
 		line = read_minish(d_env);
-		if (update_return_value_sig_int(d_env) < 0)
-			break ;
+		update_return_value_sig_int(d_env, NULL);
 		if (!line)
 			break ;
 		ast = pars(line, d_env);
 		free(line);
-		if (update_return_value_sig_int(d_env) != 0)
-		{
-			ast_destroy(ast);
+		if (update_return_value_sig_int(d_env, ast) != 0)
 			continue ;
-		}
 		if (ast)
 		{
 			ret = exec_ast(ast, d_env, ast);

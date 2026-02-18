@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 12:01:39 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/18 09:27:22 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:29:46 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	unlink_all(t_btree *ast);
 void	here(t_btree *ast, t_dict *d_env);
 int		open_tmp_file(char **path);
 char	*remove_hered_quote(char *s, int i);
+void	wait_heredoc(struct sigaction *sa, int pid);
 
 #endif
