@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 19:03:28 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:45:29 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 				ft_putendl_fd(": not valid identifier", STDERR_FILENO);
 				ret = 1;
 			}
-			if (!args[++i])
+			if (!args[i])
 				break ;
 			ret = export_step(args, d_env, i);
 		}
