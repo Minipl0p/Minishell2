@@ -49,9 +49,8 @@ built-in commands.
 ### Bonus Features
 
 -   Logical operators (`&&`, `||`)
--   Parentheses for priority handling
+-   Parentheses
 -   Wildcards (`*`)
--   Advanced signal behavior matching bash more precisely
 
 ------------------------------------------------------------------------
 
@@ -184,6 +183,10 @@ minishell$ ls *.c
 
 Throughout the project, **GNU Bash** was used as the behavioral
 reference.
+
+### LLM
+
+LLMs have been used to enhance our understanding of certain concepts. They have also served as proofreaders.
 
 ------------------------------------------------------------------------
 

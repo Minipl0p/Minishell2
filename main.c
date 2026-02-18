@@ -6,15 +6,11 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/18 10:36:56 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:38:21 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/ast.h"
-#include "Includes/errors.h"
-#include "Includes/lex.h"
 #include "Includes/minishell.h"
-#include "libft/Includes/ft_io.h"
 #include <readline/readline.h>
 
 extern int	g_stop;
