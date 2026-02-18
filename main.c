@@ -6,13 +6,15 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 18:56:32 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:07:07 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Includes/ast.h"
 #include "Includes/errors.h"
 #include "Includes/lex.h"
 #include "Includes/minishell.h"
+#include "libft/Includes/ft_io.h"
 #include <readline/readline.h>
 
 extern int	g_stop;
@@ -64,6 +66,7 @@ static int	update_return_value_sig_int(t_dict *d_env)
 		if (update_return_value(130, d_env) == -1)
 			return (-1);
 		g_stop = 0;
+		return (1);
 	}
 	return (0);
 }
@@ -83,6 +86,11 @@ static void	process(t_dict *d_env)
 			break ;
 		ast = pars(line, d_env);
 		free(line);
+		if (update_return_value_sig_int(d_env) != 0)
+		{
+			ast_destroy(ast);
+			continue ;
+		}
 		if (ast)
 		{
 			ret = exec_ast(ast, d_env, ast);

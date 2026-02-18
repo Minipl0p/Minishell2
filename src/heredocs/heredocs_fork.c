@@ -6,13 +6,14 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:55:41 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/10 10:38:28 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/18 09:42:41 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/heredocs.h"
 #include "../../Includes/errors.h"
 #include <fcntl.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -88,13 +89,14 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env, t_btree *root)
 	int					pid;
 	int					fd;
 	struct sigaction	sa;
+	int					catch;
 
 	open_heredocs(redir);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
-	init_signal(&sa, NULL, HEREDOCS);
 	if (pid == 0)
 	{
+		init_signal(&sa, NULL, HEREDOCS);
 		rl_clear_history();
 		dict_destroy(d_env, free);
 		fd = open(redir->target, O_WRONLY, O_TRUNC);
@@ -106,10 +108,12 @@ static void	fork_heredocs(t_redir *redir, t_dict *d_env, t_btree *root)
 			close(fd);
 		}
 		ast_destroy(root);
-		exit (0);
+		exit (g_stop);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &catch, 0);
 	init_signal(&sa, NULL, MAIN);
+	if (catch == 256)
+		g_stop = 1;
 }
 
 int	create_heredocs(t_btree *ast, t_dict *d_env, t_btree *root)
