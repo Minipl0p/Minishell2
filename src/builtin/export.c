@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/18 16:45:29 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/19 11:24:56 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	export_step(char **args, t_dict *d_env, int i)
 	{
 		parsed = parse_no_eq(args[i]);
 		eq = dict_get(d_env, parsed[0]);
-		if (eq && *eq != '\0')
+		if ((eq && *eq != '\0') || (*eq == '\0' && !parsed[1]))
 			ret = 0;
 	}
 	if (parsed && ret != 0)
