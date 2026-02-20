@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:50 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 18:05:31 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:44:31 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,18 @@
 
 static int	check_end_subtree(t_token *token, t_btree *inside)
 {
+	t_token	*head;
+
 	if (!token || token->type != R_PAR)
 	{
 		ast_destroy(inside);
 		ft_print_error(1, "missing ')'", "Syntax error");
+		return (-1);
+	}
+	head = token;
+	if (head->next->type != OR && head->next->type != PIPE && head->next->type != AND)
+	{
+		ast_destroy(inside);
 		return (-1);
 	}
 	return (0);
