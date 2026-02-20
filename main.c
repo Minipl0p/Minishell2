@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 11:05:04 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/20 10:21:20 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/20 14:44:24 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/minishell.h"
+#include "libft/Includes/ft_string.h"
 #include <readline/readline.h>
 
 extern int	g_stop;
@@ -83,6 +84,8 @@ static void	process(t_dict *d_env)
 		update_return_value_sig_int(d_env, NULL);
 		if (!line)
 			break ;
+		if (line && ft_strcmp(line, "") == 0)
+			continue ;
 		ast = pars(line, d_env);
 		free(line);
 		if (update_return_value_sig_int(d_env, ast) != 0)
@@ -93,8 +96,6 @@ static void	process(t_dict *d_env)
 			unlink_all(ast);
 			ast_destroy(ast);
 		}
-		else
-			ret = 0;
 		if (update_return_value(ret, d_env) == -1)
 			break ;
 	}
