@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 18:52:56 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 11:59:38 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/20 16:24:54 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,3 @@ char	**split_words_nquoted(char const *s, char c)
 	arr[in[0]] = NULL;
 	return (arr);
 }
-
-//static char	*remove_quote(char *str, int pos)
-//{
-//	char	*new;
-//
-//	if (!str)
-//		return (0);
-//	new = ft_calloc(sizeof(char), ft_strlen(str));
-//	if (!new)
-//		return (NULL);
-//	ft_strlcat(new, str, pos + 1);
-//	ft_strcat(new, str + pos + 1);
-//	free(str);
-//	return (new);
-//}
