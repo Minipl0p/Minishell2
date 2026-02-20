@@ -1,113 +1,101 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/25 10:34:48 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/19 11:24:56 by pcaplat          ###   ########.fr       */
+/*   Created: 2026/02/20 08:46:25 by pchazalm          #+#    #+#             */
+/*   Updated: 2026/02/20 09:40:53 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
 
-static char	**parse_no_eq(char *arg)
+static int	is_valid_args(char *arg)
 {
-	char	**p;
-
-	p = ft_calloc(sizeof(char *), 2);
-	if (!p)
-		return (NULL);
-	p[0] = ft_strdup(arg);
-	if (!(p[0]))
-	{
-		free(p);
-		return (NULL);
-	}
-	return (p);
+	if (arg && (arg[0] == '_' || ft_isalpha(arg[0])))
+		return (1);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd(": not valid identifier", STDERR_FILENO);
+	return (0);
 }
 
-static char	**parse_replace(char *arg, char *eq)
+static int	replace_export(char *arg, char *eq, t_dict *d_env)
 {
-	char	**p;
-
-	p = ft_calloc(sizeof(char *), 3);
-	if (!p)
-		return (NULL);
-	p[0] = ft_strndup(arg, eq - arg);
-	if (!(p[0]))
-	{
-		free(p);
-		return (NULL);
-	}
-	p[1] = ft_strdup(eq + 1);
-	if (!(p[1]))
-	{
-		ft_free_arr((void **)p);
-		return (NULL);
-	}
-	return (p);
-}
-
-static char	**parse_append(char *arg, char *eq, t_dict *d)
-{
-	char	**p;
+	char	*key;
 	char	*content;
-	int		len;
 
-	p = ft_calloc(sizeof(char *), 3);
-	if (!p)
-		return (NULL);
-	p[0] = ft_strndup(arg, eq - 1 - arg);
-	if (!(p[0]))
+	key = ft_strndup(arg, eq - arg);
+	ft_putendl_fd(key, 1);
+	if (!key)
+		return (-1);
+	if (*(eq + 1))
+		content = ft_strdup(eq + 1);
+	else
+		content = ft_strdup("");
+	if (!content)
 	{
-		free(p);
-		return (NULL);
+		free(key);
+		return (-1);
 	}
-	len = 0;
-	content = dict_get(d, p[0]);
-	if (content)
-		len = ft_strlen(content);
-	p[1] = ft_calloc(sizeof(char), len + ft_strlen(eq) + 1);
-	if (!p[1])
-	{
-		ft_free_arr((void **)p);
-		return (NULL);
-	}
-	cat_append(p, content, eq, len);
-	return (p);
+	dict_set(d_env, key, content, free);
+	free(key);
+	return (0);
 }
 
-int	export_step(char **args, t_dict *d_env, int i)
+static int	cat_export(char *arg, char *plus, t_dict *d_env)
+{
+	char	*key;
+	char	*content;
+
+	key = ft_strndup(arg, plus - arg);
+	if (!key)
+		return (-1);
+	content = dict_get(d_env, key);
+	if (!content)
+		content = ft_strdup(plus + 2);
+	else
+		content = ft_strjoin(content, plus + 2);
+	if (!content)
+	{
+		free(key);
+		return (-1);
+	}
+	dict_set(d_env, key, content, free);
+	free(key);
+	return (1);
+}
+
+static int	which_export(char *arg, t_dict *d_env)
 {
 	char	*eq;
-	char	**parsed;
+	char	*key;
 	int		ret;
 
-	ret = -1;
-	eq = ft_strchr(args[i], '=');
-	if (eq && *(eq - 1) == '+')
-		parsed = parse_append(args[i], eq, d_env);
-	else if (eq)
-		parsed = parse_replace(args[i], eq);
+	ret = 0;
+	eq = ft_strchr(arg, '=');
+	if (!eq)
+	{
+		if (dict_get(d_env, arg))
+			return (0);
+		key = ft_strdup(arg);
+		if (!key)
+			return (-1);
+		dict_set(d_env, key, NULL, free);
+	}
 	else
 	{
-		parsed = parse_no_eq(args[i]);
-		eq = dict_get(d_env, parsed[0]);
-		if ((eq && *eq != '\0') || (*eq == '\0' && !parsed[1]))
-			ret = 0;
+		if (*(eq - 1) == '+')
+			ret = cat_export(arg, eq - 1, d_env);
+		else
+			ret = replace_export(arg, eq, d_env);
 	}
-	if (parsed && ret != 0)
-		dict_set(d_env, parsed[0], parsed[1], free);
-	free(parsed[0]);
-	free(parsed);
 	return (0);
 }
 
 int	ft_export(t_ast_node *cmd, t_dict *d_env)
 {
-	int		ret;
 	int		i;
 	char	**args;
 
@@ -120,16 +108,11 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 		i = 0;
 		while (args[++i])
 		{
-			while (args[i] && !(args[i][0] == '_' || ft_isalpha(args[i][0])))
-			{
-				ft_putstr_fd(args[i], STDERR_FILENO);
-				ft_putendl_fd(": not valid identifier", STDERR_FILENO);
-				ret = 1;
-			}
-			if (!args[i])
-				break ;
-			ret = export_step(args, d_env, i);
+			if (!is_valid_args(args[i]))
+				continue ;
+			if (which_export(args[i], d_env) < 0)
+				return (-1);
 		}
 	}
-	return (ret);
+	return (0);
 }

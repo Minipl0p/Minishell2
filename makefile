@@ -63,7 +63,7 @@ SRC_LEX  := lex.c token.c word_utils.c token_utils.c
 
 SRC_RL   := readline.c
 
-SRC_BUILT_IN := cd.c echo.c export_no_arg.c pwd.c unset.c env.c exit.c banner_builtin.c export_new.c
+SRC_BUILT_IN := cd.c echo.c export_no_arg.c pwd.c unset.c env.c exit.c banner_builtin.c export.c
 
 # -----------------------------------------------------------------------------
 
