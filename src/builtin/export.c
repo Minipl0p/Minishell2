@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_new.c                                       :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 08:46:25 by pchazalm          #+#    #+#             */
-/*   Updated: 2026/02/20 09:40:53 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:03:58 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	replace_export(char *arg, char *eq, t_dict *d_env)
 	char	*content;
 
 	key = ft_strndup(arg, eq - arg);
-	ft_putendl_fd(key, 1);
 	if (!key)
 		return (-1);
 	if (*(eq + 1))

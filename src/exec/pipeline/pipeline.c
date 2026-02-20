@@ -6,12 +6,13 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 18:12:43 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:56:39 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/pipeline.h"
 #include "../../../Includes/errors.h"
+#include <signal.h>
 
 static void	restore_signals(void)
 {
@@ -19,6 +20,7 @@ static void	restore_signals(void)
 
 	init_signal(&sa, NULL, MAIN);
 	signal(SIGPIPE, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
@@ -28,6 +30,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	int		fctn;
 
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	redir_fds(data, i);
 	fctn = is_forkable(cmd);
 	if (fctn)

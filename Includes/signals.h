@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 01:05:34 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/02 13:50:24 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:29:36 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_signals
 {
 	MAIN,
 	HEREDOCS,
+	CHILD,
 	BANNER
 }			t_signals;
 
