@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:32:52 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 15:25:01 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 09:24:34 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		ft_cd(t_ast_node *cmd, t_dict *d_env);
 int		ft_echo(t_ast_node *cmd, t_dict *d_env);
 int		ft_exit(t_ast_node *cmd, t_dict *d_env);
 int		ft_env(t_ast_node *cmd, t_dict *d_env);
+// int		ft_export(t_ast_node *cmd, t_dict *d_env);
 int		ft_export(t_ast_node *cmd, t_dict *d_env);
 int		ft_unset(t_ast_node *cmd, t_dict *d_env);
 int		ft_pwd(t_ast_node *cmd, t_dict *d_env);
