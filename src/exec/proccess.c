@@ -6,12 +6,13 @@
 /*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:55:08 by pchazalm          #+#    #+#             */
-/*   Updated: 2026/02/20 14:58:35 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:51:34 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 #include <readline/readline.h>
+
 extern int	g_stop;
 
 static t_btree	*pars(char *line, t_dict *d_env)
@@ -56,7 +57,7 @@ static int	update_return_value_sig_int(t_dict *d_env, t_btree *ast)
 	return (0);
 }
 
-static void process_step(t_btree *ast, int *ret, t_dict *d_env)
+static void	process_step(t_btree *ast, int *ret, t_dict *d_env)
 {
 	if (ast)
 	{
