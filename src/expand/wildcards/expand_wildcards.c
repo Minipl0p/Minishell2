@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/20 16:52:31 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/20 18:38:00 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static int	expand_wildcards(char *str, t_list **lst)
 		*lst = dir_lst;
 	else
 		ft_lstadd_back(lst, dir_lst);
-	remove_quotes_in_list(*lst);
 	return (0);
 }
 
@@ -121,7 +120,6 @@ int	e_wildcard_unquote(char *str, t_list **expand_lst)
 		if (!new_str)
 			return (-1);
 		add_to_expand_list(expand_lst, new_str);
-		remove_quotes_in_list(*expand_lst);
 	}
 	else
 		expand_wildcards(str, expand_lst);

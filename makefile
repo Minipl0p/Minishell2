@@ -53,7 +53,7 @@ SRC_EXP  := expand.c expand_utils.c expand_argv.c expand_heredocs.c expand_inter
 
 SRC_WILD := expand_wildcards.c trunc.c trunc_middle.c trunc_utils.c quotes.c 
 
-SRC_EXEC := exec.c exec_cmd.c
+SRC_EXEC := exec.c exec_cmd.c proccess.c
 
 SRC_EXEC_P := pipeline_builder.c fd.c path.c pipeline.c pipeline_utils.c
 

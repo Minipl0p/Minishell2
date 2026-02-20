@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/09 15:51:49 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/20 16:28:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	expand_argv_array(char ***argv_ptr, t_dict *env)
 		i++;
 	}
 	ft_free_arr((void **)old_argv);
+	remove_quotes_in_list(lst_res);
 	*argv_ptr = lst_to_arr(lst_res);
 	if (!*argv_ptr)
 		ft_print_error(1, NULL, "malloc");
