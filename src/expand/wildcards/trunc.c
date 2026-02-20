@@ -6,12 +6,21 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 21:21:46 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/11 15:31:48 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/20 16:58:49 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/expand.h"
 #include "../../../libft/Includes/ft_list.h"
+
+//static int	check_hidden(char *arg, char *file_name)
+//{
+//	if (ft_strcmp(arg, ".") == 0 || ft_strcmp(arg, "..") == 0)
+//		return (0);
+//	if (file_name[0] == '.')
+//		return (1);
+//	return (0);
+//}
 
 int	trunc_start(t_list **dir_lst, char *arg)
 {
@@ -21,6 +30,8 @@ int	trunc_start(t_list **dir_lst, char *arg)
 	t_list	*to_del;
 
 	len = ft_strlen_sep_skip(arg, '*');
+	if (len == 0)
+		return (-1);
 	start = ft_strcpy_sep_skip(arg, '*', len);
 	if (!start)
 		return (-1);
