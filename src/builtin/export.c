@@ -6,7 +6,7 @@
 /*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 08:46:25 by pchazalm          #+#    #+#             */
-/*   Updated: 2026/02/21 14:08:11 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:53:23 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	is_valid_args(char *arg, int *ret)
 	int	i;
 
 	i = 0;
-	while (arg && arg[i] && arg[i] != '+' && arg[i] != '=' && (arg[i] == '_' || ft_isalpha(arg[i])))
+	while (arg && arg[i] && arg[i] != '+' && arg[i] != '='
+		&& (arg[i] == '_' || ft_isalpha(arg[i])))
 		i++;
 	if (arg[i] == 0 || arg[i] == '+' || arg[i] == '=')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/21 14:41:12 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/21 15:08:01 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ static char	*str_catsep(char *s1, char *s2, char sep)
 	return (str);
 }
 
+static char	*set_local_path(char *cmd, int *perm_error)
+{
+	char	*path;
+
+	path = str_catsep(".", cmd, '/');
+	if (access(path, F_OK | X_OK) == 0)
+		return (path);
+	if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
+		*perm_error = 1;
+	free(path);
+	return (NULL);
+}
+
 static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 {
 	char	*path;
@@ -47,7 +60,7 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 
 	i = 0;
 	path = NULL;
-	while (cmd && cmd[0] && path_ar)
+	while (cmd && cmd[0] && path_ar && path_ar[i])
 	{
 		path = str_catsep(path_ar[i], cmd[0], '/');
 		if (!path)
@@ -64,15 +77,8 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 		i++;
 	}
 	if (!path)
-	{
-		path = str_catsep(".", cmd[0], '/');
-		if (access(path, F_OK | X_OK) == 0)
-			return (path);
-		if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
-			*perm_error = 1;
-		free(path);
-	}
-	return (NULL);
+		path = set_local_path(cmd[0], perm_error);
+	return (path);
 }
 
 char	*parse_path(t_dict *dict, char **cmd, int *perm_error)
