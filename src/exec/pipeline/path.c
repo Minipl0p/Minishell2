@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/16 15:06:51 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:41:12 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 	int		i;
 
 	i = 0;
-	while (cmd && cmd[0] && path_ar[i])
+	path = NULL;
+	while (cmd && cmd[0] && path_ar)
 	{
 		path = str_catsep(path_ar[i], cmd[0], '/');
 		if (!path)
@@ -59,7 +60,17 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 		if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
 			*perm_error = 1;
 		free(path);
+		path = NULL;
 		i++;
+	}
+	if (!path)
+	{
+		path = str_catsep(".", cmd[0], '/');
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+		if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
+			*perm_error = 1;
+		free(path);
 	}
 	return (NULL);
 }
@@ -77,9 +88,8 @@ char	*parse_path(t_dict *dict, char **cmd, int *perm_error)
 	}
 	tmp = dict_get(dict, "PATH");
 	path_ar = ft_split(tmp, ':');
-	if (!path_ar || !tmp)
-		return (NULL);
 	path = check_cmd_path(path_ar, cmd, perm_error);
-	ft_free_arr((void *)path_ar);
+	if (path_ar)
+		ft_free_arr((void *)path_ar);
 	return (path);
 }
