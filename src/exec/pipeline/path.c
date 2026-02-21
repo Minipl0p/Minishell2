@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/21 15:20:05 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 17:28:36 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 
 	i = 0;
 	path = NULL;
-	while (cmd && cmd[0] && path_ar && path_ar[i])
+	while (cmd && cmd[0] && cmd[0][0] && path_ar && path_ar[i])
 	{
 		path = str_catsep(path_ar[i], cmd[0], '/');
 		if (!path)
