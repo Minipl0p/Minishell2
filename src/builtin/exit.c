@@ -6,18 +6,28 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:56:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/21 12:41:36 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 13:47:59 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
 #include "../../Includes/errors.h"
 
+static int	overflow_process(int sign, long int l, long int ol, char c)
+{
+	if (sign > 0 && l < ol)
+		return (1);
+	if (sign < 0 && l == 922337203685477580 && c - '0' > 8)
+		return (1);
+	return (0);
+}
+
 static int	is_overflow(char *arg)
 {
-	int		i;
-	long	l;
-	int		sign;
+	int			i;
+	long long	l;
+	long long	ol;
+	int			sign;
 
 	sign = 1;
 	i = 0;
@@ -32,8 +42,9 @@ static int	is_overflow(char *arg)
 	l = 0;
 	while (arg[i])
 	{
-		l = l * 10 + (arg[i] - 0);
-		if ((sign > 0 && l > 2147483647) || (sign < 0 && l < -2147483648))
+		ol = l;
+		l = l * 10 + (arg[i] - '0');
+		if (overflow_process(sign, l, ol, arg[i + 1]) == 1)
 			return (1);
 		i++;
 	}
@@ -60,10 +71,9 @@ static int	ft_isnumarg(char *arg)
 
 int	ft_exit_forked(t_ast_node *cmd, t_dict *d_env)
 {
-	int	exit_status;
+	static int	exit_status = 0;
 
 	signal(SIGPIPE, SIG_IGN);
-	exit_status = 0;
 	(void)d_env;
 	if (!cmd)
 		return (-1);
@@ -77,6 +87,7 @@ int	ft_exit_forked(t_ast_node *cmd, t_dict *d_env)
 			return (-1);
 		}
 		exit_status = ft_atoi(cmd->argv[1]);
+		exit_status = (exit_status % 256 + 256) % 256;
 		return (exit_status);
 	}
 	else
@@ -88,10 +99,9 @@ int	ft_exit_forked(t_ast_node *cmd, t_dict *d_env)
 
 int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 {
-	int	exit_status;
+	static int	exit_status = 0;
 
 	signal(SIGPIPE, SIG_IGN);
-	exit_status = 0;
 	(void)d_env;
 	if (!cmd)
 		return (-1);
@@ -105,7 +115,8 @@ int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 			ft_print_error(1, "Too many arguments", "exit");
 			return (-1);
 		}
-		exit_status = ft_atoi(cmd->argv[1]);
+		exit_status = ft_atol(cmd->argv[1]);
+		exit_status = (exit_status % 256 + 256) % 256;
 		exit(exit_status);
 	}
 	else
