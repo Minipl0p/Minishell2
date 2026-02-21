@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 15:20:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/05 11:49:04 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/21 09:53:38 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int		e_wildcard_unquote(char *str, t_list **expand_lst);
 int		trunc_start(t_list **dir_lst, char *arg);
 int		trunc_middle(t_list **dir_lst, char *arg);
 void	trunc_last(t_list **dir_lst, char *arg);
+void	check_hidden_files(t_list **dir_lst, char *str);
+int		set_dir_lst(t_list **dir_lst, char *str);
 
 void	remove_lst(t_list **dir_lst, t_list *to_remove);
 int		ft_strlen_sep_skip(char *str, char sep);

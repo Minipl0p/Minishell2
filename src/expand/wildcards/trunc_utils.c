@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 20:16:20 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/05 17:55:55 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/21 09:55:43 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,25 @@ void	remove_lst(t_list **dir_lst, t_list *to_remove)
 	}
 	prev->next = next;
 	ft_lstdelone(curr, free);
+}
+
+int	set_dir_lst(t_list **dir_lst, char *str)
+{
+	t_list	*node;
+	char	*tmp;
+
+	if (!*dir_lst)
+	{
+		tmp = ft_strdup(str);
+		if (!tmp)
+			return (-1);
+		node = ft_lstnew((void *)tmp);
+		if (!node)
+		{
+			free(tmp);
+			return (-1);
+		}
+		ft_lstadd_back(dir_lst, node);
+	}
+	return (0);
 }

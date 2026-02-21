@@ -6,21 +6,12 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 21:21:46 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/20 18:38:20 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/21 09:52:40 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/expand.h"
 #include "../../../libft/Includes/ft_list.h"
-
-//static int	check_hidden(char *arg, char *file_name)
-//{
-//	if (ft_strcmp(arg, ".") == 0 || ft_strcmp(arg, "..") == 0)
-//		return (0);
-//	if (file_name[0] == '.')
-//		return (1);
-//	return (0);
-//}
 
 int	trunc_start(t_list **dir_lst, char *arg)
 {
@@ -90,5 +81,28 @@ void	trunc_last(t_list **dir_lst, char *arg)
 			|| (flag == 1 && arg[len - i] == '\''))
 			flag -= (arg[len - i] == '\'') + 2 * (arg[len - i] == '"');
 		i++;
+	}
+}
+
+void	check_hidden_files(t_list **dir_lst, char *str)
+{
+	t_list	*head;
+	t_list	*to_del;
+
+	if (!str)
+		return ;
+	if (str[0] == '.')
+		return ;
+	head = *dir_lst;
+	while (head)
+	{
+		if (((char *)head->content)[0] == '.')
+		{
+			to_del = head;
+			head = head->next;
+			remove_lst(dir_lst, to_del);
+		}
+		else
+			head = head->next;
 	}
 }
