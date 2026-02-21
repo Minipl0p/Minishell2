@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 20:15:53 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/21 15:08:01 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/21 15:20:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ static char	*check_cmd_path(char **path_ar, char **cmd, int *perm_error)
 		path = NULL;
 		i++;
 	}
-	if (!path)
-		path = set_local_path(cmd[0], perm_error);
 	return (path);
 }
 
@@ -93,6 +91,11 @@ char	*parse_path(t_dict *dict, char **cmd, int *perm_error)
 		return (path);
 	}
 	tmp = dict_get(dict, "PATH");
+	if (!tmp)
+	{
+		path = set_local_path(cmd[0], perm_error);
+		return (path);
+	}
 	path_ar = ft_split(tmp, ':');
 	path = check_cmd_path(path_ar, cmd, perm_error);
 	if (path_ar)
