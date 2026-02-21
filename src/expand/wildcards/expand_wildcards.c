@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:07 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/20 16:28:38 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/20 19:10:28 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,50 @@ static int	build_dir_lst(t_list **dir_lst)
 	return (0);
 }
 
+int	set_dir_lst(t_list **dir_lst, char *str)
+{
+	t_list	*node;
+	char	*tmp;
+
+	if (!*dir_lst)
+	{
+		tmp = ft_strdup(str);
+		if (!tmp)
+			return (-1);
+		node = ft_lstnew((void *)tmp);
+		if (!node)
+		{
+			free(tmp);
+			return (-1);
+		}
+		ft_lstadd_back(dir_lst, node);
+	}
+	return (0);
+}
+
+void	check_hidden_files(t_list **dir_lst, char *str)
+{
+	t_list	*head;
+	t_list	*to_del;
+
+	if (!str)
+		return ;
+	if (str[0] == '.')
+		return ;
+	head = *dir_lst;
+	while (head)
+	{
+		if (((char *)head->content)[0] == '.')
+		{
+			to_del = head;
+			head = head->next;
+			remove_lst(dir_lst, to_del);
+		}
+		else
+			head = head->next;
+	}
+}
+
 static int	expand_wildcards(char *str, t_list **lst)
 {
 	t_list	*dir_lst;
@@ -66,9 +110,12 @@ static int	expand_wildcards(char *str, t_list **lst)
 		ft_lstclear(&dir_lst, free);
 		return (-1);
 	}
+	check_hidden_files(&dir_lst, str);
 	trunc_start(&dir_lst, str);
 	trunc_middle(&dir_lst, str);
 	trunc_last(&dir_lst, str);
+	if (set_dir_lst(&dir_lst, str) == -1)
+		return (-1);
 	if (!*lst)
 		*lst = dir_lst;
 	else
