@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:56:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/21 13:47:59 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 14:52:32 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 		if (cmd->argv[2])
 		{
 			ft_print_error(1, "Too many arguments", "exit");
-			return (-1);
+			return (1);
 		}
 		exit_status = ft_atol(cmd->argv[1]);
 		exit_status = (exit_status % 256 + 256) % 256;
