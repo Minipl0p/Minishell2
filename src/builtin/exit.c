@@ -6,11 +6,12 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:56:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 16:26:14 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 12:41:36 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
+#include "../../Includes/errors.h"
 
 static int	is_overflow(char *arg)
 {
@@ -44,6 +45,8 @@ static int	ft_isnumarg(char *arg)
 	int	i;
 
 	i = 0;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
 	while (arg[i])
 	{
 		if (!ft_isdigit(arg[i]))
@@ -53,6 +56,34 @@ static int	ft_isnumarg(char *arg)
 	if (is_overflow(arg) == 1)
 		return (0);
 	return (1);
+}
+
+int	ft_exit_forked(t_ast_node *cmd, t_dict *d_env)
+{
+	int	exit_status;
+
+	signal(SIGPIPE, SIG_IGN);
+	exit_status = 0;
+	(void)d_env;
+	if (!cmd)
+		return (-1);
+	if (!cmd->argv[1])
+		return (0);
+	if (ft_isnumarg(cmd->argv[1]))
+	{
+		if (cmd->argv[2])
+		{
+			ft_print_error(1, "Too many arguments", "exit");
+			return (-1);
+		}
+		exit_status = ft_atoi(cmd->argv[1]);
+		return (exit_status);
+	}
+	else
+	{
+		ft_print_error(1, "Not a numeric arg", "exit");
+		return (2);
+	}
 }
 
 int	ft_exit(t_ast_node *cmd, t_dict *d_env)
@@ -71,7 +102,7 @@ int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 	{
 		if (cmd->argv[2])
 		{
-			ft_putendl_fd("Too many arguments", STDERR_FILENO);
+			ft_print_error(1, "Too many arguments", "exit");
 			return (-1);
 		}
 		exit_status = ft_atoi(cmd->argv[1]);
@@ -79,7 +110,7 @@ int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 	}
 	else
 	{
-		ft_putendl_fd("Not a numeric arg", STDERR_FILENO);
+		ft_print_error(1, "Not a numeric arg", "exit");
 		exit(2);
 	}
 }

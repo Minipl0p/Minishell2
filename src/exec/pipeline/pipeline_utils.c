@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:06:24 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/17 18:01:44 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 11:44:56 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	exec_child_built_in(int fctn, t_pipeline *data, t_ast_node *cmd)
 	[1] = ft_banner, [2] = ft_pwd,
 	[3] = ft_env, [4] = ft_echo,
 	[5] = ft_export_no_args, [6] = ft_export,
-	[7] = ft_cd, [8] = ft_exit, [9] = ft_unset};
+	[7] = ft_cd, [8] = ft_exit_forked, [9] = ft_unset};
 	int					status;
 
 	status = f_built_in[fctn](cmd, data->dict);

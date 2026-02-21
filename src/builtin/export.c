@@ -6,18 +6,19 @@
 /*   By: pchazalm <pchazalm@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 08:46:25 by pchazalm          #+#    #+#             */
-/*   Updated: 2026/02/20 10:03:58 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/21 12:11:22 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/builtin.h"
+#include "../../Includes/errors.h"
 
-static int	is_valid_args(char *arg)
+static int	is_valid_args(char *arg, int *ret)
 {
 	if (arg && (arg[0] == '_' || ft_isalpha(arg[0])))
 		return (1);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd(": not valid identifier", STDERR_FILENO);
+	ft_print_error(1, "Not a valid identifier", arg);
+	*ret = 1;
 	return (0);
 }
 
@@ -90,15 +91,17 @@ static int	which_export(char *arg, t_dict *d_env)
 		else
 			ret = replace_export(arg, eq, d_env);
 	}
-	return (0);
+	return (ret);
 }
 
 int	ft_export(t_ast_node *cmd, t_dict *d_env)
 {
 	int		i;
 	char	**args;
+	int		ret;
 
 	signal(SIGPIPE, SIG_IGN);
+	ret = 0;
 	args = cmd->argv;
 	if (!args[1])
 		return (ft_export_no_args(cmd, d_env));
@@ -107,11 +110,11 @@ int	ft_export(t_ast_node *cmd, t_dict *d_env)
 		i = 0;
 		while (args[++i])
 		{
-			if (!is_valid_args(args[i]))
+			if (!is_valid_args(args[i], &ret))
 				continue ;
 			if (which_export(args[i], d_env) < 0)
 				return (-1);
 		}
 	}
-	return (0);
+	return (ret);
 }

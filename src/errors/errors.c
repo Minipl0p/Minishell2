@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/17 18:56:18 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 10:55:22 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	check_start_token(t_token *head, t_token *token_lst)
 
 t_btree	*check_end_token(t_btree *ast, t_token *head)
 {
+	if (!ast)
+		return (NULL);
 	if (head->type != EOF_TOK)
 	{
 		ft_print_error(1, "Unexpected token", "Syntax error");

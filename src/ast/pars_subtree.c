@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 23:34:50 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/20 16:50:33 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 12:24:34 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	check_end_subtree(t_token *token, t_btree *inside)
 	}
 	head = token;
 	if (head->next->type != OR && head->next->type != PIPE
-		&& head->next->type != AND)
+		&& head->next->type != AND && head->next->type != R_PAR
+		&& head->next->type != EOF_TOK)
 	{
 		ast_destroy(inside);
 		return (-1);
@@ -42,7 +43,7 @@ t_btree	*parse_subtree(t_token **token)
 		return (NULL);
 	*token = (*token)->next;
 	inside = create_ast(token);
-	if (!inside)
+	if (!inside && (*token)->type != R_PAR)
 	{
 		ft_print_error(1, "Syntax error", "(");
 		return (NULL);

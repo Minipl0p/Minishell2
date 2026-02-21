@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/11 11:07:14 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/21 12:44:05 by pchazalm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ char	*expand_str_vars(char *old_str, t_dict *d_env)
 			str = expand_key(str, i + 1, d_env);
 		else if ((flag == 1 && str[i] == '\'') || (flag == 2 && str[i] == '\"'))
 			flag -= (str[i] == '\'') + 2 * (str[i] == '\"');
-		i++;
+		if (!str[i++])
+			break ;
 		if (!str)
 			return (NULL);
 	}
