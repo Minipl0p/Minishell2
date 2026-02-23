@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/23 11:53:13 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/23 12:06:28 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,17 @@ static int	is_removable(char *str, int *i, int *flag)
 		return (0);
 	}
 	else if (*flag != 1 && str[*i] == '$' && str[*i + 1] && str[*i + 1] != '$'
-			&& ((*flag == 2 && str[*i + 1] != '"' )
+		&& ((*flag == 2 && str[*i + 1] != '"' )
 			|| (*flag == 0)) && str[*i + 1] != ' '
-			&& (*flag != 2 && str[*i + 1] != '\''))
-	{
+		&& (*flag != 2 && str[*i + 1] != '\''))
 		return (1);
-	}
 	return (0);
 }
 
-char	*expand_str_vars(char *old_str, t_dict *d_env)
+char	*expand_str_vars(char *old_str, t_dict *d_env, int i, int flag)
 {
-	int		i;
-	int		flag;
 	char	*str;
 
-	i = -1;
-	flag = 0;
 	if (!old_str)
 		return (NULL);
 	str = ft_strdup(old_str);

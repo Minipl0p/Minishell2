@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:36:21 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/16 09:35:16 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/23 12:04:24 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**expand_heredocs_line(char *str, t_dict *d_env)
 	char	*step1_vars;
 	char	**step2_split;
 
-	step1_vars = expand_str_vars(str, d_env);
+	step1_vars = expand_str_vars(str, d_env, -1, 0);
 	if (!step1_vars)
 		return (NULL);
 	step2_split = split_words_nquoted(step1_vars, ' ');

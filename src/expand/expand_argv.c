@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 14:41:16 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/20 16:57:08 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/23 12:00:45 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	process_expand(char *str, t_list **final_list, t_dict *d_env)
 	char	**step2_split;
 	int		i;
 
-	step1_vars = expand_str_vars(str, d_env);
+	step1_vars = expand_str_vars(str, d_env, -1, 0);
 	if (!step1_vars)
 		return (-1);
 	step2_split = split_words_nquoted(step1_vars, ' ');

@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 15:20:01 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/21 09:53:38 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/23 12:00:21 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int		expand_flatten(t_list *cmds, t_dict *env);
 int		expand_argv_array(char ***argv_ptr, t_dict *env);
 int		process_expand(char *str, t_list **final_list, t_dict *d_env);
-char	*expand_str_vars(char *old_str, t_dict *d_env);
+char	*expand_str_vars(char *old_str, t_dict *d_env, int i, int flag);
 char	**split_words_nquoted(char const *s, char c);
 int		expand_heredocs(t_redir *head, t_dict *d_env);
 int		add_to_expand_list(t_list **e_lst, char *str);
