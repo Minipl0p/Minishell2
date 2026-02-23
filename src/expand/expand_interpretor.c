@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/23 10:11:01 by miniplop         ###   ########.fr       */
+/*   Updated: 2026/02/23 11:53:13 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,23 @@ static char	*expand_key(char *str, int pos, t_dict *d_env)
 	return (new);
 }
 
+static int	is_removable(char *str, int *i, int *flag)
+{
+	if (*flag == 0 && (str[*i] == '\'' || str[*i] == '\"'))
+	{
+		*flag += (str[*i] == '\'') + 2 * (str[*i] == '\"');
+		return (0);
+	}
+	else if (*flag != 1 && str[*i] == '$' && str[*i + 1] && str[*i + 1] != '$'
+			&& ((*flag == 2 && str[*i + 1] != '"' )
+			|| (*flag == 0)) && str[*i + 1] != ' '
+			&& (*flag != 2 && str[*i + 1] != '\''))
+	{
+		return (1);
+	}
+	return (0);
+}
+
 char	*expand_str_vars(char *old_str, t_dict *d_env)
 {
 	int		i;
@@ -81,11 +98,7 @@ char	*expand_str_vars(char *old_str, t_dict *d_env)
 		return (NULL);
 	while (*str && str[++i])
 	{
-		if (flag == 0 && (str[i] == '\'' || str[i] == '\"'))
-			flag += (str[i] == '\'') + 2 * (str[i] == '\"');
-		else if (flag != 1 && str[i] == '$' && str[i + 1] && str[i + 1] != '$'
-			&& str[i + 1] != '\'' && ((flag == 2 && str[i + 1] != '"' )
-				|| (flag == 0)) && str[i + 1] != ' ')
+		if (is_removable(str, &i, &flag))
 		{
 			str = expand_key(str, i + 1, d_env);
 			i = -1;
