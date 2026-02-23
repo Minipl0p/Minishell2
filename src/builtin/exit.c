@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 09:56:35 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/21 14:52:32 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:58:29 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	is_overflow(char *arg)
 	i = 0;
 	if (!arg || !*arg)
 		return (1);
-	if (arg[0] == '-' | arg[0] == '+')
+	if (arg[0] == '-' || arg[0] == '+')
 	{
 		if (arg[0] == '-')
 			sign = -1;

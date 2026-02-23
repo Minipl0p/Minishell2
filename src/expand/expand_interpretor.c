@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/21 17:34:35 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/02/23 10:11:01 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,13 @@ char	*expand_str_vars(char *old_str, t_dict *d_env)
 	{
 		if (flag == 0 && (str[i] == '\'' || str[i] == '\"'))
 			flag += (str[i] == '\'') + 2 * (str[i] == '\"');
-		else if (flag != 1 && str[i] == '$' && str[i + 1] && str[i + 1] != '$' && str[i + 1] != '\'' && str[i + 1] != '"' && str[i + 1] != ' ')
+		else if (flag != 1 && str[i] == '$' && str[i + 1] && str[i + 1] != '$'
+			&& str[i + 1] != '\'' && ((flag == 2 && str[i + 1] != '"' )
+				|| (flag == 0)) && str[i + 1] != ' ')
 		{
 			str = expand_key(str, i + 1, d_env);
 			i = -1;
+			flag = 0;
 			continue ;
 		}
 		else if ((flag == 1 && str[i] == '\'') || (flag == 2 && str[i] == '\"'))
