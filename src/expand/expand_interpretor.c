@@ -6,7 +6,7 @@
 /*   By: miniplop <miniplop@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 08:48:36 by miniplop          #+#    #+#             */
-/*   Updated: 2026/02/23 12:06:28 by pcaplat          ###   ########.fr       */
+/*   Updated: 2026/02/24 11:57:52 by miniplop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,16 @@ static int	is_removable(char *str, int *i, int *flag)
 		*flag += (str[*i] == '\'') + 2 * (str[*i] == '\"');
 		return (0);
 	}
-	else if (*flag != 1 && str[*i] == '$' && str[*i + 1] && str[*i + 1] != '$'
-		&& ((*flag == 2 && str[*i + 1] != '"' )
-			|| (*flag == 0)) && str[*i + 1] != ' '
-		&& (*flag != 2 && str[*i + 1] != '\''))
+	else if (*flag != 1 && str[*i] == '$' && str[*i + 1]
+		&& (str[*i +1] == '?'
+			|| ft_isalpha(str[*i +1])
+			|| str[*i +1] == '_'))
 		return (1);
+	else if ((*flag == 1 && str[*i] == '\'') || (*flag == 2 && str[*i] == '\"'))
+	{
+		*flag -= (str[*i] == '\'') + 2 * (str[*i] == '\"');
+		return (0);
+	}
 	return (0);
 }
 
@@ -92,15 +97,15 @@ char	*expand_str_vars(char *old_str, t_dict *d_env, int i, int flag)
 		return (NULL);
 	while (*str && str[++i])
 	{
-		if (is_removable(str, &i, &flag))
+		if ((flag == 0 && str[i] == '$' && str[i + 1]
+				&& (str[i +1] == '"' || str[i +1] == '\''))
+			|| is_removable(str, &i, &flag))
 		{
 			str = expand_key(str, i + 1, d_env);
 			i = -1;
 			flag = 0;
 			continue ;
 		}
-		else if ((flag == 1 && str[i] == '\'') || (flag == 2 && str[i] == '\"'))
-			flag -= (str[i] == '\'') + 2 * (str[i] == '\"');
 		if (!str[i])
 			break ;
 		if (!str)
