@@ -89,7 +89,8 @@ int	ft_exit(t_ast_node *cmd, t_dict *d_env)
 	if (!ft_isnumarg(cmd->argv[1]))
 	{
 		ft_print_error(1, "Not a numeric arg", "exit");
-		return (2);
+		dict_destroy(d_env, free);
+		exit (2);
 	}
 	if (cmd->argv[2])
 	{
