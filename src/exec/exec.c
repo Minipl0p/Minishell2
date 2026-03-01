@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../Includes/pipeline.h"
+#include "ast.h"
 
 static int	exec_pipeline(t_btree *ast, t_dict *d_env, t_btree *root)
 {
@@ -25,27 +26,27 @@ static int	exec_pipeline(t_btree *ast, t_dict *d_env, t_btree *root)
 	return (ret);
 }
 
-static int	exec_and(t_btree *ast, t_dict *d_env, t_btree *root)
+static int	exec_and(t_btree *ast, t_dict *d_env, t_btree *root, int is_subtree)
 {
 	int	status;
 
-	status = exec_ast(ast->left, d_env, root);
+	status = exec_ast(ast->left, d_env, root, is_subtree);
 	if (status == 0)
 	{
-		status = exec_ast(ast->right, d_env, root);
+		status = exec_ast(ast->right, d_env, root, is_subtree);
 		return (status);
 	}
 	return (status);
 }
 
-static int	exec_or(t_btree *ast, t_dict *d_env, t_btree *root)
+static int	exec_or(t_btree *ast, t_dict *d_env, t_btree *root, int is_subtree)
 {
 	int	status;
 
-	status = exec_ast(ast->left, d_env, root);
+	status = exec_ast(ast->left, d_env, root, is_subtree);
 	if (status != 0)
 	{
-		status = exec_ast(ast->right, d_env, root);
+		status = exec_ast(ast->right, d_env, root, is_subtree);
 		return (status);
 	}
 	return (status);
@@ -64,7 +65,7 @@ static int	exec_subtree(t_btree *ast, t_dict *d_env, t_btree *root)
 	}
 	if (pid == 0)
 	{
-		ret = exec_ast(ast->left, d_env, root);
+		ret = exec_ast(ast->left, d_env, root, 1);
 		ast_destroy(root);
 		dict_destroy(d_env, free);
 		exit(ret);
@@ -78,22 +79,28 @@ static int	exec_subtree(t_btree *ast, t_dict *d_env, t_btree *root)
 	return (ret);
 }
 
-int	exec_ast(t_btree *ast, t_dict *d_env, t_btree *root)
+int	exec_ast(t_btree *ast, t_dict *d_env, t_btree *root, int is_subtree)
 {
 	int	ret;
 
 	if (!ast)
 		return (0);
 	ret = 0;
-	if (((t_ast_node *)ast->content)->type == AST_PIPE)
+	if (((t_ast_node *)ast->content)->type == AST_PIPE
+		|| (((t_ast_node *)ast->content)->type == AST_COMMAND
+			&& is_subtree == 1))
 		ret = exec_pipeline(ast, d_env, root);
-	if (((t_ast_node *)ast->content)->type == AST_COMMAND)
+	if (((t_ast_node *)ast->content)->type == AST_COMMAND && is_subtree == 0)
 		ret = exec_cmd(ast, d_env, root);
 	if (((t_ast_node *)ast->content)->type == AST_OR)
-		ret = exec_or(ast, d_env, root);
+		ret = exec_or(ast, d_env, root, is_subtree);
 	if (((t_ast_node *)ast->content)->type == AST_AND)
-		ret = exec_and(ast, d_env, root);
+		ret = exec_and(ast, d_env, root, is_subtree);
 	if (((t_ast_node *)ast->content)->type == AST_SUBTREE)
+	{
+		is_subtree = 1;
 		ret = exec_subtree(ast, d_env, root);
+		is_subtree = 0;
+	}
 	return (ret);
 }

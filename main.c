@@ -12,6 +12,7 @@
 
 #include "Includes/minishell.h"
 #include "libft/Includes/ft_string.h"
+#include <fcntl.h>
 #include <readline/readline.h>
 
 static t_dict	*init(int ac, char **av, char **env)

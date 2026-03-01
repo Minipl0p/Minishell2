@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../Includes/pipeline.h"
+#include "ast.h"
 
 static int	unforkable_builtin(t_ast_node *cmd, t_dict *d_env,
 		int (*f)(t_ast_node *, t_dict *))

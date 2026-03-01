@@ -55,7 +55,7 @@ int		init_pipeline(t_pipeline *data, t_dict *dict,
 char	*parse_path(t_dict *dict, char **cmd, int *perm_error);
 int		run_pipeline(t_list *cmds, t_dict *dict, t_btree *ast);
 int		set_fds(t_pipeline *data, t_list *cmds);
-int		exec_ast(t_btree *ast, t_dict *dict, t_btree *root);
+int		exec_ast(t_btree *ast, t_dict *dict, t_btree *root, int is_subtree);
 
 //================================BUILTINS=====================================
 int		exec_cmd(t_btree *ast, t_dict *dict, t_btree *root);

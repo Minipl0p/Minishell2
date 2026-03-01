@@ -61,7 +61,7 @@ static void	process_step(t_btree *ast, int *ret, t_dict *d_env)
 {
 	if (ast)
 	{
-		*ret = exec_ast(ast, d_env, ast);
+		*ret = exec_ast(ast, d_env, ast, 0);
 		unlink_all(ast);
 		ast_destroy(ast);
 	}
