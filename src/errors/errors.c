@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:26:10 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/21 10:55:22 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/03/02 10:22:52 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	exit_path_error(t_ast_node *cmd, t_pipeline *data, int perm_error)
 	else if (perm_error == 1)
 		ft_print_error(1, NULL, target);
 	free_child(data, NULL);
+	if (perm_error == 1)
+		exit(126);
 	exit(127);
 }
 
