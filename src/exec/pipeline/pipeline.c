@@ -6,7 +6,7 @@
 /*   By: pcaplat <pcaplat@42angouleme.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:32:55 by pcaplat           #+#    #+#             */
-/*   Updated: 2026/02/21 11:22:23 by pchazalm         ###   ########.fr       */
+/*   Updated: 2026/03/03 09:56:15 by pcaplat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	child_process(t_pipeline *data, t_ast_node *cmd, int i)
 	exit(126);
 }
 
-static int	pipeline(t_pipeline *data, t_list *cmds, int i)
+static int	pipeline(t_pipeline *data, t_list *cmds, int i, int status)
 {
 	if (i < data->cmd_count - 1)
 	{
@@ -57,8 +57,9 @@ static int	pipeline(t_pipeline *data, t_list *cmds, int i)
 			return (-1);
 	}
 	signal(SIGINT, SIG_IGN);
-	data->pids[i] = fork();
-	if (data->pids[i] == -1)
+	if (status != -1)
+		data->pids[i] = fork();
+	if (data->pids[i] == -1 && status != -1)
 	{
 		close_fds(data, i, 0);
 		return (-1);
@@ -86,7 +87,7 @@ static void	run_pipeline_step(t_pipeline *data, t_list *cmd_lst,
 		data->pids[*i] = -1;
 		*status = -1;
 	}
-	if (*status >= 0 && pipeline(data, cmd_lst, *i) == -1)
+	if (pipeline(data, cmd_lst, *i, *status) == -1)
 		*status = -1;
 	if (data->in_fd > 2)
 		close(data->in_fd);
